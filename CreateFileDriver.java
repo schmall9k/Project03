@@ -1,4 +1,5 @@
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +33,10 @@ public class CreateFileDriver {
             listOfAddresses.add(address);
         }
 
+        //writeToFile(listOfAddresses);
+    }
+
+    public static void writeToFile(ArrayList<Address> listOfAddresses) throws IOException {
         // writes to the file
         BufferedWriter out = new BufferedWriter(new FileWriter("RandomAddresses.txt"));
         for (int i = 0; i < listOfAddresses.size(); i++)
