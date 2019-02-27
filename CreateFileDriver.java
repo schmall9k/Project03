@@ -13,8 +13,8 @@ public class CreateFileDriver {
         for (int i = 0; i < 100; i++)
         {
             String result = "";
-            int range = 1000 - 100 + 1;
-            int firstRand = new Random().nextInt(range) + 100;
+            int range = 2000 - 10 + 1;
+            int firstRand = new Random().nextInt(range) + 10;
             firstRand = firstRand / 10;
             result = Integer.toString(firstRand) + "0";
             firstRand = Integer.parseInt(result);
