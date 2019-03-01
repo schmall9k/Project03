@@ -3,6 +3,7 @@ public class Address implements Comparable<Address>{
     public int houseNumber;
     public String direction;
     public int streetNumber;
+    public int distanceFromTruck;
 
 
     public Address(int houseNumber, String direction, int streetNumber) {
@@ -23,22 +24,17 @@ public class Address implements Comparable<Address>{
         return streetNumber;
     }
 
-
-    @Override
-    public String toString() {
-        return  houseNumber + " " +
-                direction + " " + streetNumber + " St.";
+    public int getDistanceFromTruck() {
+        return distanceFromTruck;
     }
 
-
-    @Override
-    public int compareTo(Address truckLocation) {
-        int finalDistance = 0;
+    public void calculateDistanceFromTruck(Address truckLocation)
+    {
         if (this.direction.equals(truckLocation.direction))
         {
-            finalDistance = truckLocation.houseNumber - this.houseNumber;
-            if (finalDistance < 0)
-                finalDistance = finalDistance * -1;
+            distanceFromTruck = truckLocation.houseNumber - this.houseNumber;
+            if (distanceFromTruck < 0)
+                distanceFromTruck = distanceFromTruck * -1;
         }
 
         else {
@@ -58,9 +54,24 @@ public class Address implements Comparable<Address>{
             if (distance2 < 0)
                 distance2 *= -1;
 
-            finalDistance = distance1 + distance2;
+            distanceFromTruck = distance1 + distance2;
 
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return  houseNumber + " " +
+                direction + " " + streetNumber + " St.";
+    }
+
+    @Override
+    public int compareTo(Address address) {
+        if (this.distanceFromTruck < address.distanceFromTruck)
+            return -1;
+        if (this.distanceFromTruck > distanceFromTruck)
+            return 1;
         return 0;
     }
 }
