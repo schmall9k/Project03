@@ -1,3 +1,5 @@
+package Simulation;
+
 public class Address implements Comparable<Address>{
 
     public int houseNumber;

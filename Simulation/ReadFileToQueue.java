@@ -1,7 +1,6 @@
+package Simulation;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.PriorityQueue;
 
 public class ReadFileToQueue {
@@ -11,7 +10,7 @@ public class ReadFileToQueue {
 
         int lineNum = 1;
 
-        File file = new File("RandomAddresses.txt");
+        File file = new File("Simulation/RandomAddresses.txt");
         BufferedReader in = new BufferedReader(new FileReader(file));
 
         PriorityQueue<Address> pq = new PriorityQueue<>(100);
