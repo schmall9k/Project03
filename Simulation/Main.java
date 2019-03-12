@@ -12,6 +12,7 @@ public class Main {
         map.createRandomAddresses();
         map.writeAddressesToFile();
         map.createQueue();
+        map.printNeighborhood();
 
         // will give us the addresses in order of distance from the truck (least to greatest)
         /*System.out.println("PQ addresses are in order of distance from the truck (least to greatest): ");

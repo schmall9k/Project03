@@ -95,26 +95,36 @@ public class Neighborhood {
     //method that will create a 2D array to display the map
     public void createMap() {
 
-        //Denote where houses exist: "*" = houses
+        //Denote where houses exist: "." = houses, "+" = an intersection
         for (int x = 0; x < ROWS; x++) {
             for (int y = 0; y < COLS; y++) {
                 if (x % 10 == 0) {
                     if (y % 10 == 0)
-                        neighborhood[x][y] = "- ";
+                        neighborhood[x][y] = "+ ";
                     else
-                        neighborhood[x][y] = "* ";
+                        neighborhood[x][y] = ". ";
                 }
                 if (x % 10 != 0) {
                     if (y % 10 == 0)
-                        neighborhood[x][y] = "* ";
+                        neighborhood[x][y] = ". ";
                     else
                         neighborhood[x][y] = "  ";
                 }
             }
         }
 
-        //Denote distribution center
+        //Denotes the location of the distribution center
         neighborhood[91][90] = "@";
+    }
+
+    public void printNeighborhood()
+    {
+        //prints the neighborhood in ASCII
+        for (int x = 0; x < ROWS; x++) {
+            for (int y = 0; y < COLS; y++)
+                System.out.print(neighborhood[x][y]);
+            System.out.println();
+        }
     }
 
     public String[][] getNeighborhood() {
