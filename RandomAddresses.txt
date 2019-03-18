@@ -1,100 +1,100 @@
-940 South 14 St.
-1670 East 11 St.
-1900 East 3 St.
-190 South 4 St.
-820 East 3 St.
-860 East 5 St.
-1770 South 18 St.
-460 East 3 St.
-100 South 7 St.
-1960 East 11 St.
-1980 East 7 St.
-260 East 4 St.
-1330 East 17 St.
-970 East 7 St.
-840 East 10 St.
-1690 East 8 St.
-1990 East 16 St.
-1990 East 7 St.
-200 East 10 St.
-1260 East 18 St.
-1680 South 17 St.
-410 East 0 St.
-380 South 15 St.
-1760 South 12 St.
-730 East 18 St.
-1440 South 2 St.
-250 East 3 St.
-550 East 14 St.
-1180 South 9 St.
-1210 South 0 St.
-1300 East 13 St.
-610 South 8 St.
-120 East 7 St.
-1660 South 15 St.
-1350 South 12 St.
-1640 South 8 St.
-540 South 15 St.
-340 South 16 St.
-1650 South 2 St.
-640 East 2 St.
-380 East 18 St.
-850 South 11 St.
-1190 South 8 St.
-1620 East 4 St.
-650 South 16 St.
-1790 South 7 St.
-1130 East 1 St.
-1830 East 14 St.
-1880 East 3 St.
-650 East 19 St.
-960 East 14 St.
-1060 East 4 St.
-1020 South 8 St.
-320 South 17 St.
-480 South 16 St.
-260 South 14 St.
-1300 East 1 St.
-1500 East 8 St.
-730 South 3 St.
-1230 East 6 St.
-1120 East 1 St.
-1690 East 9 St.
-50 South 16 St.
-960 East 17 St.
-840 East 13 St.
-1200 South 2 St.
-1670 East 14 St.
-830 East 12 St.
-800 South 19 St.
-950 South 13 St.
-360 South 4 St.
-1550 South 17 St.
-900 South 14 St.
-1800 East 10 St.
-1400 East 0 St.
-1320 East 14 St.
-340 South 4 St.
-1650 South 3 St.
-1850 East 1 St.
-820 South 10 St.
-90 South 11 St.
-1940 East 7 St.
-400 South 16 St.
-950 South 0 St.
-1400 South 11 St.
-1830 South 1 St.
-190 South 5 St.
-380 South 19 St.
-20 South 6 St.
-1730 South 6 St.
-180 East 12 St.
-790 East 12 St.
-1500 East 19 St.
-1510 East 8 St.
-1810 South 13 St.
-1810 East 7 St.
-370 South 17 St.
-260 East 4 St.
-270 South 18 St.
-180 East 1 St.
+1600 South 9 St., 3:52 PM
+230 East 18 St., 1:34 PM
+850 East 8 St., 2:53 PM
+1140 South 14 St., 11:47 AM
+1300 East 2 St., 12:31 PM
+550 East 6 St., 2:36 PM
+640 East 8 St., 2:13 PM
+340 East 9 St., 2:42 PM
+1680 East 0 St., 1:55 PM
+120 South 10 St., 3:40 PM
+1800 East 12 St., 6:41 PM
+1090 East 11 St., 11:14 AM
+380 East 7 St., 10:34 AM
+370 East 3 St., 4:34 PM
+1840 South 15 St., 3:05 PM
+1800 South 16 St., 10:59 AM
+1290 South 15 St., 10:51 AM
+1970 South 6 St., 11:36 AM
+1980 South 10 St., 5:12 PM
+1690 South 4 St., 11:23 AM
+1540 South 11 St., 1:02 PM
+370 South 1 St., 2:43 PM
+1510 East 19 St., 10:01 AM
+40 South 10 St., 6:30 PM
+670 East 11 St., 2:08 PM
+1580 South 17 St., 12:08 PM
+1890 South 11 St., 10:31 AM
+1780 East 18 St., 11:59 AM
+1020 South 11 St., 12:33 PM
+1660 East 1 St., 5:33 PM
+440 South 17 St., 12:17 PM
+480 South 2 St., 3:03 PM
+850 East 14 St., 5:17 PM
+1650 South 14 St., 12:00 PM
+1200 East 2 St., 11:32 AM
+990 South 5 St., 5:34 PM
+1520 East 17 St., 2:26 PM
+430 South 17 St., 5:41 PM
+930 South 12 St., 3:12 PM
+1640 South 6 St., 11:50 AM
+1680 South 13 St., 10:13 AM
+1310 South 17 St., 3:23 PM
+1180 East 10 St., 10:49 AM
+1230 South 7 St., 6:09 PM
+300 East 9 St., 6:25 PM
+750 South 13 St., 5:57 PM
+140 South 16 St., 6:04 PM
+1610 South 18 St., 11:31 PM
+1890 East 10 St., 12:54 PM
+1930 East 19 St., 2:04 PM
+1330 East 14 St., 3:49 PM
+1220 East 5 St., 1:50 PM
+870 South 13 St., 5:23 PM
+120 East 0 St., 1:52 PM
+1000 East 12 St., 5:38 PM
+50 East 3 St., 6:05 PM
+330 South 6 St., 2:35 PM
+220 South 8 St., 11:44 AM
+140 East 2 St., 1:57 PM
+1020 South 10 St., 2:00 PM
+850 East 4 St., 1:30 PM
+1510 East 2 St., 2:37 PM
+1650 South 6 St., 11:04 AM
+910 South 15 St., 5:08 PM
+1450 South 1 St., 1:03 PM
+1930 East 19 St., 2:51 PM
+930 South 0 St., 3:57 PM
+1990 South 7 St., 6:26 PM
+590 East 18 St., 4:22 PM
+210 South 1 St., 10:09 AM
+1590 East 14 St., 3:30 PM
+1120 South 1 St., 3:59 AM
+150 South 14 St., 5:27 PM
+1500 South 7 St., 6:14 PM
+850 East 19 St., 6:35 PM
+10 South 11 St., 3:22 PM
+1290 East 9 St., 1:26 PM
+190 East 5 St., 2:46 PM
+360 South 1 St., 3:55 PM
+1530 South 18 St., 11:58 AM
+520 South 1 St., 4:44 PM
+1190 South 10 St., 2:47 AM
+1360 East 18 St., 12:10 PM
+20 South 5 St., 1:12 PM
+100 South 15 St., 11:21 AM
+1920 East 13 St., 12:58 PM
+340 East 5 St., 1:35 PM
+1920 East 12 St., 1:14 PM
+1350 East 1 St., 1:06 PM
+1970 South 5 St., 12:26 PM
+630 South 11 St., 12:09 PM
+520 South 0 St., 1:19 PM
+1840 East 18 St., 3:21 PM
+1860 East 14 St., 6:03 PM
+1990 East 3 St., 10:32 AM
+1490 South 13 St., 11:25 PM
+130 East 19 St., 2:38 PM
+1300 East 3 St., 4:40 PM
+430 East 12 St., 1:05 PM
+1400 South 9 St., 2:09 PM
