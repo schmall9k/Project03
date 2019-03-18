@@ -1,17 +1,23 @@
 package Simulation;
 
-public class Address implements Comparable<Address>{
+import java.time.LocalTime;
+
+public class Address implements Comparable<Address> {
 
     public int houseNumber;
     public String direction;
     public int streetNumber;
     public int distanceFromTruck;
+    public String deliveryTime;
+    public String deliveryAMorPM;
+    //LocalTime deliveryTime;
 
-
-    public Address(int houseNumber, String direction, int streetNumber) {
+    public Address(int houseNumber, String direction, int streetNumber, String deliveryTime, String deliveryAMorPM) {
         this.houseNumber = houseNumber;
         this.direction = direction;
         this.streetNumber = streetNumber;
+        this.deliveryTime = deliveryTime;
+        this.deliveryAMorPM = deliveryAMorPM;
     }
 
     public int getHouseNumber() {
@@ -30,16 +36,20 @@ public class Address implements Comparable<Address>{
         return distanceFromTruck;
     }
 
-    public void calculateDistanceFromTruck(Address truckLocation)
-    {
-        if (this.direction.equals(truckLocation.direction))
-        {
+    public String getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public String getDeliveryAMorPM() {
+        return deliveryAMorPM;
+    }
+
+    public void calculateDistanceFromTruck(Address truckLocation) {
+        if (this.direction.equals(truckLocation.direction)) {
             distanceFromTruck = truckLocation.houseNumber - this.houseNumber;
             if (distanceFromTruck < 0)
                 distanceFromTruck = distanceFromTruck * -1;
-        }
-
-        else {
+        } else {
             int convertedStreetNumAdd = 0;
             int convertedStreetNumTruck = 0;
             int distance1 = 0;
@@ -64,16 +74,51 @@ public class Address implements Comparable<Address>{
 
     @Override
     public String toString() {
-        return  houseNumber + " " +
-                direction + " " + streetNumber + " St.";
+        return houseNumber + " " +
+                direction + " " + streetNumber + " St., " + deliveryTime + " " + deliveryAMorPM;
     }
 
     @Override
     public int compareTo(Address address) {
-        if (this.distanceFromTruck < address.distanceFromTruck)
+
+        /// Following code will get both the hour and minutes from this and address.
+
+        String[] array = this.deliveryTime.split(":");
+        // getting thisHour
+        int thisHour = Integer.parseInt(array[0]);
+        /// converting thisHour to military time for comparison
+        if (thisHour != 10 && thisHour != 11 && thisHour != 12)
+        {
+            thisHour += 12;
+        }
+
+        int thisMinute = Integer.parseInt(array[1]);
+
+        String thisTime = "" + thisHour + String.format("%02d", thisMinute);
+        //System.out.println(thisTime);
+
+        String[] addressArray = address.deliveryTime.split(":");
+        int addressHour = Integer.parseInt(addressArray[0]);
+        // converting to address military time for comparison
+        if (addressHour != 10 && addressHour != 11 && addressHour != 12)
+        {
+            addressHour += 12;
+        }
+        int addressMinute = Integer.parseInt(addressArray[1]);
+
+        String addressTime = "" + addressHour + String.format("%02d", addressMinute);
+        //System.out.println(addressTime);
+
+
+        if (Integer.parseInt(thisTime) < Integer.parseInt(addressTime))
+        {
             return -1;
-        if (this.distanceFromTruck > distanceFromTruck)
+        }
+        else if (Integer.parseInt(thisTime) > Integer.parseInt(addressTime))
+        {
             return 1;
+        }
         return 0;
     }
 }
+
