@@ -10,8 +10,9 @@ public class Main {
         Neighborhood neighborhood = new Neighborhood();
 
         neighborhood.createRandomAddresses();
-        neighborhood.createQueue();
         neighborhood.writeAddressesToFile();
+        neighborhood.createQueue();
+
 
         NeighborhoodGUI gui = new NeighborhoodGUI(neighborhood);
         
