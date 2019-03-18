@@ -2,12 +2,14 @@ package Simulation;
 
 
 import javax.swing.text.DateFormatter;
+import java.awt.*;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 
 import static java.time.LocalTime.of;
 import static java.time.LocalTime.parse;
@@ -21,13 +23,18 @@ public class Neighborhood {
     private String[][] neighborhood;
     public ArrayList<Address> addresses;
     public PriorityQueue<Address> queueOfAddresses;
-    ArrayList<String> deliveryTimes = new ArrayList<>();
+    ArrayList<String> deliveryTimes;
+    public int                    cellWidth;
+    public int                    cellHeight;
 
     public Neighborhood() {
 
         this.neighborhood     = new String[ROWS][COLS];
         this.addresses        = new ArrayList<>();
         this.queueOfAddresses = new PriorityQueue<>(100);
+        this.deliveryTimes    = new ArrayList<>();
+        this.cellWidth        = NeighborhoodGUI.WIDTH  / 201;
+        this.cellHeight       = NeighborhoodGUI.HEIGHT / 201;
 
     }
 
@@ -176,4 +183,65 @@ public class Neighborhood {
     public String[][] getNeighborhood() {
         return neighborhood;
     }
+
+    public void drawHouse(Graphics g) {
+        g.setColor(Color.BLACK);
+        for (int x = 0; x < ROWS; x++) {
+            for (int y = 0; y < COLS; y++) {
+                if (x % 10 == 0) {
+                    if (y % 10 != 0)
+                        g.drawRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+                }
+                if (x % 10 != 0) {
+                    if (y % 10 == 0)
+                        g.drawRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+
+                }
+            }
+        }
+    }
+
+    // gui method that will display houses that have made an order (color = green)
+    public void drawHousesWithOrders(Graphics g) throws IOException {
+        g.setColor(Color.RED);
+
+
+        int lineNum = 1;
+
+        File file = new File(FILENAME);
+        BufferedReader in = new BufferedReader(new FileReader(file));
+
+        String line;
+
+        while ((line = in.readLine()) != null) {
+            String[] addressArray = line.split(" ");
+            int houseNumber = Integer.parseInt(addressArray[0]);
+            String direction = addressArray[1];
+            int streetNumber = Integer.parseInt(addressArray[2]);
+
+            houseNumber = houseNumber / 10;
+            streetNumber = streetNumber * 10;
+
+
+
+            if (direction.equals("South"))
+                g.fillRect(streetNumber * cellWidth, houseNumber * cellHeight, cellWidth, cellHeight);
+            else
+                g.fillRect(houseNumber * cellWidth, streetNumber * cellHeight, cellWidth, cellHeight);
+
+
+            lineNum++;
+        }
+    }
+
+    // gui method that will draw the distribution center onto the map (color = blue)
+
+    public void drawDistributionCenter(Graphics g){
+        g.setColor(Color.BLUE);
+        g.fillRect(90 * cellWidth, 91 * cellHeight, cellWidth, cellHeight);
+    }
+
+    // gui method that will draw the location of the truck (color = red)
+    /*public void drawTruckLocation(Graphics g, Address address){
+        }*/
 }

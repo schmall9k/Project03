@@ -7,11 +7,13 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        Simulation.Neighborhood map = new Simulation.Neighborhood();
-        map.createMap();
-        map.createRandomAddresses();
-        map.writeAddressesToFile();
-        map.createQueue();
+        Neighborhood neighborhood = new Neighborhood();
+
+        neighborhood.createRandomAddresses();
+        neighborhood.createQueue();
+        neighborhood.writeAddressesToFile();
+
+        NeighborhoodGUI gui = new NeighborhoodGUI(neighborhood);
         
 
         System.out.println("PQ addresses are in order of delivery times: ");
