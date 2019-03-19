@@ -19,6 +19,7 @@ public class Neighborhood {
     public static final int ROWS = 201;
     public static final int COLS = 201;
     public static final String FILENAME = "RandomAddresses.txt";
+    public static final String FILENAMEQUEUE = "AddressesByTime.txt";
 
     private String[][] neighborhood;
     public ArrayList<Address> addresses;
@@ -152,6 +153,14 @@ public class Neighborhood {
             lineNum++;
 
         }
+        BufferedWriter out = new BufferedWriter(new FileWriter(FILENAMEQUEUE));
+        while (!queueOfAddresses.isEmpty()) {
+            Address i = queueOfAddresses.poll();
+            out.write(i.toString());
+            out.write("\n");
+        }
+        out.close();
+
     }
 
 
@@ -231,6 +240,7 @@ public class Neighborhood {
 
 
             lineNum++;
+
         }
     }
 
