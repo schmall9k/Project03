@@ -16,9 +16,12 @@ public class Main {
 
         NeighborhoodGUI gui = new NeighborhoodGUI(neighborhood);
 
+
         Truck truck = new Truck();
         int distance = truck.calculateRouteDistance();
         System.out.println(distance);
+
+        //truck.calculateRoute(neighborhood.queueOfAddresses);
         
 
         System.out.println("PQ addresses are in order of delivery times: ");

@@ -10,15 +10,9 @@ public class Address implements Comparable<Address> {
     public int houseNumber;
     public String direction;
     public int streetNumber;
-    public int distanceFromTruck;
+    public int distance;
     public String deliveryTime;
     public String deliveryAMorPM;
-    //LocalTime deliveryTime;
-    static int DISTRIBUTION_HOUSE_NUM = 910;
-    static String DISTRIBUTION_DIRECTION = "south";
-    static int DISTRIBUTION_STREET_NUM = 9;
-    static String DISTRIBUTION_TIME1 = " ";
-    static String DISTRIBUTION_TIME2= " ";
 
 
     public Address(int houseNumber, String direction, int streetNumber, String deliveryTime, String deliveryAMorPM) {
@@ -42,7 +36,7 @@ public class Address implements Comparable<Address> {
     }
 
     public int getDistanceFromTruck() {
-        return distanceFromTruck;
+        return distance;
     }
 
     public String getDeliveryTime() {
@@ -54,59 +48,32 @@ public class Address implements Comparable<Address> {
     }
 
 
-    public int calculateDistanceFromTruck(Address truckLocation)
+    public int calculateDistanceFromLocation(Address location)
     {
-        if (this.direction.equals(truckLocation.direction))
+        if (this.direction.equals(location.getDirection()))
         {
-            distanceFromTruck = truckLocation.houseNumber - this.houseNumber;
-            if (distanceFromTruck < 0)
-                distanceFromTruck = distanceFromTruck * -1;
+            distance = Math.abs(location.getHouseNumber() - this.houseNumber);
         }
 
         else {
-            int convertedStreetNumAdd = 0;
-            int convertedStreetNumTruck = 0;
             int distance1 = 0;
             int distance2 = 0;
 
-            convertedStreetNumAdd = this.streetNumber * 100;
-            convertedStreetNumTruck = truckLocation.streetNumber * 100;
+            if (direction == location.getDirection()) {
+                distance1 = Math.abs(location.getHouseNumber() - houseNumber);
+                distance2 = Math.abs((location.getStreetNumber() * 100) - (streetNumber * 100));
+                distance = distance1 + distance2;
+            }
 
-            distance1 = truckLocation.houseNumber - convertedStreetNumAdd;
-            distance2 = convertedStreetNumTruck - this.houseNumber;
-
-            if (distance1 < 0)
-                distance1 *= -1;
-            if (distance2 < 0)
-                distance2 *= -1;
-
-            distanceFromTruck = distance1 + distance2;
-
-        }
-        return distanceFromTruck;
-    }
-
-    public int calculateRouteDistance() throws IOException {
-        int totalDistance = 0;
-        Address truckLocation = new Address(DISTRIBUTION_HOUSE_NUM, DISTRIBUTION_DIRECTION, DISTRIBUTION_STREET_NUM, DISTRIBUTION_TIME1, DISTRIBUTION_TIME2);
-        Address dist = new Address(DISTRIBUTION_HOUSE_NUM, DISTRIBUTION_DIRECTION, DISTRIBUTION_STREET_NUM, DISTRIBUTION_TIME1, DISTRIBUTION_TIME2);
-        BufferedReader reader = new BufferedReader(new FileReader("RandomAddresses.txt"));
-        String currentLine;
-        String[] line;
-        while((currentLine = reader.readLine()) != null) {
-            line = currentLine.split(" ");
-            Address houseLocation = new Address(Integer.parseInt(line[0]), line[1], Integer.parseInt(line[2]), line[4], line[5]);
-            totalDistance += houseLocation.calculateDistanceFromTruck(truckLocation);
-            truckLocation = houseLocation;
+            else{
+                distance1 = Math.abs(location.getHouseNumber() - (streetNumber * 100));
+                distance2 = Math.abs((location.getStreetNumber() * 100) - houseNumber);
+                distance = distance1 + distance2;
+            }
 
         }
-
-        totalDistance += dist.calculateDistanceFromTruck(truckLocation);
-        reader.close();
-
-        return totalDistance;
+        return distance;
     }
-
 
 
     @Override
