@@ -20,7 +20,7 @@ public class Truck {
         int totalDistance = 0;
         Address truckLocation = new Address(DISTRIBUTION_HOUSE_NUM, DISTRIBUTION_DIRECTION, DISTRIBUTION_STREET_NUM, DISTRIBUTION_TIME1, DISTRIBUTION_TIME2);
         Address dist = new Address(DISTRIBUTION_HOUSE_NUM, DISTRIBUTION_DIRECTION, DISTRIBUTION_STREET_NUM, DISTRIBUTION_TIME1, DISTRIBUTION_TIME2);
-        BufferedReader reader = new BufferedReader(new FileReader("RandomAddresses.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("AddressesByTime.txt"));
         String currentLine;
         String[] line;
         while((currentLine = reader.readLine()) != null) {
