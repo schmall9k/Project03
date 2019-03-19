@@ -95,7 +95,7 @@ public class Address implements Comparable<Address> {
         String[] line;
         while((currentLine = reader.readLine()) != null) {
             line = currentLine.split(" ");
-            Address houseLocation = new Address(Integer.parseInt(line[0]), line[1], Integer.parseInt(line[2]), line[5], line[6]);
+            Address houseLocation = new Address(Integer.parseInt(line[0]), line[1], Integer.parseInt(line[2]), line[4], line[5]);
             totalDistance += houseLocation.calculateDistanceFromTruck(truckLocation);
             truckLocation = houseLocation;
 
