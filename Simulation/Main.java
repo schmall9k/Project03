@@ -16,10 +16,9 @@ public class Main {
 
         NeighborhoodGUI gui = new NeighborhoodGUI(neighborhood);
 
-        Address address = new Address(910, "South", 9, "", "");
-
-        int distnace = address.calculateRouteDistance();
-        System.out.println(distnace);
+        Truck truck = new Truck();
+        int distance = truck.calculateRouteDistance();
+        System.out.println(distance);
         
 
         System.out.println("PQ addresses are in order of delivery times: ");
