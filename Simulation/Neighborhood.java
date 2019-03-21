@@ -1,9 +1,20 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & ELijah Ives
+
+Neighborhood class that represents the general structure of the neighborhood itself: showing houses, the truck, etc.
+
+ */
+
 package Simulation;
 
 
+import javax.swing.*;
 import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -16,21 +27,21 @@ import static java.time.LocalTime.parse;
 
 public class Neighborhood {
 
-    public static final int ROWS = 201;
-    public static final int COLS = 201;
-    public static final String FILENAME = "RandomAddresses.txt";
-    public static final String FILENAMEQUEUE = "AddressesByTime.txt";
+    public static final int ROWS             = 201;
+    public static final int COLS             = 201;
+    public static final String FILENAME      = "RandomAddresses.txt";
+    public static final String ORDERED_FILE = "AddressesByTime.txt";
 
-    private String[][] neighborhood;
-    public ArrayList<Address> addresses;
+    static final int HEIGHT = 782, WIDTH = 761;
+    public static final int CELL_WIDTH   = 800 / 201;
+    public static final int CELL_HEIGHT  = 800 / 201;
+
+    public ArrayList<Address>     addresses;
     public PriorityQueue<Address> queueOfAddresses;
-    ArrayList<String> deliveryTimes;
-    public int                    cellWidth;
-    public int                    cellHeight;
+    ArrayList<String>             deliveryTimes;
 
     public Neighborhood() {
 
-        this.neighborhood     = new String[ROWS][COLS];
         this.addresses        = new ArrayList<>();
         this.queueOfAddresses = new PriorityQueue<>(100);
         this.deliveryTimes    = new ArrayList<>();
@@ -39,9 +50,8 @@ public class Neighborhood {
     }
 
     //method that will generate the random addresses to be put in the file
-    public ArrayList<Address> createRandomAddresses(){
-        for (int i = 0; i < 100; i++)
-        {
+    public ArrayList<Address> createRandomAddresses() {
+        for (int i = 0; i < 100; i++) {
 
             // solving for the address
             String result = "";
@@ -67,33 +77,27 @@ public class Neighborhood {
             String AMorPM; // true = AM, false = PM
 
 
-
             Random rand = new Random();
             int randHour = givenListHours.get(rand.nextInt(givenListHours.size()));
             int randMinute = rand.nextInt(60);
 
 
-            if (randHour == 10 || randHour == 11)
-            {
+            if (randHour == 10 || randHour == 11) {
                 AMorPM = "AM";
                 time = "" + randHour + ":" + String.format("%02d", randMinute);
-            }
-            else {
+            } else {
                 AMorPM = "PM";
                 time = "" + randHour + ":" + String.format("%02d", randMinute);
             }
 
-            while (deliveryTimes.contains(time))
-            {
+            while (deliveryTimes.contains(time)) {
                 int randHourAgain = givenListHours.get(rand.nextInt(givenListHours.size()));
                 int randMinuteAgain = rand.nextInt(60);
 
-                if (randHour == 10 || randHour == 11)
-                {
+                if (randHour == 10 || randHour == 11) {
                     AMorPM = "AM";
                     time = "" + randHourAgain + ":" + String.format("%02d", randMinuteAgain);
-                }
-                else {
+                } else {
                     AMorPM = "PM";
                     time = "" + randHourAgain + ":" + String.format("%02d", randMinuteAgain);
                 }
@@ -101,7 +105,7 @@ public class Neighborhood {
 
             deliveryTimes.add(time);
 
-            Address address = new Address(firstRand,direction,thirdRand,time,AMorPM);
+            Address address = new Address(firstRand, direction, thirdRand, time, AMorPM);
             addresses.add(address);
 
         }
@@ -120,16 +124,24 @@ public class Neighborhood {
         out.close();
     }
 
+    //method that will write addresses of orders to the file IN ORDER of order time
+    public void writeAddressesInOrderToFile() throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
+        for (int i = 0; i < addresses.size(); i++) {
+            out.write(addresses.get(i).toString());
+            out.write("\n");
+        }
+
+        out.close();
+    }
+
     //method that will generate the queue from reading the file
     public void createQueue() throws IOException {
-        int lineNum = 1;
 
         File file = new File(FILENAME);
         BufferedReader in = new BufferedReader(new FileReader(file));
 
         String line;
-        Address truckLocation = new Address(910, "South", 9, "10:00", " am");
-
 
         while ((line = in.readLine()) != null) {
             String[] addressArray = line.split(" ");
@@ -142,55 +154,77 @@ public class Neighborhood {
 
             Address address = new Address(houseNumber, direction, streetNumber, deliveryTime, deliveryAMorPM);
 
-            //address.calculateDistanceFromTruck(truckLocation);
-
-            //will print out the line number and the distance from the truck, just here to check answers
-            //System.out.println(lineNum + ": " + address.distanceFromTruck);
-
             queueOfAddresses.add(address);
 
-            lineNum++;
-
         }
-        BufferedWriter out = new BufferedWriter(new FileWriter(FILENAMEQUEUE));
-        while (!queueOfAddresses.isEmpty()) {
-            Address i = queueOfAddresses.poll();
-            out.write(i.toString());
-            out.write("\n");
-        }
-        out.close();
 
     }
 
+    public PriorityQueue<Address> getQueueOfAddresses() {
+        return queueOfAddresses;
+    }
 
-    //method that will create a 2D array to display the map
-    public void createMap() {
+    //method that will display the simulation of the neighborhood: draws neighborhood, houses with current orders, and movement of the truck.
+    public static void drawNeighborhood(PriorityQueue<Address> addresses, Address truckLocation) throws FileNotFoundException, IOException
+    {
+        JFrame map = new JFrame();
+        JPanel canvas = new JPanel() {
+            public void paintComponent(Graphics g) {
+                //draw houses
+                g.setColor(Color.BLACK);
+                for (int x = 0; x < ROWS; x++) {
+                    for (int y = 0; y < COLS; y++) {
+                        if (x % 10 == 0) {
+                            if (y % 10 != 0)
+                                g.drawRect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+                        }
+                        if (x % 10 != 0) {
+                            if (y % 10 == 0)
+                                g.drawRect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
 
-        //Denote where houses exist: "*" = houses
-        for (int x = 0; x < ROWS; x++) {
-            for (int y = 0; y < COLS; y++) {
-                if (x % 10 == 0) {
-                    if (y % 10 == 0)
-                        neighborhood[x][y] = "- ";
-                    else
-                        neighborhood[x][y] = "* ";
+                        }
+                    }
                 }
-                if (x % 10 != 0) {
-                    if (y % 10 == 0)
-                        neighborhood[x][y] = "* ";
+
+                //draw dist center
+                g.setColor(Color.GREEN);
+                g.fillRect(90 * CELL_WIDTH, 91 * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+
+                //draw houses with orders
+                g.setColor(Color.RED);
+                Iterator<Address> iterator = addresses.iterator();
+                while (iterator.hasNext())
+                {
+                    Address address = iterator.next();
+                    int houseNumber = address.getHouseNumber() / 10;
+                    int streetNumber = address.getStreetNumber() * 10;
+
+
+                    if (address.getDirection().equals("South"))
+                        g.fillRect(streetNumber * CELL_WIDTH, houseNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
                     else
-                        neighborhood[x][y] = "  ";
+                        g.fillRect(houseNumber * CELL_WIDTH, streetNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
                 }
+
+                //draw truck location
+                g.setColor(Color.BLUE);
+                int houseNumber = truckLocation.getHouseNumber() / 10;
+                int streetNumber = truckLocation.getStreetNumber() * 10;
+
+                if (truckLocation.getDirection().equals("South"))
+                    g.fillOval(streetNumber * CELL_WIDTH, houseNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+                else
+                    g.fillOval(houseNumber * CELL_WIDTH, streetNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
             }
-        }
 
-        //Denote distribution center
-        neighborhood[91][90] = "@";
+        };
+        map.getContentPane().add(canvas);
+        map.repaint();
+
+        map.setTitle("Neighborhood");
+        map.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        map.setSize(WIDTH, HEIGHT);
+        map.setLocationRelativeTo(null); // center on screen
+        map.setVisible(true);
     }
-
-    public String[][] getNeighborhood() {
-        return neighborhood;
-    }
-
-
 }

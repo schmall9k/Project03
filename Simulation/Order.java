@@ -1,3 +1,12 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & ELijah Ives
+
+Order class that takes input from customers.
+
+ */
+
 package Simulation;
 
 import java.io.*;

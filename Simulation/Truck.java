@@ -1,3 +1,12 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & ELijah Ives
+
+Truck class that represents the delivery truck.
+
+ */
+
 package Simulation;
 
 import java.io.BufferedReader;
@@ -11,18 +20,18 @@ import java.util.PriorityQueue;
 public class Truck {
 
     //LocalTime deliveryTime;
-    static int DISTRIBUTION_HOUSE_NUM = 910;
-    static String DISTRIBUTION_DIRECTION = "south";
-    static int DISTRIBUTION_STREET_NUM = 9;
-    static String DISTRIBUTION_TIME1 = " ";
-    static String DISTRIBUTION_TIME2= " ";
+    static int    DISTRIBUTION_HOUSE_NUM  = 910;
+    static String DISTRIBUTION_DIRECTION  = "south";
+    static int    DISTRIBUTION_STREET_NUM = 9;
+    static String DISTRIBUTION_TIME1      = "";
+    static String DISTRIBUTION_TIME2      = "";
 
     public ArrayList<Address> listOfTruckLocations;
-    public Address currentLocation;
+    public Address            currentLocation;
 
     public Truck() {
         this.listOfTruckLocations = new ArrayList<>();
-        this.currentLocation = new Address(910,"South",9,"","");
+        this.currentLocation      = new Address(910,"South",9,"","");
     }
 
     public Truck(Address currentLocation) {

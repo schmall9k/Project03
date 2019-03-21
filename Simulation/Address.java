@@ -1,25 +1,29 @@
-package Simulation;
+/*
+Project03 - Sandwich Truck Simulation
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.time.LocalTime;
+Kylie Norwood, Kiersten Schmall, & ELijah Ives
+
+Address class to represent locations of houses and the truck.
+
+ */
+
+package Simulation;
 
 public class Address implements Comparable<Address> {
 
-    public int houseNumber;
+    public int    houseNumber;
     public String direction;
-    public int streetNumber;
-    public int distance;
+    public int    streetNumber;
+    public int    distance;
     public String deliveryTime;
     public String deliveryAMorPM;
 
 
     public Address(int houseNumber, String direction, int streetNumber, String deliveryTime, String deliveryAMorPM) {
-        this.houseNumber = houseNumber;
-        this.direction = direction;
-        this.streetNumber = streetNumber;
-        this.deliveryTime = deliveryTime;
+        this.houseNumber    = houseNumber;
+        this.direction      = direction;
+        this.streetNumber   = streetNumber;
+        this.deliveryTime   = deliveryTime;
         this.deliveryAMorPM = deliveryAMorPM;
     }
 
@@ -48,6 +52,8 @@ public class Address implements Comparable<Address> {
     }
 
 
+
+    //Method that will calculate how many units away a house is from a given location.
     public int calculateDistanceFromLocation(Address location)
     {
         if (this.direction.equals(location.getDirection()))
@@ -82,6 +88,7 @@ public class Address implements Comparable<Address> {
                 direction + " " + streetNumber + " St., " + deliveryTime + " " + deliveryAMorPM;
     }
 
+    //Currently ordered by order time of the delivery
     @Override
     public int compareTo(Address address) {
 
