@@ -10,6 +10,7 @@ Main will run a simulation of the truck.
 package Simulation;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Main {
@@ -23,6 +24,7 @@ public class Main {
         neighborhood.writeAddressesToFile();
         neighborhood.writeAddressesInOrderToFile();
         neighborhood.createQueue();
+
 
 
         //Simple simulation to show the truck's movement
@@ -66,10 +68,10 @@ public class Main {
         for (int i = 0; i < randomAddresses.size(); i++){
 
             neighborhood.drawNeighborhood(neighborhood.getQueueOfAddresses(), randomAddresses.get(i));
-            //neighborhood.simulateTruck(randomAddresses.get(i));
+
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(250);
             }
             catch (InterruptedException ex) {
 
@@ -81,7 +83,16 @@ public class Main {
         int distance = truck.calculateRouteDistance();
         System.out.println("Truck's route distance: " + distance + "units");
 
-        //truck.calculateRoute(neighborhood.queueOfAddresses);
+
+        /*Address distCenter = new Address(910,"South",9,"","");
+        Address address7 = new Address(980, "South", 9, "", "");
+
+        ArrayList<Address> route = truck.calculateRoute(distCenter,address7);
+
+        for (int i = 0; i < route.size(); i++){
+
+            neighborhood.drawNeighborhood(neighborhood.getQueueOfAddresses(), route.get(i));
+        }*/
 
     }
 }

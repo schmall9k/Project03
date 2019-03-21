@@ -12,10 +12,7 @@ package Simulation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.channels.UnresolvedAddressException;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 public class Truck {
 
@@ -70,39 +67,53 @@ public class Truck {
 
     }
 
-    /*public ArrayList<Address> calculateRoute(Address truckLocation, Address houseLocation) {
+    public ArrayList<Address> calculateRoute(Address truckLocation, Address houseLocation) {
 
         if (truckLocation.getDirection().equals(houseLocation.getDirection())) {
             if (truckLocation.getStreetNumber() == houseLocation.getStreetNumber()){
                 int tempHouseNum = truckLocation.getHouseNumber();
-                while (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()) {
-                    tempHouseNum++;
-                    Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
-                    listOfTruckLocations.add(nextLocation);
+                if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()) {
+                    while(true){
+                        tempHouseNum++;
+                        Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
+                        listOfTruckLocations.add(nextLocation);
+                        if (tempHouseNum == houseLocation.getHouseNumber())
+                            break;
+                    }
                 }
 
-                while (truckLocation.getHouseNumber() > houseLocation.getHouseNumber()) {
-                    tempHouseNum--;
-                    Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
-                    listOfTruckLocations.add(nextLocation);
+                if (truckLocation.getHouseNumber() > houseLocation.getHouseNumber()) {
+                    while (true){
+                        tempHouseNum--;
+                        Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
+                        listOfTruckLocations.add(nextLocation);
+                        if (tempHouseNum == houseLocation.getHouseNumber())
+                            break;
+                    }
                 }
             }
 
-            else{
+            /*else{
                 while (truckLocation.getStreetNumber() != houseLocation.getStreetNumber()){
+
                     int tempStreetNum = truckLocation.getStreetNumber();
                     if (truckLocation.getStreetNumber() < houseLocation.getStreetNumber()){
                         tempStreetNum++;
-                        Address nextLocation = new Address(, houseLocation.getDirection(), tempStreetNum)
+                        Address nextLocation = new Address(, houseLocation.getDirection(), tempStreetNum);
+                    }
+
+                    if (truckLocation.getStreetNumber() > houseLocation.getStreetNumber()){
+                        tempStreetNum--;
+                        Address nextLocation = new Address(, houseLocation.getDirection(), tempStreetNum);
                     }
 
                 }
-            }
+            }*/
         }
 
 
 
 
         return listOfTruckLocations;
-    }*/
+    }
 }

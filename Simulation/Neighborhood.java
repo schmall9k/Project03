@@ -11,19 +11,10 @@ package Simulation;
 
 
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
-
-import static java.time.LocalTime.of;
-import static java.time.LocalTime.parse;
 
 public class Neighborhood {
 
@@ -165,9 +156,9 @@ public class Neighborhood {
     }
 
     //method that will display the simulation of the neighborhood: draws neighborhood, houses with current orders, and movement of the truck.
-    public static void drawNeighborhood(PriorityQueue<Address> addresses, Address truckLocation) throws FileNotFoundException, IOException
+    public static void drawNeighborhood(PriorityQueue<Address> addresses, Address truckLocation)
     {
-        JFrame map = new JFrame();
+        JFrame neighborhood = new JFrame();
         JPanel canvas = new JPanel() {
             public void paintComponent(Graphics g) {
                 //draw houses
@@ -218,13 +209,13 @@ public class Neighborhood {
             }
 
         };
-        map.getContentPane().add(canvas);
-        map.repaint();
-
-        map.setTitle("Neighborhood");
-        map.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        map.setSize(WIDTH, HEIGHT);
-        map.setLocationRelativeTo(null); // center on screen
-        map.setVisible(true);
+        neighborhood.getContentPane().add(canvas);
+        //neighborhood.revalidate();
+        //neighborhood.repaint();
+        neighborhood.setTitle("Neighborhood");
+        neighborhood.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        neighborhood.setSize(WIDTH, HEIGHT);
+        neighborhood.setLocationRelativeTo(null); // center on screen
+        neighborhood.setVisible(true);
     }
 }
