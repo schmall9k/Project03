@@ -21,15 +21,15 @@ public class Neighborhood {
     public static final int ROWS             = 201;
     public static final int COLS             = 201;
     public static final String FILENAME      = "RandomAddresses.txt";
-    public static final String ORDERED_FILE = "AddressesByTime.txt";
+    public static final String ORDERED_FILE  = "AddressesByTime.txt";
 
     static final int HEIGHT = 782, WIDTH = 761;
     public static final int CELL_WIDTH   = 800 / 201;
     public static final int CELL_HEIGHT  = 800 / 201;
 
-    public ArrayList<Address>     addresses;
-    public PriorityQueue<Address> queueOfAddresses;
-    ArrayList<String>             deliveryTimes;
+    public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
+    public PriorityQueue<Address> queueOfAddresses;  // random deliveries
+    ArrayList<String>             deliveryTimes;     // random delivery times
 
     public Neighborhood() {
 
@@ -44,7 +44,7 @@ public class Neighborhood {
     public ArrayList<Address> createRandomAddresses() {
         for (int i = 0; i < 100; i++) {
 
-            // solving for the address
+            // random house number
             String result = "";
             int range = 2000 - 10 + 1;
             int firstRand = new Random().nextInt(range) + 10;
@@ -52,6 +52,7 @@ public class Neighborhood {
             result = Integer.toString(firstRand) + "0";
             firstRand = Integer.parseInt(result);
 
+            // random direction
             String direction = "";
             int secRand = new Random().nextInt(2);
             if (secRand == 0)
@@ -59,10 +60,11 @@ public class Neighborhood {
             else
                 direction += "East";
 
+            // random street number
             int thirdRand = new Random().nextInt(20);
 
 
-            // solving for random delivery time
+            // generate random delivery time
             List<Integer> givenListHours = Arrays.asList(1, 2, 3, 4, 5, 6, 10, 11, 12);
             String time;
             String AMorPM; // true = AM, false = PM
@@ -104,7 +106,7 @@ public class Neighborhood {
         return addresses;
     }
 
-    //method that will write above generated random addresses to the file
+    // method that will write above generated random addresses to the file
     public void writeAddressesToFile() throws IOException{
         BufferedWriter out = new BufferedWriter(new FileWriter(FILENAME));
         for (int i = 0; i < addresses.size(); i++) {
@@ -115,7 +117,7 @@ public class Neighborhood {
         out.close();
     }
 
-    //method that will write addresses of orders to the file IN ORDER of order time
+    // method that will write addresses of orders to the file IN ORDER of order time
     public void writeAddressesInOrderToFile() throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
         for (int i = 0; i < addresses.size(); i++) {
@@ -126,7 +128,7 @@ public class Neighborhood {
         out.close();
     }
 
-    //method that will generate the queue from reading the file
+    // method that will generate the queue from reading the file of random addresses
     public void createQueue() throws IOException {
 
         File file = new File(FILENAME);
@@ -151,11 +153,14 @@ public class Neighborhood {
 
     }
 
+
+    // getter to receive the queue of addresses
+
     public PriorityQueue<Address> getQueueOfAddresses() {
         return queueOfAddresses;
     }
 
-    //method that will display the simulation of the neighborhood: draws neighborhood, houses with current orders, and movement of the truck.
+    // method that will display the simulation of the neighborhood: draws neighborhood, houses with current orders, and movement of the truck.
     public static void drawNeighborhood(PriorityQueue<Address> addresses, Address truckLocation)
     {
         JFrame neighborhood = new JFrame();
@@ -177,7 +182,7 @@ public class Neighborhood {
                     }
                 }
 
-                //draw dist center
+                //draw distribution center
                 g.setColor(Color.GREEN);
                 g.fillRect(90 * CELL_WIDTH, 91 * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
 

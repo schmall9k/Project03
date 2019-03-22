@@ -53,7 +53,7 @@ public class Address implements Comparable<Address> {
 
 
 
-    //Method that will calculate how many units away a house is from a given location.
+    // Method that will calculate how many units away a house is from a given location.
     public int calculateDistanceFromLocation(Address location)
     {
         if (this.direction.equals(location.getDirection()))
