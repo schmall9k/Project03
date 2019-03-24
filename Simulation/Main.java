@@ -41,7 +41,7 @@ public class Main {
         Address distCenter = new Address(910, "South", 9, "", "");
 
         // truck going to 1210 South 9th St.
-        Address address7 = new Address(1210, "South", 9, "", "");
+        Address address7 = new Address(1220, "South", 9, "", "");
 
         ArrayList<Address> route = truck.calculateRoute(distCenter, address7);
 
@@ -51,7 +51,7 @@ public class Main {
             System.out.println(route.get(i));
 
             try {
-                Thread.sleep(250);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
 
             }

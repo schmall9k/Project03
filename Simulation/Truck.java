@@ -64,27 +64,67 @@ public class Truck {
         return totalDistance;
     }
 
+    public void clearListOfLocations(){
+        listOfTruckLocations.clear();
+    }
+
     // method that will calculate the route for the truck: will return an ArrayList of ALL locations the truck must hit during the route
 
     public ArrayList<Address> calculateRoute(Address truckLocation, Address houseLocation) {
+
+        listOfTruckLocations.add(truckLocation);
 
         boolean sameDirection = truckLocation.getDirection().equals(houseLocation.getDirection());
         boolean sameStreetNumber = truckLocation.getStreetNumber() == houseLocation.getStreetNumber();
 
         // if truck and delivery location going in same direction and on the same street
         if (sameDirection && sameStreetNumber) {
-                int tempHouseNum = truckLocation.getHouseNumber();
-                while (houseLocation.getHouseNumber() != tempHouseNum){
-                    if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()){
-                        tempHouseNum+=10;
-                    }
-                    else
-                        tempHouseNum-=10;
-                    Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
-                    listOfTruckLocations.add(nextLocation);
+            int tempHouseNum = truckLocation.getHouseNumber();
+            while (houseLocation.getHouseNumber() != tempHouseNum){
+                if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()){
+                    tempHouseNum+=10;
                 }
+                else
+                    tempHouseNum-=10;
+                Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
+                listOfTruckLocations.add(nextLocation);
+            }
+        }
+
+        // if truck and house same direction, but different street number
+        if (sameDirection && !sameStreetNumber){
+            int tempStreetNum = truckLocation.getStreetNumber();
+            int tempHouseNum = truckLocation.getHouseNumber();
+            while (tempStreetNum != houseLocation.getStreetNumber()){
+                while (tempHouseNum % 100 != 0){
+                    if (tempHouseNum < houseLocation.getHouseNumber()){
+                        tempHouseNum+=10;
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                    }
+                    else{
+                        tempHouseNum-=10;
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                    }
+                }
+                if (truckLocation.getStreetNumber() < houseLocation.getStreetNumber()){
+                    tempStreetNum+=1;
+                }
+                else
+                    tempHouseNum-=1;
+                Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum,"","");
+                listOfTruckLocations.add(nextLocation);
+            }
+            while (houseLocation.getHouseNumber() != tempHouseNum){
+                if (tempHouseNum < houseLocation.getHouseNumber()){
+                    tempHouseNum+=10;
+                }
+                else
+                    tempHouseNum-=10;
+                Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
+                listOfTruckLocations.add(nextLocation);
             }
 
+        }
             /*else{
                 while (truckLocation.getStreetNumber() != houseLocation.getStreetNumber()){
 
