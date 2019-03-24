@@ -33,7 +33,8 @@ public class Main {
 
 
         /* This simple simulation displays that our route method correctly generates route when truck location and
-        * delivery location are in the same direction and on the same street.
+        * delivery location are in the same direction and on the same street. Will also print out the different
+        * locations the truck will pass on its route.
         */
 
         // truck starts at the distribution center
@@ -47,6 +48,7 @@ public class Main {
         for (int i = 0; i < route.size(); i++) {
 
             neighborhood.drawNeighborhood(neighborhood.getQueueOfAddresses(), route.get(i));
+            System.out.println(route.get(i));
 
             try {
                 Thread.sleep(250);

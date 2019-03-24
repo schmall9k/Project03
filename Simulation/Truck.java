@@ -68,27 +68,20 @@ public class Truck {
 
     public ArrayList<Address> calculateRoute(Address truckLocation, Address houseLocation) {
 
-        if (truckLocation.getDirection().equals(houseLocation.getDirection())) {
-            if (truckLocation.getStreetNumber() == houseLocation.getStreetNumber()){
-                int tempHouseNum = truckLocation.getHouseNumber();
-                if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()) {
-                    while(true){
-                        tempHouseNum+=10;
-                        Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
-                        listOfTruckLocations.add(nextLocation);
-                        if (tempHouseNum == houseLocation.getHouseNumber())
-                            break;
-                    }
-                }
+        boolean sameDirection = truckLocation.getDirection().equals(houseLocation.getDirection());
+        boolean sameStreetNumber = truckLocation.getStreetNumber() == houseLocation.getStreetNumber();
 
-                if (truckLocation.getHouseNumber() > houseLocation.getHouseNumber()) {
-                    while (true){
-                        tempHouseNum-=10;
-                        Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
-                        listOfTruckLocations.add(nextLocation);
-                        if (tempHouseNum == houseLocation.getHouseNumber())
-                            break;
+        // if truck and delivery location going in same direction and on the same street
+        if (sameDirection && sameStreetNumber) {
+                int tempHouseNum = truckLocation.getHouseNumber();
+                while (houseLocation.getHouseNumber() != tempHouseNum){
+                    if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()){
+                        tempHouseNum+=10;
                     }
+                    else
+                        tempHouseNum-=10;
+                    Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
+                    listOfTruckLocations.add(nextLocation);
                 }
             }
 
@@ -139,7 +132,6 @@ public class Truck {
 
                 }
             }*/
-        }
         return listOfTruckLocations;
     }
 
