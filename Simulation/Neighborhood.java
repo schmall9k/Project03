@@ -13,6 +13,7 @@ package Simulation;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
@@ -120,11 +121,10 @@ public class Neighborhood {
     // method that will write addresses of orders to the file IN ORDER of order time
     public void writeAddressesInOrderToFile() throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
-        for (int i = 0; i < addresses.size(); i++) {
-            out.write(addresses.get(i).toString());
+        while(!queueOfAddresses.isEmpty()) {
+            out.write(queueOfAddresses.poll().toString());
             out.write("\n");
         }
-
         out.close();
     }
 

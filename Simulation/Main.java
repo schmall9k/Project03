@@ -11,6 +11,7 @@ package Simulation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Main {
 
@@ -21,9 +22,9 @@ public class Main {
 
         neighborhood.createRandomAddresses();
         neighborhood.writeAddressesToFile();
-        neighborhood.writeAddressesInOrderToFile();
-        neighborhood.createQueue();
 
+        neighborhood.createQueue();
+        neighborhood.writeAddressesInOrderToFile();
 
         Truck truck = new Truck();
 
@@ -48,7 +49,7 @@ public class Main {
         for (int i = 0; i < route.size(); i++) {
 
             neighborhood.drawNeighborhood(neighborhood.getQueueOfAddresses(), route.get(i));
-            System.out.println(route.get(i));
+            //System.out.println(route.get(i));
 
             try {
                 Thread.sleep(500);

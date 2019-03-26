@@ -17,6 +17,8 @@ public class Address implements Comparable<Address> {
     public int    distance;
     public String deliveryTime;
     public String deliveryAMorPM;
+    public Order foodOrder;
+
 
 
     public Address(int houseNumber, String direction, int streetNumber, String deliveryTime, String deliveryAMorPM) {
@@ -25,6 +27,7 @@ public class Address implements Comparable<Address> {
         this.streetNumber   = streetNumber;
         this.deliveryTime   = deliveryTime;
         this.deliveryAMorPM = deliveryAMorPM;
+        foodOrder = new Order();
     }
 
     public int getHouseNumber() {
@@ -85,7 +88,7 @@ public class Address implements Comparable<Address> {
     @Override
     public String toString() {
         return houseNumber + " " +
-                direction + " " + streetNumber + " St., " + deliveryTime + " " + deliveryAMorPM;
+                direction + " " + streetNumber + " St., " + deliveryTime + " " + deliveryAMorPM + " " + foodOrder.toString();
     }
 
     //Currently ordered by order time of the delivery
