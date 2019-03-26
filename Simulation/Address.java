@@ -59,27 +59,65 @@ public class Address implements Comparable<Address> {
     // Method that will calculate how many units away a house is from a given location.
     public int calculateDistanceFromLocation(Address location)
     {
+        int houseDistance;
+
         if (this.direction.equals(location.getDirection()))
         {
-            distance = Math.abs(location.getHouseNumber() - this.houseNumber);
+            if (this.streetNumber != location.streetNumber)
+            {
+                int streetDistance = Math.abs(this.streetNumber - location.streetNumber);
+                streetDistance = streetDistance * 10;
+
+
+                int houseNumber1 = this.houseNumber / 10;
+                int houseNumber2 = location.houseNumber / 10;
+
+                if (houseNumber1 != houseNumber2)
+                {
+                    houseDistance = Math.abs(houseNumber1 - houseNumber2);
+                }
+                else {
+                    houseNumber1 = houseNumber1 % 10;
+                    houseNumber2 = houseNumber2 % 10;
+
+                    houseDistance = houseNumber1 + houseNumber2;
+                }
+
+                distance = streetDistance + houseDistance;
+            }
+            else {
+                int houseNumber1 = this.houseNumber / 10;
+                int houseNumber2 = location.houseNumber / 10;
+
+                houseDistance = Math.abs(houseNumber1 - houseNumber2);
+
+                distance = houseDistance;
+            }
+
         }
-
         else {
-            int distance1 = 0;
-            int distance2 = 0;
 
-            if (direction == location.getDirection()) {
-                distance1 = Math.abs(location.getHouseNumber() - houseNumber);
-                distance2 = Math.abs((location.getStreetNumber() * 100) - (streetNumber * 100));
+            if (this.streetNumber == location.streetNumber)
+            {
+                int thisBlock = this.streetNumber * 100;
+
+                int distance1 = Math.abs(thisBlock - this.houseNumber) / 10;
+
+                int distance2 = Math.abs(thisBlock - location.houseNumber) / 10;
+
+                distance = distance1 + distance2;
+
+            }
+            else {
+
+                int locationBlock = location.streetNumber * 100;
+                int thisBlock = this.streetNumber * 100;
+
+                int distance1 = Math.abs(this.houseNumber - locationBlock) / 10;
+                int distance2 = Math.abs(location.houseNumber - thisBlock) / 10;
+
                 distance = distance1 + distance2;
             }
-
-            else{
-                distance1 = Math.abs(location.getHouseNumber() - (streetNumber * 100));
-                distance2 = Math.abs((location.getStreetNumber() * 100) - houseNumber);
-                distance = distance1 + distance2;
-            }
-
         }
         return distance;
     }
