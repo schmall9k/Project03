@@ -57,12 +57,15 @@ public class Address implements Comparable<Address> {
 
 
     // Method that will calculate how many units away a house is from a given location.
+    //SAME DIRECTION DIFFERENT STREET NUMBER, NOT WORKING
     public int calculateDistanceFromLocation(Address location)
     {
         int houseDistance;
 
+        //same direction
         if (this.direction.equals(location.getDirection()))
         {
+            //different street number
             if (this.streetNumber != location.streetNumber)
             {
                 int streetDistance = Math.abs(this.streetNumber - location.streetNumber);
@@ -72,9 +75,12 @@ public class Address implements Comparable<Address> {
                 int houseNumber1 = this.houseNumber / 10;
                 int houseNumber2 = location.houseNumber / 10;
 
+                int numberOfBlocks = 0;
                 if (houseNumber1 != houseNumber2)
                 {
                     houseDistance = Math.abs(houseNumber1 - houseNumber2);
+                    numberOfBlocks += Math.abs(this.streetNumber - location.streetNumber) + 1;
+
                 }
                 else {
                     houseNumber1 = houseNumber1 % 10;
@@ -83,8 +89,10 @@ public class Address implements Comparable<Address> {
                     houseDistance = houseNumber1 + houseNumber2;
                 }
 
-                distance = streetDistance + houseDistance;
+                distance = streetDistance + houseDistance + numberOfBlocks;
             }
+
+            //same street number
             else {
                 int houseNumber1 = this.houseNumber / 10;
                 int houseNumber2 = location.houseNumber / 10;
@@ -95,8 +103,11 @@ public class Address implements Comparable<Address> {
             }
 
         }
+
+        //different direction
         else {
 
+            //same street number
             if (this.streetNumber == location.streetNumber)
             {
                 int thisBlock = this.streetNumber * 100;
@@ -108,6 +119,8 @@ public class Address implements Comparable<Address> {
                 distance = distance1 + distance2;
 
             }
+
+            //different street number
             else {
 
                 int locationBlock = location.streetNumber * 100;

@@ -18,47 +18,35 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Neighborhood neighborhood = new Neighborhood();
+            Neighborhood neighborhood = new Neighborhood(20);
 
-        neighborhood.createRandomAddresses();
-        neighborhood.writeAddressesToFile();
+            neighborhood.createRandomAddresses();
+            neighborhood.writeAddressesToFile();
+            neighborhood.writeAddressesInOrderToFile();
+            neighborhood.createQueue();
 
-        neighborhood.createQueue();
-        neighborhood.writeAddressesInOrderToFile();
+            Truck truck = new Truck();
 
-        Truck truck = new Truck();
+            // calculates the truck's route distance in units
+            int distance = truck.calculateRouteDistance();
+            System.out.println("Truck's route distance: " + distance + " units");
 
-        // calculates the truck's route distance in units
-        int distance = truck.calculateRouteDistance();
-        System.out.println("Truck's route distance: " + distance + " units");
+            // truck starts at the distribution center
+            Address distCenter = new Address(910, "South", 9, "", "");
 
+            Address address7 = new Address(990, "South", 12, "", "");
 
-        /* This simple simulation displays that our route method correctly generates route when truck location and
-        * delivery location are in the same direction and on the same street. Will also print out the different
-        * locations the truck will pass on its route.
-        */
+            System.out.println(distCenter.calculateDistanceFromLocation(address7));
 
-        // truck starts at the distribution center
-        Address distCenter = new Address(910, "South", 9, "", "");
+            ArrayList<Address> route = truck.calculateRoute(distCenter, address7);
 
-        // truck going to 1210 South 9th St.
-        Address address7 = new Address(1220, "South", 9, "", "");
+            for (int i = 0; i < route.size(); i++) {
 
-        ArrayList<Address> route = truck.calculateRoute(distCenter, address7);
-
-        for (int i = 0; i < route.size(); i++) {
-
-            neighborhood.drawNeighborhood(neighborhood.getQueueOfAddresses(), route.get(i));
-            //System.out.println(route.get(i));
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-
+                truck.setCurrentLocation(route.get(i));
+                neighborhood.displayNeighborhood(truck);
             }
-        }
 
-    }
+        }
 }
 
         /*

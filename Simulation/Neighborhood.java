@@ -21,24 +21,33 @@ public class Neighborhood {
 
     public static final int ROWS             = 201;
     public static final int COLS             = 201;
-    public static final String FILENAME      = "RandomAddresses.txt";
-    public static final String ORDERED_FILE  = "AddressesByTime.txt";
+    public static final String FILENAME = "RandomAddresses.txt";
+    public static final String ORDERED_FILE = "AddressesByTime.txt";
 
-    static final int HEIGHT = 782, WIDTH = 761;
-    public static final int CELL_WIDTH   = 800 / 201;
-    public static final int CELL_HEIGHT  = 800 / 201;
+    //static final int HEIGHT = 782, WIDTH = 761;
+    public static final int CELL_WIDTH  = NeighborhoodGUI.FRAME_WIDTH  / 201;
+    public static final int CELL_HEIGHT = NeighborhoodGUI.FRAME_HEIGHT / 201;
 
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
     public PriorityQueue<Address> queueOfAddresses;  // random deliveries
     ArrayList<String>             deliveryTimes;     // random delivery times
 
-    public Neighborhood() {
+    public int numberOfHousesOnStreet;
+    public int numberOfStreets;
+
+    public Neighborhood(int numberOfStreets) {
 
         this.addresses        = new ArrayList<>();
         this.queueOfAddresses = new PriorityQueue<>(100);
         this.deliveryTimes    = new ArrayList<>();
 
+        this.numberOfStreets        = numberOfStreets;
+        this.numberOfHousesOnStreet = numberOfStreets * 10 + 1;
 
+    }
+
+    public int getNumberOfHousesOnStreet() {
+        return numberOfHousesOnStreet;
     }
 
     //method that will generate the random addresses to be put in the file
@@ -155,13 +164,17 @@ public class Neighborhood {
 
 
     // getter to receive the queue of addresses
-
     public PriorityQueue<Address> getQueueOfAddresses() {
         return queueOfAddresses;
     }
 
-    // method that will display the simulation of the neighborhood: draws neighborhood, houses with current orders, and movement of the truck.
-    public static void drawNeighborhood(PriorityQueue<Address> addresses, Address truckLocation)
+    public void displayNeighborhood(Truck truck){
+        new NeighborhoodGUI(truck, this);
+    }
+}
+
+// method that will display the simulation of the neighborhood: draws neighborhood, houses with current orders, and movement of the truck.
+    /*public static void drawNeighborhood(PriorityQueue<Address> addresses, Address truckLocation)
     {
         JFrame neighborhood = new JFrame();
         JPanel canvas = new JPanel() {
@@ -222,5 +235,4 @@ public class Neighborhood {
         neighborhood.setSize(WIDTH, HEIGHT);
         neighborhood.setLocationRelativeTo(null); // center on screen
         neighborhood.setVisible(true);
-    }
-}
+    }*/
