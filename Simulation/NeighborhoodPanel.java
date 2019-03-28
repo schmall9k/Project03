@@ -3,6 +3,7 @@ package Simulation;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.IOException;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
@@ -27,9 +28,12 @@ public class NeighborhoodPanel extends JPanel{
     public void paint(Graphics g) {
         drawDistCenter(g);
         drawHouses(g);
+        try {
+            drawHousesWithOrders(g);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         drawTruckLocation(g);
-        drawHousesWithOrders(g);
-
     }
 
     public void drawHouses(Graphics g){
@@ -52,7 +56,6 @@ public class NeighborhoodPanel extends JPanel{
     public void drawDistCenter(Graphics g){
         g.setColor(Color.GREEN);
         g.fillRect(90 * Neighborhood.CELL_WIDTH, 91 * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
-        g.fillRect(100 * Neighborhood.CELL_WIDTH, 111 * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
     }
 
     public void drawTruckLocation(Graphics g){
@@ -67,9 +70,9 @@ public class NeighborhoodPanel extends JPanel{
             g.fillOval(houseNumber * Neighborhood.CELL_WIDTH, streetNumber * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
     }
 
-    public void drawHousesWithOrders(Graphics g){
+    public void drawHousesWithOrders(Graphics g) throws IOException {
         g.setColor(Color.RED);
-        Iterator<Address> iterator = neighborhood.getQueueOfAddresses().iterator();
+        Iterator<Address> iterator = neighborhood.getSortedDeliveries().iterator();
         while (iterator.hasNext())
         {
             Address address = iterator.next();

@@ -24,7 +24,8 @@ public class NeighborhoodGUI extends JFrame {
         setVisible(true);
 
         try {
-            Thread.sleep(500);
+            repaint();
+            Thread.sleep(100);
         } catch (InterruptedException ex) {
 
         }

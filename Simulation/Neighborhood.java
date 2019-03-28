@@ -22,7 +22,6 @@ public class Neighborhood {
     public static final int ROWS             = 201;
     public static final int COLS             = 201;
     public static final String FILENAME = "RandomAddresses.txt";
-    public static final String ORDERED_FILE = "AddressesByTime.txt";
 
     //static final int HEIGHT = 782, WIDTH = 761;
     public static final int CELL_WIDTH  = NeighborhoodGUI.FRAME_WIDTH  / 201;
@@ -31,6 +30,7 @@ public class Neighborhood {
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
     public PriorityQueue<Address> queueOfAddresses;  // random deliveries
     ArrayList<String>             deliveryTimes;     // random delivery times
+    public ArrayList<Address>     sortedDeliveries;
 
     public int numberOfHousesOnStreet;
     public int numberOfStreets;
@@ -40,6 +40,7 @@ public class Neighborhood {
         this.addresses        = new ArrayList<>();
         this.queueOfAddresses = new PriorityQueue<>(100);
         this.deliveryTimes    = new ArrayList<>();
+        this.sortedDeliveries = new ArrayList<>();
 
         this.numberOfStreets        = numberOfStreets;
         this.numberOfHousesOnStreet = numberOfStreets * 10 + 1;
@@ -127,14 +128,11 @@ public class Neighborhood {
         out.close();
     }
 
-    // method that will write addresses of orders to the file IN ORDER of order time
-    public void writeAddressesInOrderToFile() throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
-        while(!queueOfAddresses.isEmpty()) {
-            out.write(queueOfAddresses.poll().toString());
-            out.write("\n");
+    public ArrayList<Address> getSortedDeliveries() throws IOException {
+        while (!queueOfAddresses.isEmpty()){
+            sortedDeliveries.add(queueOfAddresses.poll());
         }
-        out.close();
+        return sortedDeliveries;
     }
 
     // method that will generate the queue from reading the file of random addresses
@@ -235,4 +233,16 @@ public class Neighborhood {
         neighborhood.setSize(WIDTH, HEIGHT);
         neighborhood.setLocationRelativeTo(null); // center on screen
         neighborhood.setVisible(true);
+    }*/
+
+
+    /* method that will write addresses of orders to the file IN ORDER of order time
+    public void writeAddressesInOrderToFile() throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
+        while(!queueOfAddresses.isEmpty()) {
+            sortedDeliveries.add(queueOfAddresses.poll());
+            out.write(queueOfAddresses.poll().toString());
+            out.write("\n");
+        }
+        out.close();
     }*/
