@@ -28,8 +28,10 @@ public class Main {
         neighborhood.writeAddressesToFile();
         neighborhood.createQueue();
 
+        Route trucksRoute = new OriginalRoute();
+
         // create Truck
-        Truck truck = new Truck(distCenter);
+        Truck truck = new Truck(distCenter, trucksRoute);
 
         // Give the truck an established route
         truck.route = new OriginalRoute();

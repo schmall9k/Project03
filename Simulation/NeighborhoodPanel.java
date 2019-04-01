@@ -99,14 +99,15 @@ public class NeighborhoodPanel extends JPanel{
         Address start = truck.getCurrentLocation();
 
         for (int i = 0; i < listOfDeliveries.size(); i++){
-            ArrayList<Address> route = truck.calculateRoute(start, listOfDeliveries.get(i));
+            truck.getRoute().calculateRoute(start, listOfDeliveries.get(i));
+            ArrayList<Address> route = truck.getRoute().getListOfTruckLocations();
             for (int j = 0; j < route.size(); j++){
                 truck.setCurrentLocation(route.get(j));
                 drawTruckLocation(g, route.get(j));
                 update();
                 start = truck.getCurrentLocation();
             }
-            truck.clearListOfLocations();
+            truck.getRoute().clearListOfLocations();
         }
     }
 
