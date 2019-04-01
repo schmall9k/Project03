@@ -11,8 +11,8 @@ import Simulation.Truck;
 
 public class NeighborhoodGUI extends JFrame {
 
-    public static final int FRAME_WIDTH  = 1000;
-    public static final int FRAME_HEIGHT = 1000;
+    public static final int FRAME_WIDTH  = 800;
+    public static final int FRAME_HEIGHT = 800;
 
     public NeighborhoodGUI(Truck truck, Neighborhood neighborhood) {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -24,9 +24,8 @@ public class NeighborhoodGUI extends JFrame {
         setVisible(true);
 
         try {
-            repaint();
-            Thread.sleep(100);
-        } catch (InterruptedException ex) {
+            Thread.sleep(200);
+        } catch (Exception ex) {
 
         }
     }

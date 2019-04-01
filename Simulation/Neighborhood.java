@@ -19,36 +19,59 @@ import java.util.List;
 
 public class Neighborhood {
 
-    public static final int ROWS             = 201;
-    public static final int COLS             = 201;
+    //public static final int ROWS             = 201;
+    //public static final int COLS             = 201;
     public static final String FILENAME = "RandomAddresses.txt";
+    public static final String ORDERED_FILE = "AddressesByOrder.txt";
+
 
     //static final int HEIGHT = 782, WIDTH = 761;
-    public static final int CELL_WIDTH  = NeighborhoodGUI.FRAME_WIDTH  / 201;
-    public static final int CELL_HEIGHT = NeighborhoodGUI.FRAME_HEIGHT / 201;
+    //public static final int CELL_WIDTH  = NeighborhoodGUI.FRAME_WIDTH  / 201;
+    //public static final int CELL_HEIGHT = NeighborhoodGUI.FRAME_HEIGHT / 201;
 
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
     public PriorityQueue<Address> queueOfAddresses;  // random deliveries
-    ArrayList<String>             deliveryTimes;     // random delivery times
+    public ArrayList<String>      deliveryTimes;     // random delivery times
     public ArrayList<Address>     sortedDeliveries;
+    public Address                distCenter;
 
     public int numberOfHousesOnStreet;
     public int numberOfStreets;
+    public int cellWidth;
+    public int CellHeight;
 
-    public Neighborhood(int numberOfStreets) {
+    public Neighborhood(int numberOfStreets, Address distCenter) {
 
         this.addresses        = new ArrayList<>();
         this.queueOfAddresses = new PriorityQueue<>(100);
         this.deliveryTimes    = new ArrayList<>();
         this.sortedDeliveries = new ArrayList<>();
+        this.distCenter       = distCenter;
+
 
         this.numberOfStreets        = numberOfStreets;
         this.numberOfHousesOnStreet = numberOfStreets * 10 + 1;
+
+        this.cellWidth     = NeighborhoodGUI.FRAME_WIDTH  / numberOfHousesOnStreet;
+        this.CellHeight    = NeighborhoodGUI.FRAME_HEIGHT / numberOfHousesOnStreet;
+
 
     }
 
     public int getNumberOfHousesOnStreet() {
         return numberOfHousesOnStreet;
+    }
+
+    public int getCellWidth() {
+        return cellWidth;
+    }
+
+    public int getCellHeight() {
+        return CellHeight;
+    }
+
+    public Address getDistCenter() {
+        return distCenter;
     }
 
     //method that will generate the random addresses to be put in the file
@@ -57,10 +80,16 @@ public class Neighborhood {
 
             // random house number
             String result = "";
-            int range = 2000 - 10 + 1;
+            int range = (numberOfStreets * 100) - 10 + 1;
             int firstRand = new Random().nextInt(range) + 10;
+            while (firstRand % 100 == 0){
+                firstRand = new Random().nextInt(range) + 10;
+            }
             firstRand = firstRand / 10;
-            result = Integer.toString(firstRand) + "0";
+            if (firstRand % 10 == 0)
+                result = Integer.toString(firstRand);
+            else
+                result = Integer.toString(firstRand) + "0";
             firstRand = Integer.parseInt(result);
 
             // random direction
@@ -72,7 +101,7 @@ public class Neighborhood {
                 direction += "East";
 
             // random street number
-            int thirdRand = new Random().nextInt(20);
+            int thirdRand = new Random().nextInt(numberOfStreets);
 
 
             // generate random delivery time
@@ -128,6 +157,16 @@ public class Neighborhood {
         out.close();
     }
 
+    public void writeAddressesInOrderToFile() throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
+        while(!queueOfAddresses.isEmpty()) {
+            sortedDeliveries.add(queueOfAddresses.poll());
+            out.write(queueOfAddresses.poll().toString());
+            out.write("\n");
+        }
+        out.close();
+    }
+
     public ArrayList<Address> getSortedDeliveries() throws IOException {
         while (!queueOfAddresses.isEmpty()){
             sortedDeliveries.add(queueOfAddresses.poll());
@@ -160,6 +199,20 @@ public class Neighborhood {
 
     }
 
+    // method that will calculate the distance of the route, in units
+    public int calculateTrucksRouteDistance(Truck truck){
+        int totalDistance = 0;
+
+        Address truckLocation = truck.getCurrentLocation();
+
+        for (int i = 0; i < sortedDeliveries.size(); i++) {
+            Address houseLocation = sortedDeliveries.get(i);
+            totalDistance += houseLocation.calculateDistanceFromLocation(truckLocation);
+            truckLocation = houseLocation;
+
+        }
+        return totalDistance;
+    }
 
     // getter to receive the queue of addresses
     public PriorityQueue<Address> getQueueOfAddresses() {

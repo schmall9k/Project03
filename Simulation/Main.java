@@ -20,20 +20,22 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Neighborhood neighborhood = new Neighborhood(20);
+        Address distCenter = new Address(510,"East",5,"","");
+
+        Neighborhood neighborhood = new Neighborhood(10, distCenter);
 
         neighborhood.createRandomAddresses();
         neighborhood.writeAddressesToFile();
         neighborhood.createQueue();
 
         // create Truck
-        Truck truck = new Truck();
+        Truck truck = new Truck(distCenter);
 
         // Give the truck an established route
         truck.route = new OriginalRoute();
 
-        /*
-        neighborhood.displayNeighborhood(truck);
+
+        //neighborhood.displayNeighborhood(truck);
 
         ArrayList<Address> listOfDeliveries = neighborhood.getSortedDeliveries();
         Address start = truck.getCurrentLocation();
@@ -47,7 +49,7 @@ public class Main {
                 start = truck.getCurrentLocation();
             }
             truck.route.clearListOfLocations();
-        }*/
+        }
 
 
         /*

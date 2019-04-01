@@ -3,10 +3,13 @@ package Simulation;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class NeighborhoodPanel extends JPanel{
     private Truck truck;
@@ -24,6 +27,7 @@ public class NeighborhoodPanel extends JPanel{
         super.setSize(x, x);
     }
 
+
     @Override
     public void paint(Graphics g) {
         drawDistCenter(g);
@@ -33,7 +37,9 @@ public class NeighborhoodPanel extends JPanel{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         drawTruckLocation(g);
+
     }
 
     public void drawHouses(Graphics g){
@@ -42,11 +48,11 @@ public class NeighborhoodPanel extends JPanel{
             for (int y = 0; y < width; y++) {
                 if (x % 10 == 0) {
                     if (y % 10 != 0)
-                        g.drawRect(x * Neighborhood.CELL_WIDTH, y * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
+                        g.drawRect(x * neighborhood.getCellWidth(), y * neighborhood.getCellHeight(), neighborhood.getCellWidth(), neighborhood.getCellHeight());
                 }
                 if (x % 10 != 0) {
                     if (y % 10 == 0)
-                        g.drawRect(x * Neighborhood.CELL_WIDTH, y * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
+                        g.drawRect(x * neighborhood.getCellWidth(), y * neighborhood.getCellHeight(), neighborhood.getCellWidth(), neighborhood.getCellHeight());
 
                 }
             }
@@ -55,20 +61,15 @@ public class NeighborhoodPanel extends JPanel{
 
     public void drawDistCenter(Graphics g){
         g.setColor(Color.GREEN);
-        g.fillRect(90 * Neighborhood.CELL_WIDTH, 91 * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
+        drawALocation(g, neighborhood.getDistCenter());
     }
 
     public void drawTruckLocation(Graphics g){
         g.setColor(Color.BLUE);
         Address truckLocation = truck.getCurrentLocation();
-        int houseNumber = truckLocation.getHouseNumber() / 10;
-        int streetNumber = truckLocation.getStreetNumber() * 10;
-
-        if (truckLocation.getDirection().equals("South"))
-            g.fillOval(streetNumber * Neighborhood.CELL_WIDTH, houseNumber * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
-        else
-            g.fillOval(houseNumber * Neighborhood.CELL_WIDTH, streetNumber * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
+        drawALocation(g,truckLocation);
     }
+
 
     public void drawHousesWithOrders(Graphics g) throws IOException {
         g.setColor(Color.RED);
@@ -76,15 +77,52 @@ public class NeighborhoodPanel extends JPanel{
         while (iterator.hasNext())
         {
             Address address = iterator.next();
-            int houseNumber = address.getHouseNumber() / 10;
-            int streetNumber = address.getStreetNumber() * 10;
-
-
-            if (address.getDirection().equals("South"))
-                g.fillRect(streetNumber * Neighborhood.CELL_WIDTH, houseNumber * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
-            else
-                g.fillRect(houseNumber * Neighborhood.CELL_WIDTH, streetNumber * Neighborhood.CELL_HEIGHT, Neighborhood.CELL_WIDTH, Neighborhood.CELL_HEIGHT);
+            drawALocation(g,address);
         }
+    }
 
+
+    private void drawALocation(Graphics g, Address location){
+
+        int houseNumber = location.getHouseNumber() / 10;
+        int streetNumber = location.getStreetNumber() * 10;
+
+        if (location.getDirection().equals("South"))
+            g.fillOval(streetNumber * neighborhood.getCellWidth(), houseNumber * neighborhood.getCellHeight(), neighborhood.getCellWidth(), neighborhood.getCellHeight());
+        else
+            g.fillOval(houseNumber * neighborhood.getCellWidth(), streetNumber * neighborhood.getCellHeight(), neighborhood.getCellWidth(), neighborhood.getCellHeight());
+
+    }
+
+    /*public void drawRoute(Graphics g) throws IOException {
+        ArrayList<Address> listOfDeliveries = neighborhood.getSortedDeliveries();
+        Address start = truck.getCurrentLocation();
+
+        for (int i = 0; i < listOfDeliveries.size(); i++){
+            ArrayList<Address> route = truck.calculateRoute(start, listOfDeliveries.get(i));
+            for (int j = 0; j < route.size(); j++){
+                truck.setCurrentLocation(route.get(j));
+                drawTruckLocation(g, route.get(j));
+                update();
+                start = truck.getCurrentLocation();
+            }
+            truck.clearListOfLocations();
+        }
+    }
+
+    public void update(){
+        Timer repaintTimer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+
+        repaintTimer.setDelay(1000);
+        repaintTimer.start();
+    }*/
+
+    public void drawTruckLocation(Graphics g, Address truckLocation){
+        g.setColor(Color.BLUE);
+        drawALocation(g, truckLocation);
     }
 }

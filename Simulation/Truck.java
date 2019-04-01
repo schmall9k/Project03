@@ -26,13 +26,9 @@ public class Truck {
     public Address      currentLocation;      // truck's current location (starts at dist. center)
     public Route        route;                // truck's route that it will travel to make deliveries
 
-    public Truck() {
+    public Truck(Address startingLocation) {
 
-        this.currentLocation      = new Address(910,"South",9,"","");
-    }
-
-    public Truck(Address currentLocation) {
-        this.currentLocation = currentLocation;
+        this.currentLocation      = startingLocation;
     }
 
     public Address getCurrentLocation() {

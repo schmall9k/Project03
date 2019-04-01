@@ -176,28 +176,4 @@ public class Route
         return cost;
     }
 
-    // method that will calculate the distance of the route, in units
-    public int calculateRouteDistance() throws IOException {
-        int totalDistance = 0;
-        Address truckLocation = new Address(DISTRIBUTION_HOUSE_NUM, DISTRIBUTION_DIRECTION, DISTRIBUTION_STREET_NUM, DISTRIBUTION_TIME1, DISTRIBUTION_TIME2);
-        Address dist = new Address(DISTRIBUTION_HOUSE_NUM, DISTRIBUTION_DIRECTION, DISTRIBUTION_STREET_NUM, DISTRIBUTION_TIME1, DISTRIBUTION_TIME2);
-        BufferedReader reader = new BufferedReader(new FileReader("AddressesByTime.txt"));
-        String currentLine;
-        String[] line;
-        while((currentLine = reader.readLine()) != null) {
-            line = currentLine.split(" ");
-            Address houseLocation = new Address(Integer.parseInt(line[0]), line[1], Integer.parseInt(line[2]), line[4], line[5]);
-
-            totalDistance += houseLocation.calculateDistanceFromLocation(truckLocation);
-            //calculateRoute(truckLocation, houseLocation);
-
-            truckLocation = houseLocation;
-        }
-
-        totalDistance += dist.calculateDistanceFromLocation(truckLocation);
-        reader.close();
-
-        return totalDistance;
-    }
-
 }
