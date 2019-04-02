@@ -8,8 +8,6 @@ Extends Route class and solves for a simple route the Truck follows.
 
 package Simulation;
 
-import java.util.ArrayList;
-
 public class OriginalRoute extends Route
 {
     OriginalRoute()
@@ -22,6 +20,7 @@ public class OriginalRoute extends Route
     public void calculateRoute(Address truckLocation, Address houseLocation) {
 
         listOfTruckLocations.add(truckLocation);
+        routeLength++;
 
         boolean sameDirection = truckLocation.getDirection().equals(houseLocation.getDirection());
         boolean sameStreetNumber = truckLocation.getStreetNumber() == houseLocation.getStreetNumber();
@@ -37,6 +36,8 @@ public class OriginalRoute extends Route
                     tempHouseNum-=10;
                 Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
                 listOfTruckLocations.add(nextLocation);
+                routeLength++;
+
             }
         }
 
@@ -60,9 +61,13 @@ public class OriginalRoute extends Route
                 if (tempHouseNum < closestBlock) {
                     tempHouseNum += 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                    routeLength++;
+
                 } else {
                     tempHouseNum -= 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                    routeLength++;
+
                 }
             }
 
@@ -72,9 +77,13 @@ public class OriginalRoute extends Route
                         if (tempHouseNum < locationBlock) {
                             tempHouseNum += 10;
                             listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                            routeLength++;
+
                         } else {
                             tempHouseNum -= 10;
                             listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                            routeLength++;
+
                         }
                     }
                     if (truckLocation.getStreetNumber() < houseLocation.getStreetNumber()) {
@@ -89,9 +98,13 @@ public class OriginalRoute extends Route
                 if (tempHouseNum < houseLocation.getHouseNumber()) {
                     tempHouseNum += 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, "", ""));
+                    routeLength++;
+
                 } else {
                     tempHouseNum -= 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, "", ""));
+                    routeLength++;
+
                 }
             }
         }
@@ -105,10 +118,14 @@ public class OriginalRoute extends Route
                 if (tempHouseNum < closestBlock){
                     tempHouseNum+=10;
                     listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                    routeLength++;
+
                 }
                 else{
                     tempHouseNum-=10;
                     listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                    routeLength++;
+
                 }
             }
 
@@ -118,10 +135,14 @@ public class OriginalRoute extends Route
                 if (tempHouseNum < houseLocation.getHouseNumber()){
                     tempHouseNum+=10;
                     listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                    routeLength++;
+
                 }
                 else{
                     tempHouseNum-=10;
                     listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                    routeLength++;
+
                 }
             }
         }
@@ -137,9 +158,13 @@ public class OriginalRoute extends Route
                 if (tempHouseNum < locationBlock) {
                     tempHouseNum += 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                    routeLength++;
+
                 } else {
                     tempHouseNum -= 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                    routeLength++;
+
                 }
             }
 
@@ -157,6 +182,8 @@ public class OriginalRoute extends Route
                 }
                 Address nextLocation = new Address(tempHouseNum, switchDirection, houseLocation.getStreetNumber(), "", "");
                 listOfTruckLocations.add(nextLocation);
+                routeLength++;
+
             }
         }
     }

@@ -9,25 +9,16 @@ Neighborhood class that represents the general structure of the neighborhood its
 
 package Simulation;
 
-
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
 public class Neighborhood {
 
-    //public static final int ROWS             = 201;
-    //public static final int COLS             = 201;
-    public static final String FILENAME = "RandomAddresses.txt";
-    public static final String ORDERED_FILE = "AddressesByOrder.txt";
+    public static final String FILENAME      = "RandomAddresses.txt";
+    public static final String ORDERED_FILE  = "AddressesByTime.txt";
+    public static final int NUMBER_OF_ORDERS = 100;
 
-
-    //static final int HEIGHT = 782, WIDTH = 761;
-    //public static final int CELL_WIDTH  = NeighborhoodGUI.FRAME_WIDTH  / 201;
-    //public static final int CELL_HEIGHT = NeighborhoodGUI.FRAME_HEIGHT / 201;
 
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
     public PriorityQueue<Address> queueOfAddresses;  // random deliveries
@@ -43,7 +34,7 @@ public class Neighborhood {
     public Neighborhood(int numberOfStreets, Address distCenter) {
 
         this.addresses        = new ArrayList<>();
-        this.queueOfAddresses = new PriorityQueue<>(100);
+        this.queueOfAddresses = new PriorityQueue<>(NUMBER_OF_ORDERS);
         this.deliveryTimes    = new ArrayList<>();
         this.sortedDeliveries = new ArrayList<>();
         this.distCenter       = distCenter;
@@ -58,25 +49,9 @@ public class Neighborhood {
 
     }
 
-    public int getNumberOfHousesOnStreet() {
-        return numberOfHousesOnStreet;
-    }
-
-    public int getCellWidth() {
-        return cellWidth;
-    }
-
-    public int getCellHeight() {
-        return CellHeight;
-    }
-
-    public Address getDistCenter() {
-        return distCenter;
-    }
-
-    //method that will generate the random addresses to be put in the file
+    // method that will generate the random addresses to be put in the file
     public ArrayList<Address> createRandomAddresses() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < NUMBER_OF_ORDERS; i++) {
 
             // random house number
             String result = "";
@@ -146,34 +121,6 @@ public class Neighborhood {
         return addresses;
     }
 
-    // method that will write above generated random addresses to the file
-    public void writeAddressesToFile() throws IOException{
-        BufferedWriter out = new BufferedWriter(new FileWriter(FILENAME));
-        for (int i = 0; i < addresses.size(); i++) {
-            out.write(addresses.get(i).toString());
-            out.write("\n");
-        }
-
-        out.close();
-    }
-
-    public void writeAddressesInOrderToFile() throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
-        while(!queueOfAddresses.isEmpty()) {
-            sortedDeliveries.add(queueOfAddresses.poll());
-            out.write(queueOfAddresses.poll().toString());
-            out.write("\n");
-        }
-        out.close();
-    }
-
-    public ArrayList<Address> getSortedDeliveries() throws IOException {
-        while (!queueOfAddresses.isEmpty()){
-            sortedDeliveries.add(queueOfAddresses.poll());
-        }
-        return sortedDeliveries;
-    }
-
     // method that will generate the queue from reading the file of random addresses
     public void createQueue() throws IOException {
 
@@ -199,6 +146,42 @@ public class Neighborhood {
 
     }
 
+    // method that will write above generated random addresses to the file
+    public void writeAddressesToFile() throws IOException{
+        BufferedWriter out = new BufferedWriter(new FileWriter(FILENAME));
+        for (int i = 0; i < addresses.size(); i++) {
+            out.write(addresses.get(i).toString());
+            out.write("\n");
+        }
+
+        out.close();
+    }
+
+    // method that will write the generated random addresses to a file in order of the order time
+    public void writeAddressesInOrderToFile() throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
+        while(!queueOfAddresses.isEmpty()) {
+            sortedDeliveries.add(queueOfAddresses.poll());
+            out.write(sortedDeliveries.toString());
+            out.write("\n");
+        }
+        out.close();
+    }
+
+    // method that will place the delivery locations into a sorted array list (easier to work with than a queue)
+    public ArrayList<Address> getSortedDeliveries() {
+        while (!queueOfAddresses.isEmpty()){
+            sortedDeliveries.add(queueOfAddresses.poll());
+        }
+        return sortedDeliveries;
+    }
+
+    // setter that will set the deliveries (used to remove deliveries that are completed)
+    public void setSortedDeliveries(ArrayList<Address> sortedDeliveries){
+        this.sortedDeliveries = sortedDeliveries;
+    }
+
+
     // method that will calculate the distance of the route, in units
     public int calculateTrucksRouteDistance(Truck truck){
         int totalDistance = 0;
@@ -214,88 +197,19 @@ public class Neighborhood {
         return totalDistance;
     }
 
-    // getter to receive the queue of addresses
-    public PriorityQueue<Address> getQueueOfAddresses() {
-        return queueOfAddresses;
+    public int getNumberOfHousesOnStreet() {
+        return numberOfHousesOnStreet;
     }
 
-    public void displayNeighborhood(Truck truck){
-        new NeighborhoodGUI(truck, this);
+    public int getCellWidth() {
+        return cellWidth;
+    }
+
+    public int getCellHeight() {
+        return CellHeight;
+    }
+
+    public Address getDistCenter() {
+        return distCenter;
     }
 }
-
-// method that will display the simulation of the neighborhood: draws neighborhood, houses with current orders, and movement of the truck.
-    /*public static void drawNeighborhood(PriorityQueue<Address> addresses, Address truckLocation)
-    {
-        JFrame neighborhood = new JFrame();
-        JPanel canvas = new JPanel() {
-            public void paintComponent(Graphics g) {
-                //draw houses
-                g.setColor(Color.BLACK);
-                for (int x = 0; x < ROWS; x++) {
-                    for (int y = 0; y < COLS; y++) {
-                        if (x % 10 == 0) {
-                            if (y % 10 != 0)
-                                g.drawRect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-                        }
-                        if (x % 10 != 0) {
-                            if (y % 10 == 0)
-                                g.drawRect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-
-                        }
-                    }
-                }
-
-                //draw distribution center
-                g.setColor(Color.GREEN);
-                g.fillRect(90 * CELL_WIDTH, 91 * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-
-                //draw houses with orders
-                g.setColor(Color.RED);
-                Iterator<Address> iterator = addresses.iterator();
-                while (iterator.hasNext())
-                {
-                    Address address = iterator.next();
-                    int houseNumber = address.getHouseNumber() / 10;
-                    int streetNumber = address.getStreetNumber() * 10;
-
-
-                    if (address.getDirection().equals("South"))
-                        g.fillRect(streetNumber * CELL_WIDTH, houseNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-                    else
-                        g.fillRect(houseNumber * CELL_WIDTH, streetNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-                }
-
-                //draw truck location
-                g.setColor(Color.BLUE);
-                int houseNumber = truckLocation.getHouseNumber() / 10;
-                int streetNumber = truckLocation.getStreetNumber() * 10;
-
-                if (truckLocation.getDirection().equals("South"))
-                    g.fillOval(streetNumber * CELL_WIDTH, houseNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-                else
-                    g.fillOval(houseNumber * CELL_WIDTH, streetNumber * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-            }
-
-        };
-        neighborhood.getContentPane().add(canvas);
-        //neighborhood.revalidate();
-        //neighborhood.repaint();
-        neighborhood.setTitle("Neighborhood");
-        neighborhood.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        neighborhood.setSize(WIDTH, HEIGHT);
-        neighborhood.setLocationRelativeTo(null); // center on screen
-        neighborhood.setVisible(true);
-    }*/
-
-
-    /* method that will write addresses of orders to the file IN ORDER of order time
-    public void writeAddressesInOrderToFile() throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
-        while(!queueOfAddresses.isEmpty()) {
-            sortedDeliveries.add(queueOfAddresses.poll());
-            out.write(queueOfAddresses.poll().toString());
-            out.write("\n");
-        }
-        out.close();
-    }*/

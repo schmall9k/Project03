@@ -3,7 +3,7 @@ Project03 - Sandwich Truck Simulation
 
 Kylie Norwood, Kiersten Schmall, & ELijah Ives
 
-Address class to represent locations of houses and the truck.
+Address class to represent locations of houses, deliveries, and the truck.
 
  */
 
@@ -27,7 +27,7 @@ public class Address implements Comparable<Address> {
         this.streetNumber   = streetNumber;
         this.deliveryTime   = deliveryTime;
         this.deliveryAMorPM = deliveryAMorPM;
-        foodOrder = new Order();
+        foodOrder           = new Order();
     }
 
     public int getHouseNumber() {
@@ -42,22 +42,7 @@ public class Address implements Comparable<Address> {
         return streetNumber;
     }
 
-    public int getDistanceFromTruck() {
-        return distance;
-    }
-
-    public String getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public String getDeliveryAMorPM() {
-        return deliveryAMorPM;
-    }
-
-
-
     // Method that will calculate how many units away a house is from a given location.
-    //SAME DIRECTION DIFFERENT STREET NUMBER, NOT WORKING
     public int calculateDistanceFromLocation(Address location)
     {
         int houseDistance;
@@ -142,7 +127,7 @@ public class Address implements Comparable<Address> {
                 direction + " " + streetNumber + " St., " + deliveryTime + " " + deliveryAMorPM + " " + foodOrder.toString();
     }
 
-    //Currently ordered by order time of the delivery
+    // Currently ordered based on order time of the delivery
     @Override
     public int compareTo(Address address) {
 
@@ -160,10 +145,10 @@ public class Address implements Comparable<Address> {
         int thisMinute = Integer.parseInt(array[1]);
 
         String thisTime = "" + thisHour + String.format("%02d", thisMinute);
-        //System.out.println(thisTime);
 
         String[] addressArray = address.deliveryTime.split(":");
         int addressHour = Integer.parseInt(addressArray[0]);
+
         // converting to address military time for comparison
         if (addressHour != 10 && addressHour != 11 && addressHour != 12)
         {
@@ -172,8 +157,6 @@ public class Address implements Comparable<Address> {
         int addressMinute = Integer.parseInt(addressArray[1]);
 
         String addressTime = "" + addressHour + String.format("%02d", addressMinute);
-        //System.out.println(addressTime);
-
 
         if (Integer.parseInt(thisTime) < Integer.parseInt(addressTime))
         {

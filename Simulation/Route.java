@@ -9,26 +9,19 @@ Route class that is created when Truck is created. Used to calculate possible ro
 
 package Simulation;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class Route
 {
 
-    static int                DISTRIBUTION_HOUSE_NUM  = 910;
-    static String             DISTRIBUTION_DIRECTION  = "south";
-    static int                DISTRIBUTION_STREET_NUM = 9;
-    static String             DISTRIBUTION_TIME1      = "";
-    static String             DISTRIBUTION_TIME2      = "";
-
     public ArrayList<Address> listOfTruckLocations;
+    public int                routeLength;
 
     public Route()
     {
         this.listOfTruckLocations = new ArrayList<>();
+        this.routeLength          = 0;
     }
 
     public ArrayList<Address> getListOfTruckLocations() {
@@ -50,6 +43,7 @@ public class Route
     //  - a left hand turn takes 4 units of time
     //  - time to prepare a food order is 5 units of time
     //  - compute the total length of each route in distance and time
+
     public int costEffectivenessOfRoute(ArrayList<Address> route, PriorityQueue<Address> queueOfAddresses)
     {
         int cost = 0;
@@ -176,4 +170,7 @@ public class Route
         return cost;
     }
 
+    public int getRouteLength() {
+        return routeLength;
+    }
 }

@@ -9,11 +9,9 @@ Order class that takes input from customers.
 
 package Simulation;
 
-import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Order {
 
@@ -22,15 +20,15 @@ public class Order {
     public String drink;
 
     List<String> sandwichOptions = Arrays.asList("Sandwich 1", "Sandwich 2", "Sandwich 3");
-    List<String> chipOptions = Arrays.asList("Chips 1", "Chips 2");
-    List<String> drinkOptions = Arrays.asList("Drink 1", "Drink 2", "Drink 3");
+    List<String> chipOptions     = Arrays.asList("Chips 1", "Chips 2");
+    List<String> drinkOptions    = Arrays.asList("Drink 1", "Drink 2", "Drink 3");
 
     public Order()
     {
         Random rand = new Random();
         this.sandwich = sandwichOptions.get(rand.nextInt(sandwichOptions.size()));
-        this.chips = chipOptions.get(rand.nextInt(chipOptions.size()));
-        this.drink = drinkOptions.get(rand.nextInt(drinkOptions.size()));
+        this.chips    = chipOptions.get(rand.nextInt(chipOptions.size()));
+        this.drink    = drinkOptions.get(rand.nextInt(drinkOptions.size()));
     }
 
     @Override

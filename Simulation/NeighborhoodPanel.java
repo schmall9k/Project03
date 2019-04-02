@@ -2,24 +2,21 @@ package Simulation;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import javax.swing.*;
 
 public class NeighborhoodPanel extends JPanel{
-    private Truck truck;
-    private Neighborhood neighborhood;
-    private int width;
+    private Truck              truck;
+    private Neighborhood       neighborhood;
+    private int                width;
+    private ArrayList<Address> deliveryLocations;
 
-    public NeighborhoodPanel(Truck truck, Neighborhood neighborhood) {
-        this.truck = truck;
-        this.neighborhood = neighborhood;
-        this.width = neighborhood.getNumberOfHousesOnStreet();
+    public NeighborhoodPanel(Truck truck, Neighborhood neighborhood, ArrayList<Address> deliveryLocations){
+        this.truck             = truck;
+        this.neighborhood      = neighborhood;
+        this.deliveryLocations = deliveryLocations;
+        this.width             = neighborhood.getNumberOfHousesOnStreet();
     }
 
     @Override
@@ -28,20 +25,18 @@ public class NeighborhoodPanel extends JPanel{
     }
 
 
+    // displays all graphics for the map
     @Override
     public void paint(Graphics g) {
+
         drawDistCenter(g);
         drawHouses(g);
-        try {
-            drawHousesWithOrders(g);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        drawHousesWithOrders(g, deliveryLocations);
         drawTruckLocation(g);
 
     }
 
+    // displays the houses/blocks/streets in the neighborhood
     public void drawHouses(Graphics g){
         g.setColor(Color.BLACK);
         for (int x = 0; x < width; x++) {
@@ -59,21 +54,29 @@ public class NeighborhoodPanel extends JPanel{
         }
     }
 
+    // displays the distribution center
     public void drawDistCenter(Graphics g){
         g.setColor(Color.GREEN);
         drawALocation(g, neighborhood.getDistCenter());
     }
 
+    // draws the truck's location
     public void drawTruckLocation(Graphics g){
         g.setColor(Color.BLUE);
         Address truckLocation = truck.getCurrentLocation();
         drawALocation(g,truckLocation);
+        if (truckLocation == truck.getCurrentOrder()){
+            g.setColor(Color.white);
+            drawALocation(g, truck.getCurrentOrder());
+        }
     }
 
-
-    public void drawHousesWithOrders(Graphics g) throws IOException {
+    // draws the houses that have current orders. method takes an arrayList of the REMAINING deliveries (handled in main)
+    public void drawHousesWithOrders(Graphics g, ArrayList<Address> deliveryLocations) {
         g.setColor(Color.RED);
-        Iterator<Address> iterator = neighborhood.getSortedDeliveries().iterator();
+        Iterator<Address> iterator = deliveryLocations.iterator();
+        if (truck.getCurrentLocation() == truck.getCurrentOrder())
+            deliveryLocations.remove(truck.getCurrentOrder());
         while (iterator.hasNext())
         {
             Address address = iterator.next();
@@ -82,6 +85,7 @@ public class NeighborhoodPanel extends JPanel{
     }
 
 
+    // a method that will take an address and draw that location onto the display
     private void drawALocation(Graphics g, Address location){
 
         int houseNumber = location.getHouseNumber() / 10;
@@ -92,38 +96,5 @@ public class NeighborhoodPanel extends JPanel{
         else
             g.fillOval(houseNumber * neighborhood.getCellWidth(), streetNumber * neighborhood.getCellHeight(), neighborhood.getCellWidth(), neighborhood.getCellHeight());
 
-    }
-
-    /*public void drawRoute(Graphics g) throws IOException {
-        ArrayList<Address> listOfDeliveries = neighborhood.getSortedDeliveries();
-        Address start = truck.getCurrentLocation();
-
-        for (int i = 0; i < listOfDeliveries.size(); i++){
-            truck.getRoute().calculateRoute(start, listOfDeliveries.get(i));
-            ArrayList<Address> route = truck.getRoute().getListOfTruckLocations();
-            for (int j = 0; j < route.size(); j++){
-                truck.setCurrentLocation(route.get(j));
-                drawTruckLocation(g, route.get(j));
-                update();
-                start = truck.getCurrentLocation();
-            }
-            truck.getRoute().clearListOfLocations();
-        }
-    }
-
-    public void update(){
-        Timer repaintTimer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                repaint();
-            }
-        });
-
-        repaintTimer.setDelay(1000);
-        repaintTimer.start();
-    }*/
-
-    public void drawTruckLocation(Graphics g, Address truckLocation){
-        g.setColor(Color.BLUE);
-        drawALocation(g, truckLocation);
     }
 }
