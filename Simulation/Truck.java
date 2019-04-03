@@ -33,6 +33,10 @@ public class Truck {
         return currentLocation;
     }
 
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
     public Route getRoute() {
         return route;
     }

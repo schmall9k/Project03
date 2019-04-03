@@ -18,7 +18,7 @@ public class NeighborhoodGUI extends JFrame {
     public static final int FRAME_HEIGHT = 800;
 
     private ArrayList<Address> deliveryLocations;
-    NeighborhoodPanel          map;
+    public NeighborhoodPanel   map;
 
     public NeighborhoodGUI(Truck truck, Neighborhood neighborhood) {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);

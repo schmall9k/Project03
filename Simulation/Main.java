@@ -35,7 +35,7 @@ public class Main {
         Truck truck = new Truck(distCenter, trucksRoute);
 
         // Give the truck an established route
-        truck.route = new OriginalRoute();
+        truck.setRoute(new OriginalRoute());
 
         // create GUI display
         NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
@@ -47,6 +47,7 @@ public class Main {
         // runs through list of deliveries, calculates each route, and displays the simulation
         for (int i = 0; i < listOfDeliveries.size(); i++){
             truck.route.calculateRoute(start, listOfDeliveries.get(i));
+            System.out.println(listOfDeliveries.get(i));
             truck.setCurrentOrder(listOfDeliveries.get(i));
             ArrayList<Address> route = truck.route.getListOfTruckLocations();
 
@@ -78,7 +79,9 @@ public class Main {
             truck.route.clearListOfLocations();
         }
 
+        System.out.println("The route's distance was: " + truck.getRoute().getRouteLength());
     }
+
 }
 
         /*

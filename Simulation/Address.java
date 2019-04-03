@@ -30,18 +30,6 @@ public class Address implements Comparable<Address> {
         foodOrder           = new Order();
     }
 
-    public int getHouseNumber() {
-        return houseNumber;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public int getStreetNumber() {
-        return streetNumber;
-    }
-
     // Method that will calculate how many units away a house is from a given location.
     public int calculateDistanceFromLocation(Address location)
     {
@@ -167,6 +155,18 @@ public class Address implements Comparable<Address> {
             return 1;
         }
         return 0;
+    }
+
+    public int getHouseNumber() {
+        return houseNumber;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public int getStreetNumber() {
+        return streetNumber;
     }
 }
 
