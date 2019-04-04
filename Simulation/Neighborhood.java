@@ -16,7 +16,6 @@ import java.util.List;
 public class Neighborhood {
 
     public static final String FILENAME         = "RandomAddresses.txt";
-    public static final String ORDERED_FILE     = "AddressesByTime.txt";
     public static final int    NUMBER_OF_ORDERS = 7;
 
 
@@ -157,17 +156,6 @@ public class Neighborhood {
         out.close();
     }
 
-    // method that will write the generated random addresses to a file in order of the order time
-    public void writeAddressesInOrderToFile() throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
-        while(!queueOfAddresses.isEmpty()) {
-            sortedDeliveries.add(queueOfAddresses.poll());
-            out.write(sortedDeliveries.toString());
-            out.write("\n");
-        }
-        out.close();
-    }
-
     // method that will place the delivery locations into a sorted array list (easier to work with than a queue)
     public ArrayList<Address> getSortedDeliveries() {
         while (!queueOfAddresses.isEmpty()){
@@ -221,3 +209,20 @@ public class Neighborhood {
         this.completedDeliveries = completedDeliveries;
     }
 }
+
+/* don't need anymore, keep just in case.
+
+    public static final String ORDERED_FILE     = "AddressesByTime.txt";
+
+
+    // method that will write the generated random addresses to a file in order of the order time
+    public void writeAddressesInOrderToFile() throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(ORDERED_FILE));
+        while(!queueOfAddresses.isEmpty()) {
+            sortedDeliveries.add(queueOfAddresses.poll());
+            out.write(sortedDeliveries.toString());
+            out.write("\n");
+        }
+        out.close();
+    }
+ */

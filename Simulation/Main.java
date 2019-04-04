@@ -23,10 +23,9 @@ public class Main {
         // declare a neighborhood. give the neighborhood a number of streets and its distribution center
         Neighborhood neighborhood = new Neighborhood(10, distCenter);
 
-        // create random addresses, write them to files, and create the queue
+        // create random addresses, write them to a file, and create the queue
         neighborhood.createRandomAddresses();
         neighborhood.writeAddressesToFile();
-        neighborhood.writeAddressesInOrderToFile();
         neighborhood.createQueue();
 
         // determine what route the truck will use (declare its type)
