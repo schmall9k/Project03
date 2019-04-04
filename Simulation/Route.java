@@ -14,9 +14,18 @@ import java.util.PriorityQueue;
 
 public interface Route
 {
+    // determines the route of the truck
     void calculateRoute(Address truckLocation, Address houseLocation);
+
+    // gets the list of truck locations the truck will "hit" during the route
     ArrayList<Address> getListOfTruckLocations();
+
+    // clears the trucks locations so we can compute the next route the truck will take
     void clearListOfLocations();
+
+    // computes the cost of the truck's route
     int costEffectivenessOfRoute(ArrayList<Address> route, PriorityQueue<Address> queueOfAddresses);
+
+    // determines the length of the truck's route in units
     int getRouteLength();
 }

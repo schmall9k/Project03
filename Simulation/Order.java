@@ -1,7 +1,7 @@
 /*
 Project03 - Sandwich Truck Simulation
 
-Kylie Norwood, Kiersten Schmall, & ELijah Ives
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
 
 Order class that takes input from customers.
 

@@ -1,7 +1,7 @@
 /*
 Project03 - Sandwich Truck Simulation
 
-Kylie Norwood, Kiersten Schmall, & ELijah Ives
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
 
 Address class to represent locations of houses, deliveries, and the truck.
 
@@ -17,7 +17,7 @@ public class Address implements Comparable<Address> {
     public int    distance;
     public String deliveryTime;
     public String deliveryAMorPM;
-    public Order foodOrder;
+    public Order  foodOrder;
 
 
 

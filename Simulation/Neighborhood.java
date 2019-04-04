@@ -1,7 +1,7 @@
 /*
 Project03 - Sandwich Truck Simulation
 
-Kylie Norwood, Kiersten Schmall, & ELijah Ives
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
 
 Neighborhood class that represents the general structure of the neighborhood itself: showing houses, the truck, etc.
 
@@ -17,13 +17,14 @@ public class Neighborhood {
 
     public static final String FILENAME         = "RandomAddresses.txt";
     public static final String ORDERED_FILE     = "AddressesByTime.txt";
-    public static final int    NUMBER_OF_ORDERS = 100;
+    public static final int    NUMBER_OF_ORDERS = 7;
 
 
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
     public PriorityQueue<Address> queueOfAddresses;  // random deliveries
     public ArrayList<String>      deliveryTimes;     // random delivery times
     public ArrayList<Address>     sortedDeliveries;
+    public ArrayList<Address>     completedDeliveries;
     public Address                distCenter;
 
     public int numberOfHousesOnStreet;
@@ -33,16 +34,17 @@ public class Neighborhood {
 
     public Neighborhood(int numberOfStreets, Address distCenter) {
 
-        this.addresses        = new ArrayList<>();
-        this.queueOfAddresses = new PriorityQueue<>(NUMBER_OF_ORDERS);
-        this.deliveryTimes    = new ArrayList<>();
-        this.sortedDeliveries = new ArrayList<>();
-        this.distCenter       = distCenter;
-
+        this.addresses           = new ArrayList<>();
+        this.queueOfAddresses    = new PriorityQueue<>(NUMBER_OF_ORDERS);
+        this.deliveryTimes       = new ArrayList<>();
+        this.sortedDeliveries    = new ArrayList<>();
+        this.completedDeliveries = new ArrayList<>();
+        this.distCenter          = distCenter;
 
         this.numberOfStreets        = numberOfStreets;
         this.numberOfHousesOnStreet = numberOfStreets * 10 + 1;
 
+        // set the size of "cells" or houses
         this.cellWidth     = NeighborhoodGUI.FRAME_WIDTH  / numberOfHousesOnStreet;
         this.CellHeight    = NeighborhoodGUI.FRAME_HEIGHT / numberOfHousesOnStreet;
 
@@ -77,7 +79,6 @@ public class Neighborhood {
 
             // random street number
             int thirdRand = new Random().nextInt(numberOfStreets);
-
 
             // generate random delivery time
             List<Integer> givenListHours = Arrays.asList(1, 2, 3, 4, 5, 6, 10, 11, 12);
@@ -134,14 +135,13 @@ public class Neighborhood {
             int houseNumber = Integer.parseInt(addressArray[0]);
             String direction = addressArray[1];
             int streetNumber = Integer.parseInt(addressArray[2]);
-            String streetLabel = addressArray[3];
+            String streetLabel = addressArray[3]; // don't need
             String deliveryTime = addressArray[4];
             String deliveryAMorPM = addressArray[5];
 
             Address address = new Address(houseNumber, direction, streetNumber, deliveryTime, deliveryAMorPM);
 
             queueOfAddresses.add(address);
-
         }
 
     }
@@ -176,12 +176,6 @@ public class Neighborhood {
         return sortedDeliveries;
     }
 
-    // setter that will set the deliveries (used to remove deliveries that are completed)
-    public void setSortedDeliveries(ArrayList<Address> sortedDeliveries){
-        this.sortedDeliveries = sortedDeliveries;
-    }
-
-
     // method that will calculate the distance of the route, in units
     public int calculateTrucksRouteDistance(Truck truck){
         int totalDistance = 0;
@@ -197,19 +191,33 @@ public class Neighborhood {
         return totalDistance;
     }
 
+    // getter that will return the number of houses on each street in the neighborhood
     public int getNumberOfHousesOnStreet() {
         return numberOfHousesOnStreet;
     }
 
+    // getter that will return the width of each cell in the neighborhood
     public int getCellWidth() {
         return cellWidth;
     }
 
+    // getter that will return the height of each cell in the neighborhood
     public int getCellHeight() {
         return CellHeight;
     }
 
+    // getter that will return the address of the distribution center
     public Address getDistCenter() {
         return distCenter;
+    }
+
+    // getter that will return the deliveries that were completed
+    public ArrayList<Address> getCompletedDeliveries() {
+        return completedDeliveries;
+    }
+
+    // setter that will update the completedDeliveries each time a delivery is completed
+    public void setCompletedDeliveries(ArrayList<Address> completedDeliveries) {
+        this.completedDeliveries = completedDeliveries;
     }
 }

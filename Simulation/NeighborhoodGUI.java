@@ -1,13 +1,14 @@
 /*
 Project03 - Sandwich Truck Simulation
 
-Kylie Norwood, Kiersten Schmall, & ELijah Ives
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
 
 NeighborhoodGUI - general information for the JFrame
 
  */
 package Simulation;
 
+import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
@@ -21,12 +22,15 @@ public class NeighborhoodGUI extends JFrame {
     public NeighborhoodPanel   map;
 
     public NeighborhoodGUI(Truck truck, Neighborhood neighborhood) {
+
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setTitle("Sandwich Truck Simulation");
+        setBackground(Color.white);
         this.deliveryLocations = neighborhood.getSortedDeliveries();
         map = new NeighborhoodPanel(truck, neighborhood, deliveryLocations);
         add(map);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
     }
 }
