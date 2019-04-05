@@ -1,7 +1,0 @@
-320 South 7 St., 3:00 PM Order: Sandwich 1,Chips 2,Drink 1
-670 East 4 St., 10:48 AM Order: Sandwich 1,Chips 1,Drink 2
-80 South 2 St., 11:27 AM Order: Sandwich 3,Chips 1,Drink 3
-580 East 8 St., 3:57 PM Order: Sandwich 2,Chips 2,Drink 2
-690 South 1 St., 5:46 PM Order: Sandwich 1,Chips 1,Drink 1
-630 East 0 St., 3:33 PM Order: Sandwich 3,Chips 2,Drink 1
-120 South 4 St., 10:57 AM Order: Sandwich 1,Chips 1,Drink 3
