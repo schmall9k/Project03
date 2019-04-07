@@ -81,7 +81,7 @@ public class OriginalRoute implements Route
     public void calculateRoute(Address truckLocation, Address houseLocation) {
 
         // truck moving in down direction, but must move up
-        if (directionOfTravel.equals("down") && houseLocation.getHouseNumber() < truckLocation.getHouseNumber())
+        /*if (directionOfTravel.equals("down") && houseLocation.getHouseNumber() < truckLocation.getHouseNumber())
             handleUTurn(truckLocation, houseLocation, directionOfTravel);
 
         // truck moving in up direction, but must move down
@@ -94,7 +94,7 @@ public class OriginalRoute implements Route
 
         // truck moving in left direction, but must move right
         if (directionOfTravel.equals("up") && houseLocation.getHouseNumber() > truckLocation.getHouseNumber())
-            handleUTurn(truckLocation, houseLocation, directionOfTravel);
+            handleUTurn(truckLocation, houseLocation, directionOfTravel);*/
 
         listOfTruckLocations.add(truckLocation);
         routeLength++;
@@ -272,6 +272,9 @@ public class OriginalRoute implements Route
 
         // different directions and different street numbers
         if (!sameDirection && !sameStreetNumber) {
+            //10 South 2 St., 11:00 AM Order: Sandwich 3,Chips 2,Drink 3
+            //560 East 6 St., 11:01 AM Order: Sandwich 2,Chips 2,Drink 1
+
             int locationBlock = houseLocation.getStreetNumber() * 100;
             //int thisBlock     = truckLocation.getStreetNumber() * 100;
             int tempHouseNum = truckLocation.getHouseNumber();
