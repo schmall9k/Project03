@@ -16,7 +16,7 @@ import java.util.List;
 public class Neighborhood {
 
     public static final String FILENAME         = "RandomAddresses.txt";
-    public static final int    NUMBER_OF_ORDERS = 7;
+    public static final int    NUMBER_OF_ORDERS = 100;
 
 
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
