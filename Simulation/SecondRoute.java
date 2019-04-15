@@ -3,6 +3,8 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+// Elijah wrote this class. Elijah looked at Kylie's original route to understand some logic.
+
 public class SecondRoute implements Route{
 
     public ArrayList<Address> listOfTruckLocations = new ArrayList<>();

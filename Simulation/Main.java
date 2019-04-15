@@ -12,6 +12,8 @@ package Simulation;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// Kylie wrote this class.
+
 public class Main {
 
 
@@ -45,6 +47,8 @@ public class Main {
         ArrayList<Address> completedDeliveries = neighborhood.getCompletedDeliveries();
         Address start = truck.getCurrentLocation();
 
+        System.out.println("The truck's route distance is: " + neighborhood.calculateTrucksRouteDistance(truck) + " units.");
+
         // runs through list of deliveries, calculates each route, and displays the simulation
         for (int i = 0; i < listOfDeliveries.size(); i++) {
 
@@ -63,7 +67,7 @@ public class Main {
                 map.revalidate();
                 map.repaint();
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(125);
                 } catch (Exception ex) {
 
                 }
@@ -84,8 +88,6 @@ public class Main {
             //clear list to determine route to next delivery
             truck.route.clearListOfLocations();
         }
-
-        System.out.println("The route's distance was: " + truck.getRoute().getRouteLength());
     }
 }
 
@@ -117,46 +119,44 @@ public class Main {
         USE THIS BLOCK OF CODE TO RUN SIMPLE SIMULATION TO TWO ADDRESSES
 
         ArrayList<Address> listOfDeliveries = new ArrayList<>();
-        Address address1 = new Address(210, "East", 8, "", "");
-        Address address2 = new Address(340, "East", 5, "", "");
+    Address address1 = new Address(650, "East", 5, "", "");
+    Address address2 = new Address(610, "South", 5, "", "");
         listOfDeliveries.add(address1);
         listOfDeliveries.add(address2);
 
-        ArrayList<Address> completedDeliveries = neighborhood.getCompletedDeliveries();
-        Address start = truck.getCurrentLocation();
+    ArrayList<Address> completedDeliveries = neighborhood.getCompletedDeliveries();
+    Address start = truck.getCurrentLocation();
 
-        // runs through list of deliveries, calculates each route, and displays the simulation
+    // runs through list of deliveries, calculates each route, and displays the simulation
         for (int i = 0; i < listOfDeliveries.size(); i++) {
-            truck.getRoute().calculateRoute(start, listOfDeliveries.get(i));
-            System.out.println(listOfDeliveries.get(i));
-            truck.setCurrentOrder(listOfDeliveries.get(i));
-            ArrayList<Address> route = truck.getRoute().getListOfTruckLocations();
+        truck.getRoute().calculateRoute(start, listOfDeliveries.get(i));
+        System.out.println(listOfDeliveries.get(i));
+        ArrayList<Address> route = truck.getRoute().getListOfTruckLocations();
 
-            // loop that will display the truck's movement
-            for (int j = 0; j < route.size(); j++) {
-                truck.setCurrentLocation(route.get(j));
-                map.revalidate();
-                map.repaint();
-                try {
-                    Thread.sleep(200);
-                } catch (Exception ex) {
-
-                }
-
-                // update truck's current location
-                start = truck.getCurrentLocation();
-            }
-
-            // mark an order as completed and make truck pause at house
-            completedDeliveries.add(listOfDeliveries.get(i));
-            neighborhood.setCompletedDeliveries(completedDeliveries);
-
+        // loop that will display the truck's movement
+        for (int j = 0; j < route.size(); j++) {
+            truck.setCurrentLocation(route.get(j));
+            map.revalidate();
+            map.repaint();
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (Exception ex) {
+
             }
 
-            //clear list to determine route to next delivery
-            truck.route.clearListOfLocations();
+            // update truck's current location
+            start = truck.getCurrentLocation();
         }
+
+        // mark an order as completed and make truck pause at house
+        completedDeliveries.add(listOfDeliveries.get(i));
+        neighborhood.setCompletedDeliveries(completedDeliveries);
+
+        try {
+            Thread.sleep(500);
+        } catch (Exception ex) {
+        }
+
+        //clear list to determine route to next delivery
+        truck.route.clearListOfLocations();
     }*/

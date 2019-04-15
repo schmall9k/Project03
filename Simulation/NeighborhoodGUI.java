@@ -12,6 +12,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
+// Kylie completed this class.
+
 public class NeighborhoodGUI extends JFrame {
 
     //  static variables for the size of the window

@@ -11,6 +11,8 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+// Kylie wrote this class. Kylie received advice and some help with logic from Elijah and Kiersten.
+
 public class OriginalRoute implements Route
 {
 
@@ -19,16 +21,16 @@ public class OriginalRoute implements Route
     public String             directionOfTravel    = "";
 
 
-    private void handleUTurn(Address truckLocation, Address houseLocation, String directionOfTravel){
-        int streetNum = truckLocation.getStreetNumber();
+    private void handleUTurn(Address truckLocation, Address houseLocation, String directionOfTravel, boolean sameDirection) {
+        Address currentLocation = truckLocation;
+        int tempStreetNum = truckLocation.getStreetNumber();
         int tempHouseNum = truckLocation.getHouseNumber();
 
-        if (directionOfTravel.equals("up")){
-            while (tempHouseNum % 100 != 0){
+        if (directionOfTravel.equals("up") || directionOfTravel.equals("left")) {
+            while (tempHouseNum % 100 != 0) {
                 tempHouseNum -= 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, "", ""));
+                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
             }
-
 
             // switch direction
             String switchDirection;
@@ -37,64 +39,192 @@ public class OriginalRoute implements Route
             else
                 switchDirection = "South";
 
-            if (streetNum < houseLocation.getStreetNumber()){
-                tempHouseNum -= 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, "", ""));
-                while (tempHouseNum % 100 != 0){
+            int directionChangeBlock = tempStreetNum * 100;
+            int directionChangeStreet = tempHouseNum / 100;
+
+            tempHouseNum = directionChangeBlock;
+            tempStreetNum = directionChangeStreet;
+
+            listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+
+            if (sameDirection) {
+                if (tempStreetNum < houseLocation.getStreetNumber()) {
+                    tempHouseNum += 10;
+                    while (tempHouseNum % 100 != 0) {
+                        tempHouseNum += 10;
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        listOfTruckLocations.add(currentLocation);
+                    }
+                }
+                else {
                     tempHouseNum -= 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, "", ""));
+                    while (tempHouseNum % 100 != 0) {
+                        tempHouseNum -= 10;
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        listOfTruckLocations.add(currentLocation);
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        listOfTruckLocations.add(currentLocation);
+                    }
+                }
+
+                System.out.println(currentLocation);
+                System.out.println(tempHouseNum  + " "+ tempStreetNum);
+
+            }
+
+            else {
+                if (tempHouseNum < houseLocation.getHouseNumber()) {
+                    tempHouseNum += 10;
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    while (tempHouseNum % 100 != 0) {
+                        tempHouseNum += 10;
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        listOfTruckLocations.add(currentLocation);                    }
+                } else {
+                    tempHouseNum -= 10;
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    while (tempHouseNum % 100 != 0) {
+                        tempHouseNum -= 10;
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        listOfTruckLocations.add(currentLocation);
+                    }
+                }
+            }
+
+            directionChangeBlock = tempStreetNum * 100;
+            directionChangeStreet = tempHouseNum / 100;
+
+            tempHouseNum = directionChangeBlock;
+            tempStreetNum = directionChangeStreet;
+
+            currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", "");
+            listOfTruckLocations.add(currentLocation);
+
+            //go back down
+            tempHouseNum += 10;
+            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+            while (tempHouseNum % 100 != 0) {
+                tempHouseNum += 10;
+                currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", "");
+                listOfTruckLocations.add(currentLocation);
+
+            }
+        }
+
+        else if(directionOfTravel.equals("down") || directionOfTravel.equals("right")) {
+            while (tempHouseNum % 100 != 0) {
+                tempHouseNum += 10;
+                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+            }
+
+            // switch direction
+            String switchDirection;
+            if (truckLocation.getDirection().equals("South"))
+                switchDirection = "East";
+            else
+                switchDirection = "South";
+
+            int directionChangeBlock = tempStreetNum * 100;
+            int directionChangeStreet = tempHouseNum / 100;
+
+            tempHouseNum = directionChangeBlock;
+            tempStreetNum = directionChangeStreet;
+
+            listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+
+            if (sameDirection){
+                if (tempStreetNum < houseLocation.getStreetNumber()){
+                    tempHouseNum += 10;
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    while (tempHouseNum % 100 != 0){
+                        tempHouseNum += 10;
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    }
+                }
+                else{
+                    tempHouseNum -= 10;
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    while (tempHouseNum % 100 != 0){
+                        tempHouseNum -= 10;
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    }
                 }
             }
 
             else{
-                tempHouseNum += 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, "", ""));
-                while (tempHouseNum % 100 != 0){
+                if (tempHouseNum < houseLocation.getHouseNumber()){
                     tempHouseNum += 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    while (tempHouseNum % 100 != 0){
+                        tempHouseNum += 10;
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    }
+                }
+                else{
+                    tempHouseNum -= 10;
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    while (tempHouseNum % 100 != 0){
+                        tempHouseNum -= 10;
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    }
                 }
             }
 
-            //go back down
-            tempHouseNum += 10;
-            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, "", ""));
+            directionChangeBlock = tempStreetNum * 100;
+            directionChangeStreet = tempHouseNum / 100;
+
+            tempHouseNum = directionChangeBlock;
+            tempStreetNum = directionChangeStreet;
+
+
+            // move back up or back left
+            tempHouseNum -= 10;
+            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+
             while (tempHouseNum % 100 != 0){
-                tempHouseNum += 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, "", ""));
+                tempHouseNum -= 10;
+                currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", "");
+                listOfTruckLocations.add(currentLocation);
             }
+        }
+        calculateRoute(currentLocation, houseLocation);
+    }
 
+    /* Method that determines whether or not the truck must handle a u-turn.
+       CASES: truck moving in down direction, but must move up OR truck moving in up direction, but must move down OR
+       truck moving in right direction, but must move left, OR truck moving in left direction, but must move right
+       *** CASES ARE SLIGHTLY DIFFERENT BASED ON TRUCK AND HOUSE DIRECTION
+     */
+    private Boolean needsToHandleUTurn(boolean sameDirection, int start, int destination){
 
-
+        // if truck and house are in same direction
+        if (sameDirection){
+            if (    directionOfTravel.equals("down")  && start < destination ||
+                    directionOfTravel.equals("up")    && start > destination ||
+                    directionOfTravel.equals("right") && start < destination ||
+                    directionOfTravel.equals("left")  && start > destination ) {
+                System.out.println("handling u turn");
+                return true;
+            }
         }
 
-        else if (directionOfTravel.equals("down")){
+        // truck and house in different directions
+        else if ( directionOfTravel.equals("up")    && start < destination ||
+                  directionOfTravel.equals("down")  && start > destination ||
+                  directionOfTravel.equals("right") && start > destination ||
+                  directionOfTravel.equals("left")  && start < destination) {
+            System.out.println("handling u turn");
+            return true;
         }
 
-        else if (directionOfTravel.equals("right")){}
-
-        else{}
+        return false;
     }
 
     // Following method solves a route the truck can travel to get to a delivery location
     // Each location truck hits is added to an ArrayList<Address>
     @Override
     public void calculateRoute(Address truckLocation, Address houseLocation) {
-
-        // truck moving in down direction, but must move up
-        /*if (directionOfTravel.equals("down") && houseLocation.getHouseNumber() < truckLocation.getHouseNumber())
-            handleUTurn(truckLocation, houseLocation, directionOfTravel);
-
-        // truck moving in up direction, but must move down
-        if (directionOfTravel.equals("up") && houseLocation.getHouseNumber() > truckLocation.getHouseNumber())
-            handleUTurn(truckLocation, houseLocation, directionOfTravel);
-
-        // truck moving in right direction, but must move left
-        if (directionOfTravel.equals("right") && houseLocation.getHouseNumber() < truckLocation.getHouseNumber())
-            handleUTurn(truckLocation, houseLocation, directionOfTravel);
-
-        // truck moving in left direction, but must move right
-        if (directionOfTravel.equals("up") && houseLocation.getHouseNumber() > truckLocation.getHouseNumber())
-            handleUTurn(truckLocation, houseLocation, directionOfTravel);*/
+        System.out.println(directionOfTravel);
 
         listOfTruckLocations.add(truckLocation);
         routeLength++;
@@ -102,233 +232,220 @@ public class OriginalRoute implements Route
         boolean sameDirection = truckLocation.getDirection().equals(houseLocation.getDirection());
         boolean sameStreetNumber = truckLocation.getStreetNumber() == houseLocation.getStreetNumber();
 
-        // if truck and delivery location going in same direction and on the same street, just different house number
-        if (sameDirection && sameStreetNumber) {
-            int tempHouseNum = truckLocation.getHouseNumber();
-            while (houseLocation.getHouseNumber() != tempHouseNum){
-                if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()){
-                    tempHouseNum+=10;
-                    if (houseLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-                }
-                else {
-                    tempHouseNum -= 10;
-                    if (houseLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                }
-                Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
-                listOfTruckLocations.add(nextLocation);
-                routeLength++;
+        // truck location and house location have same direction
+        if (sameDirection){
 
+            // if truck and delivery location going in same direction and on the same street, just different house number
+            if (sameStreetNumber){
+                int tempHouseNum = truckLocation.getHouseNumber();
+                if (needsToHandleUTurn(true, houseLocation.getHouseNumber(), truckLocation.getHouseNumber())) {
+                    handleUTurn(truckLocation, houseLocation, directionOfTravel, true);
+                    return;
+                }
+
+                while (houseLocation.getHouseNumber() != tempHouseNum){
+                    if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()){
+                        tempHouseNum+=10;
+                        getDirectionOftravel(houseLocation.getDirection(), false);
+                    }
+                    else {
+                        tempHouseNum -= 10;
+                        getDirectionOftravel(houseLocation.getDirection(), true);
+                    }
+                    Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
+                    listOfTruckLocations.add(nextLocation);
+                    routeLength++;
+
+                }
+            }
+
+            // if truck and house same direction, but different street number, house number doesn't matter
+            if (!sameStreetNumber){
+                int tempStreetNum = truckLocation.getStreetNumber();
+                int tempHouseNum  = truckLocation.getHouseNumber();
+                int locationBlock = houseLocation.getStreetNumber() * 100;
+                int closestBlock = (tempHouseNum / 100) * 100;
+
+                if (needsToHandleUTurn(true, closestBlock, truckLocation.getHouseNumber())) {
+                    handleUTurn(truckLocation, houseLocation, directionOfTravel, true);
+                    return;
+                }
+
+                while (tempHouseNum != closestBlock) {
+                    if (tempHouseNum < closestBlock) {
+                        tempHouseNum += 10;
+                        getDirectionOftravel(truckLocation.getDirection(), false);
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        routeLength++;
+
+                    } else {
+                        tempHouseNum -= 10;
+                        getDirectionOftravel(truckLocation.getDirection(), true);
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        routeLength++;
+                    }
+                }
+
+                // get switch direction variable
+                String switchDirection;
+                if (houseLocation.getDirection().equals("South"))
+                    switchDirection = "East";
+                else
+                    switchDirection = "South";
+
+
+                // switches direction (turns the truck)
+                int directionChangeBlock = tempStreetNum * 100;
+                int directionChangeStreet = closestBlock / 100;
+
+                tempHouseNum = directionChangeBlock;
+
+                while (tempHouseNum != locationBlock){
+                    if (tempHouseNum < locationBlock) {
+                        tempHouseNum += 10;
+                        getDirectionOftravel(truckLocation.getDirection(), false);
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, "", ""));
+                        routeLength++;
+
+                    } else {
+                        tempHouseNum -= 10;
+                        getDirectionOftravel(truckLocation.getDirection(), true);
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, "", ""));
+                        routeLength++;
+                    }
+                }
+
+                //change tempHouseNum back to "closestBlock", because direction has changed
+                tempHouseNum = closestBlock;
+
+                while (tempHouseNum != houseLocation.getHouseNumber()){
+                    if (tempHouseNum < houseLocation.getHouseNumber()) {
+                        tempHouseNum += 10;
+                        getDirectionOftravel(houseLocation.getDirection(), false);
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), "", ""));
+                        routeLength++;
+
+                    } else {
+                        tempHouseNum -= 10;
+                        getDirectionOftravel(houseLocation.getDirection(), true);
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), "", ""));
+                        routeLength++;
+                    }
+                }
             }
         }
 
-        // if truck and house same direction, but different street number, house number doesn't matter
-         if (sameDirection && !sameStreetNumber) {
-            int tempStreetNum = truckLocation.getStreetNumber();
-            int tempHouseNum  = truckLocation.getHouseNumber();
-            int locationBlock = houseLocation.getStreetNumber() * 100;
-            int closestBlock = (tempHouseNum / 100) * 100;
+        // truck location and house location have different directions
+        else{
+            // directions are different, street number is the same
+            if (sameStreetNumber){
+                int tempHouseNum = truckLocation.getHouseNumber();
+                int closestBlock = truckLocation.getStreetNumber() * 100;
+                if (needsToHandleUTurn(false, truckLocation.getHouseNumber(), closestBlock)) {
+                    handleUTurn(truckLocation, houseLocation, directionOfTravel, false);
+                    return;
+                }
 
-            while (tempHouseNum != closestBlock) {
-                if (tempHouseNum < closestBlock) {
-                    tempHouseNum += 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
-                    routeLength++;
+                while (closestBlock != tempHouseNum){
+                    if (tempHouseNum < closestBlock){
+                        tempHouseNum+=10;
+                        getDirectionOftravel(truckLocation.getDirection(), false);
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        routeLength++;
 
-                } else {
-                    tempHouseNum -= 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
-                    routeLength++;
+                    }
+                    else{
+                        tempHouseNum-=10;
+                        getDirectionOftravel(truckLocation.getDirection(), true);
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        routeLength++;
+
+                    }
+                }
+
+                // switching direction
+
+                while (tempHouseNum != houseLocation.getHouseNumber()){
+                    if (tempHouseNum < houseLocation.getHouseNumber()){
+                        tempHouseNum+=10;
+                        getDirectionOftravel(houseLocation.getDirection(), false);
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        routeLength++;
+
+                    }
+                    else{
+                        tempHouseNum-=10;
+                        getDirectionOftravel(houseLocation.getDirection(), true);
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        routeLength++;
+
+                    }
                 }
             }
 
+            // different directions and different street numbers
+            if (!sameStreetNumber){
+                int locationBlock = houseLocation.getStreetNumber() * 100;
+                //int thisBlock     = truckLocation.getStreetNumber() * 100;
+                int tempHouseNum = truckLocation.getHouseNumber();
+                int tempStreetNum = truckLocation.getStreetNumber();
+                if (needsToHandleUTurn(false, truckLocation.getHouseNumber(), locationBlock)) {
+                    handleUTurn(truckLocation, houseLocation, directionOfTravel, false);
+                    return;
+                }
 
+                while (tempHouseNum != locationBlock) {
+                    if (tempHouseNum < locationBlock) {
+                        tempHouseNum += 10;
+                        getDirectionOftravel(truckLocation.getDirection(), false);
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        routeLength++;
 
-            // get switch direction variable
-            String switchDirection;
-            if (houseLocation.getDirection().equals("South"))
-                switchDirection = "East";
+                    } else {
+                        tempHouseNum -= 10;
+                        getDirectionOftravel(truckLocation.getDirection(), true);
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        routeLength++;
+
+                    }
+                }
+
+                // switch direction
+
+                String switchDirection = houseLocation.getDirection();
+                tempHouseNum = truckLocation.getStreetNumber() * 100;
+
+                while (houseLocation.getHouseNumber() != tempHouseNum) {
+                    if (tempHouseNum < houseLocation.getHouseNumber()) {
+                        tempHouseNum += 10;
+                        getDirectionOftravel(houseLocation.getDirection(),false);
+
+                    } else {
+                        tempHouseNum -= 10;
+                        getDirectionOftravel(houseLocation.getDirection(), true);
+                    }
+                    Address nextLocation = new Address(tempHouseNum, switchDirection, houseLocation.getStreetNumber(), "", "");
+                    listOfTruckLocations.add(nextLocation);
+                    routeLength++;
+                }
+            }
+            listOfTruckLocations.add(houseLocation);
+        }
+    }
+
+    private void getDirectionOftravel(String truckDirection, Boolean houseLocationDecreasing){
+        if (truckDirection.equals("South")){
+            if (houseLocationDecreasing)
+                directionOfTravel = "up";
             else
-                switchDirection = "South";
-
-
-            // switches direction (turns the truck)
-             int directionChangeBlock = tempStreetNum * 100;
-             int directionChangeStreet = closestBlock / 100;
-
-             tempHouseNum = directionChangeBlock;
-
-            while (tempHouseNum != locationBlock){
-                if (tempHouseNum < locationBlock) {
-                    tempHouseNum += 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, "", ""));
-                    routeLength++;
-
-                } else {
-                    tempHouseNum -= 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, "", ""));
-                    routeLength++;
-                }
-            }
-
-            //change tempHouseNum back to "closestBlock", because direction has changed
-             tempHouseNum = closestBlock;
-
-            while (tempHouseNum != houseLocation.getHouseNumber()){
-                if (tempHouseNum < houseLocation.getHouseNumber()) {
-                    tempHouseNum += 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-                    listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), "", ""));
-                    routeLength++;
-
-                } else {
-                    tempHouseNum -= 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                    listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), "", ""));
-                    routeLength++;
-                }
-            }
+                directionOfTravel = "down";
         }
-
-        // directions are different, street number is the same
-        if (!sameDirection && sameStreetNumber){
-            int tempHouseNum = truckLocation.getHouseNumber();
-            int closestBlock = truckLocation.getStreetNumber() * 100;
-            while (closestBlock != tempHouseNum){
-                if (tempHouseNum < closestBlock){
-                    tempHouseNum+=10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
-                    routeLength++;
-
-                }
-                else{
-                    tempHouseNum-=10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
-                    routeLength++;
-
-                }
-            }
-
-            // switching direction
-
-            while (tempHouseNum != houseLocation.getHouseNumber()){
-                if (tempHouseNum < houseLocation.getHouseNumber()){
-                    tempHouseNum+=10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-                    listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
-                    routeLength++;
-
-                }
-                else{
-                    tempHouseNum-=10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                    listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
-                    routeLength++;
-
-                }
-            }
+        else{
+            if (houseLocationDecreasing)
+                directionOfTravel = "left";
+            else
+                directionOfTravel = "right";
         }
-
-        // different directions and different street numbers
-        if (!sameDirection && !sameStreetNumber) {
-            //10 South 2 St., 11:00 AM Order: Sandwich 3,Chips 2,Drink 3
-            //560 East 6 St., 11:01 AM Order: Sandwich 2,Chips 2,Drink 1
-
-            int locationBlock = houseLocation.getStreetNumber() * 100;
-            //int thisBlock     = truckLocation.getStreetNumber() * 100;
-            int tempHouseNum = truckLocation.getHouseNumber();
-            int tempStreetNum = truckLocation.getStreetNumber();
-
-            while (tempHouseNum != locationBlock) {
-                if (tempHouseNum < locationBlock) {
-                    tempHouseNum += 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
-                    routeLength++;
-
-                } else {
-                    tempHouseNum -= 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
-                    routeLength++;
-
-                }
-            }
-
-            // switch direction
-
-            String switchDirection = houseLocation.getDirection();
-            tempHouseNum = truckLocation.getStreetNumber() * 100;
-
-            while (houseLocation.getHouseNumber() != tempHouseNum) {
-                if (tempHouseNum < houseLocation.getHouseNumber()) {
-                    tempHouseNum += 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "down";
-                    else
-                        directionOfTravel = "right";
-
-                } else {
-                    tempHouseNum -= 10;
-                    if (truckLocation.getDirection().equals("South"))
-                        directionOfTravel = "up";
-                    else
-                        directionOfTravel = "left";
-                }
-                Address nextLocation = new Address(tempHouseNum, switchDirection, houseLocation.getStreetNumber(), "", "");
-                listOfTruckLocations.add(nextLocation);
-                routeLength++;
-            }
-        }
-
-        listOfTruckLocations.add(houseLocation);
     }
 
     @Override

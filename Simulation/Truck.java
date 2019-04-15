@@ -9,6 +9,8 @@ Truck class that represents the delivery truck.
 
 package Simulation;
 
+// Kiersten modified to fit strategy pattern, Kylie modified after Route was changed to an interface.
+// Kylie just changed methods so they would be compatible with the interface format.
 public class Truck {
 
     public Address currentLocation;      // truck's current location (starts at dist. center)

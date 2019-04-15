@@ -13,6 +13,9 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
+// Kylie completed methods for random addresses, Kiersten modified in Sprint 2.
+// Elijah completed the truck's route distance method. Kylie and Kiersten made a few adjustments.
+
 public class Neighborhood {
 
     public static final String FILENAME         = "RandomAddresses.txt";
@@ -51,6 +54,7 @@ public class Neighborhood {
     }
 
     // method that will generate the random addresses to be put in the file
+    // Kylie created 100 random addresses in Sprint 1, Kiersten added order times in Sprint 2.
     public ArrayList<Address> createRandomAddresses() {
         for (int i = 0; i < NUMBER_OF_ORDERS; i++) {
 
@@ -122,6 +126,7 @@ public class Neighborhood {
     }
 
     // method that will generate the queue from reading the file of random addresses
+    // Kylie created queue, Kiersten modified in Sprint 2 when order times were added.
     public void createQueue() throws IOException {
 
         File file = new File(FILENAME);
@@ -146,6 +151,7 @@ public class Neighborhood {
     }
 
     // method that will write above generated random addresses to the file
+    // Kylie
     public void writeAddressesToFile() throws IOException{
         BufferedWriter out = new BufferedWriter(new FileWriter(FILENAME));
         for (int i = 0; i < addresses.size(); i++) {
@@ -157,6 +163,7 @@ public class Neighborhood {
     }
 
     // method that will place the delivery locations into a sorted array list (easier to work with than a queue)
+    // Kylie
     public ArrayList<Address> getSortedDeliveries() {
         while (!queueOfAddresses.isEmpty()){
             sortedDeliveries.add(queueOfAddresses.poll());
@@ -165,6 +172,7 @@ public class Neighborhood {
     }
 
     // method that will calculate the distance of the route, in units
+    // Elijah wrote bulk of logic, had some help from Kylie and Kiersten determining which structure to use.
     public int calculateTrucksRouteDistance(Truck truck){
         int totalDistance = 0;
 
@@ -178,6 +186,8 @@ public class Neighborhood {
         }
         return totalDistance;
     }
+
+    // getters and setters by Kylie
 
     // getter that will return the number of houses on each street in the neighborhood
     public int getNumberOfHousesOnStreet() {

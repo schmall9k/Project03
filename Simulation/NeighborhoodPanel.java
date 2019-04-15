@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.*;
 
+// Kylie completed this class.
+
 public class NeighborhoodPanel extends JPanel{
     private Truck              truck;
     private Neighborhood       neighborhood;

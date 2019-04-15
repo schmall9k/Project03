@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+// Kiersten wrote uncommented code section. Elijah wrote the unused commented out section of code that may be needed later.
+
 public class Order {
 
     public String sandwich;
@@ -38,6 +40,7 @@ public class Order {
     }
 
     // Following code was written but not needed
+    // Elijah
     /*
     public void addOrder() {
         System.out.print("What is your order?");

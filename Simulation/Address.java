@@ -9,6 +9,8 @@ Address class to represent locations of houses, deliveries, and the truck.
 
 package Simulation;
 
+// Kiersten wrote this class. Kylie helped with calculateDistanceFrom(locaton) method.
+
 public class Address implements Comparable<Address> {
 
     public int    houseNumber;

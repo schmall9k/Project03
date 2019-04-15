@@ -12,6 +12,8 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+// Kiersten wrote this class, Kylie later modified to an interface.
+
 public interface Route
 {
     // determines the route of the truck
