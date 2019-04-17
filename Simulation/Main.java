@@ -16,31 +16,28 @@ import java.util.ArrayList;
 
 public class Main {
 
+    //GUIDisplay guiDisplay = new GUIDisplay();
+
 
     public static void main(String[] args) throws IOException {
+        Route trucksRoute = new OriginalRoute();
 
-        // declare what address will be the distribution center
-        Address distCenter = new Address(510, "East", 5, "", "");
+        // create Truck
+        Truck truck = new Truck(Neighborhood.DIST_CENTER, trucksRoute);
 
+
+        MonitorDisplay monitorDisplay = new MonitorDisplay();
+        //NEW CODE
+        truck.registerObserver(monitorDisplay);
+
+        // determine what route the truck will use (declare its type)
         // declare a neighborhood. give the neighborhood a number of streets and its distribution center
-        Neighborhood neighborhood = new Neighborhood(10, distCenter);
+        Neighborhood neighborhood = new Neighborhood();
 
         // create random addresses, write them to a file, and create the queue
         neighborhood.createRandomAddresses();
         neighborhood.writeAddressesToFile();
-        neighborhood.createQueue();
-
-        // determine what route the truck will use (declare its type)
-        Route trucksRoute = new OriginalRoute();
-
-        // create Truck
-        Truck truck = new Truck(distCenter, trucksRoute);
-
-        // Give the truck an established route
-        truck.setRoute(new OriginalRoute());
-
-        // create GUI display
-        NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
+        //neighborhood.createQueue();
 
         // access the deliveries and determine truck's starting point
         ArrayList<Address> listOfDeliveries = neighborhood.getSortedDeliveries();
@@ -58,19 +55,25 @@ public class Main {
             // print out next delivery location
             System.out.println(listOfDeliveries.get(i));
 
+            try {
+                Thread.sleep(500);
+            } catch (Exception ex) {
+            }
+
             // get the route (the locations that the truck will follow)
             ArrayList<Address> route = truck.getRoute().getListOfTruckLocations();
 
             // loop that will display the truck's movement
             for (int j = 0; j < route.size(); j++) {
+                //NEW CODE
+                truck.notifyObserver(route.get(j));
                 truck.setCurrentLocation(route.get(j));
-                map.revalidate();
-                map.repaint();
-                try {
-                    Thread.sleep(125);
-                } catch (Exception ex) {
+            }
 
-                }
+            System.out.println("Order completed! Onto the next order... ");
+            try {
+                Thread.sleep(500);
+            } catch (Exception ex) {
             }
 
             // update truck's current location
@@ -80,13 +83,13 @@ public class Main {
             completedDeliveries.add(listOfDeliveries.get(i));
             neighborhood.setCompletedDeliveries(completedDeliveries);
 
+            //clear list to determine route to next delivery
+            truck.route.clearListOfLocations();
+
             try {
                 Thread.sleep(500);
             } catch (Exception ex) {
             }
-
-            //clear list to determine route to next delivery
-            truck.route.clearListOfLocations();
         }
     }
 }
@@ -119,8 +122,8 @@ public class Main {
         USE THIS BLOCK OF CODE TO RUN SIMPLE SIMULATION TO TWO ADDRESSES
 
         ArrayList<Address> listOfDeliveries = new ArrayList<>();
-    Address address1 = new Address(650, "East", 5, "", "");
-    Address address2 = new Address(610, "South", 5, "", "");
+        Address address1 = new Address(650, "East", 5, "", "");
+        Address address2 = new Address(610, "South", 5, "", "");
         listOfDeliveries.add(address1);
         listOfDeliveries.add(address2);
 

@@ -13,23 +13,25 @@ package Simulation;
 
 public class Address implements Comparable<Address> {
 
-    public int    houseNumber;
-    public String direction;
-    public int    streetNumber;
-    public int    distance;
-    public String deliveryTime;
-    public String deliveryAMorPM;
-    public Order  foodOrder;
+    public int     houseNumber;
+    public String  direction;
+    public int     streetNumber;
+    public int     distance;
+    public String  deliveryTime;
+    public String  deliveryAMorPM;
+    public Order   foodOrder;
+    public Boolean isDeliveryLocation;
 
 
 
-    public Address(int houseNumber, String direction, int streetNumber, String deliveryTime, String deliveryAMorPM) {
-        this.houseNumber    = houseNumber;
-        this.direction      = direction;
-        this.streetNumber   = streetNumber;
-        this.deliveryTime   = deliveryTime;
-        this.deliveryAMorPM = deliveryAMorPM;
-        foodOrder           = new Order();
+    public Address(int houseNumber, String direction, int streetNumber, Boolean isDeliveryLocation, String deliveryTime, String deliveryAMorPM) {
+        this.houseNumber        = houseNumber;
+        this.direction          = direction;
+        this.streetNumber       = streetNumber;
+        this.deliveryTime       = deliveryTime;
+        this.deliveryAMorPM     = deliveryAMorPM;
+        this.foodOrder          = new Order();
+        this.isDeliveryLocation = isDeliveryLocation;
     }
 
     // Method that will calculate how many units away a house is from a given location.
@@ -113,8 +115,10 @@ public class Address implements Comparable<Address> {
 
     @Override
     public String toString() {
-        return houseNumber + " " +
-                direction + " " + streetNumber + " St., " + deliveryTime + " " + deliveryAMorPM + " " + foodOrder.toString();
+        if (isDeliveryLocation)
+            return houseNumber + " " + direction + " " + streetNumber + " St., " + deliveryTime + " " + deliveryAMorPM + " " + foodOrder.toString();
+        return houseNumber + " " + direction + " " + streetNumber + " St.";
+
     }
 
     // Currently ordered based on order time of the delivery

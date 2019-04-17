@@ -12,7 +12,7 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-// Kiersten wrote this class, Kylie later modified to an interface.
+// Kiersten wrote this class, Kylie later changed to an interface.
 
 public interface Route
 {

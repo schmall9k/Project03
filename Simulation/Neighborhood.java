@@ -18,8 +18,10 @@ import java.util.List;
 
 public class Neighborhood {
 
-    public static final String FILENAME         = "RandomAddresses.txt";
-    public static final int    NUMBER_OF_ORDERS = 100;
+    public static final String  FILENAME          = "RandomAddresses.txt";
+    public static final int     NUMBER_OF_ORDERS  = 100;
+    public static final int     NUMBER_OR_STREETS = 10;
+    public static final Address DIST_CENTER       = new Address(510, "East", 5, false,"", "");
 
 
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
@@ -28,29 +30,27 @@ public class Neighborhood {
     public ArrayList<Address>     sortedDeliveries;
     public ArrayList<Address>     completedDeliveries;
     public Address                distCenter;
+    public OrderEvents            orderEvents;
 
     public int numberOfHousesOnStreet;
-    public int numberOfStreets;
     public int cellWidth;
     public int CellHeight;
 
-    public Neighborhood(int numberOfStreets, Address distCenter) {
+    public Neighborhood() throws IOException {
 
         this.addresses           = new ArrayList<>();
-        this.queueOfAddresses    = new PriorityQueue<>(NUMBER_OF_ORDERS);
+        this.orderEvents         = OrderEvents.getOrderEventsInstance();
+        this.queueOfAddresses    = orderEvents.getQueueOfAddresses();
         this.deliveryTimes       = new ArrayList<>();
         this.sortedDeliveries    = new ArrayList<>();
         this.completedDeliveries = new ArrayList<>();
-        this.distCenter          = distCenter;
+        this.distCenter          = DIST_CENTER;
 
-        this.numberOfStreets        = numberOfStreets;
-        this.numberOfHousesOnStreet = numberOfStreets * 10 + 1;
+        this.numberOfHousesOnStreet = NUMBER_OR_STREETS * 10 + 1;
 
         // set the size of "cells" or houses
         this.cellWidth     = NeighborhoodGUI.FRAME_WIDTH  / numberOfHousesOnStreet;
         this.CellHeight    = NeighborhoodGUI.FRAME_HEIGHT / numberOfHousesOnStreet;
-
-
     }
 
     // method that will generate the random addresses to be put in the file
@@ -60,7 +60,7 @@ public class Neighborhood {
 
             // random house number
             String result = "";
-            int range = (numberOfStreets * 100) - 10 + 1;
+            int range = (NUMBER_OR_STREETS * 100) - 10 + 1;
             int firstRand = new Random().nextInt(range) + 10;
             while (firstRand % 100 == 0){
                 firstRand = new Random().nextInt(range) + 10;
@@ -81,7 +81,7 @@ public class Neighborhood {
                 direction += "East";
 
             // random street number
-            int thirdRand = new Random().nextInt(numberOfStreets);
+            int thirdRand = new Random().nextInt(NUMBER_OR_STREETS);
 
             // generate random delivery time
             List<Integer> givenListHours = Arrays.asList(1, 2, 3, 4, 5, 6, 10, 11, 12);
@@ -117,37 +117,12 @@ public class Neighborhood {
 
             deliveryTimes.add(time);
 
-            Address address = new Address(firstRand, direction, thirdRand, time, AMorPM);
+            Address address = new Address(firstRand, direction, thirdRand, true,time, AMorPM);
             addresses.add(address);
 
         }
 
         return addresses;
-    }
-
-    // method that will generate the queue from reading the file of random addresses
-    // Kylie created queue, Kiersten modified in Sprint 2 when order times were added.
-    public void createQueue() throws IOException {
-
-        File file = new File(FILENAME);
-        BufferedReader in = new BufferedReader(new FileReader(file));
-
-        String line;
-
-        while ((line = in.readLine()) != null) {
-            String[] addressArray = line.split(" ");
-            int houseNumber = Integer.parseInt(addressArray[0]);
-            String direction = addressArray[1];
-            int streetNumber = Integer.parseInt(addressArray[2]);
-            String streetLabel = addressArray[3]; // don't need
-            String deliveryTime = addressArray[4];
-            String deliveryAMorPM = addressArray[5];
-
-            Address address = new Address(houseNumber, direction, streetNumber, deliveryTime, deliveryAMorPM);
-
-            queueOfAddresses.add(address);
-        }
-
     }
 
     // method that will write above generated random addresses to the file
@@ -219,6 +194,8 @@ public class Neighborhood {
         this.completedDeliveries = completedDeliveries;
     }
 }
+
+
 
 /* don't need anymore, keep just in case.
 

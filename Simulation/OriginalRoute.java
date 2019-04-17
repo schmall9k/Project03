@@ -11,7 +11,8 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-// Kylie wrote this class. Kylie received advice and some help with logic from Elijah and Kiersten.
+// Kylie wrote bulk of this class. Kiersten wrote cost effectiveness method.
+// Kylie received advice and some help with logic from Elijah and Kiersten.
 
 public class OriginalRoute implements Route
 {
@@ -29,7 +30,7 @@ public class OriginalRoute implements Route
         if (directionOfTravel.equals("up") || directionOfTravel.equals("left")) {
             while (tempHouseNum % 100 != 0) {
                 tempHouseNum -= 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
             }
 
             // switch direction
@@ -45,14 +46,14 @@ public class OriginalRoute implements Route
             tempHouseNum = directionChangeBlock;
             tempStreetNum = directionChangeStreet;
 
-            listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+            listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
 
             if (sameDirection) {
                 if (tempStreetNum < houseLocation.getStreetNumber()) {
                     tempHouseNum += 10;
                     while (tempHouseNum % 100 != 0) {
                         tempHouseNum += 10;
-                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "");
                         listOfTruckLocations.add(currentLocation);
                     }
                 }
@@ -60,32 +61,29 @@ public class OriginalRoute implements Route
                     tempHouseNum -= 10;
                     while (tempHouseNum % 100 != 0) {
                         tempHouseNum -= 10;
-                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "");
                         listOfTruckLocations.add(currentLocation);
-                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "");
                         listOfTruckLocations.add(currentLocation);
                     }
                 }
-
-                System.out.println(currentLocation);
-                System.out.println(tempHouseNum  + " "+ tempStreetNum);
 
             }
 
             else {
                 if (tempHouseNum < houseLocation.getHouseNumber()) {
                     tempHouseNum += 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     while (tempHouseNum % 100 != 0) {
                         tempHouseNum += 10;
-                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "");
                         listOfTruckLocations.add(currentLocation);                    }
                 } else {
                     tempHouseNum -= 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     while (tempHouseNum % 100 != 0) {
                         tempHouseNum -= 10;
-                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, "", "");
+                        currentLocation = new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "");
                         listOfTruckLocations.add(currentLocation);
                     }
                 }
@@ -97,15 +95,15 @@ public class OriginalRoute implements Route
             tempHouseNum = directionChangeBlock;
             tempStreetNum = directionChangeStreet;
 
-            currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", "");
+            currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", "");
             listOfTruckLocations.add(currentLocation);
 
             //go back down
             tempHouseNum += 10;
-            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
             while (tempHouseNum % 100 != 0) {
                 tempHouseNum += 10;
-                currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", "");
+                currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", "");
                 listOfTruckLocations.add(currentLocation);
 
             }
@@ -114,7 +112,7 @@ public class OriginalRoute implements Route
         else if(directionOfTravel.equals("down") || directionOfTravel.equals("right")) {
             while (tempHouseNum % 100 != 0) {
                 tempHouseNum += 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
             }
 
             // switch direction
@@ -130,23 +128,23 @@ public class OriginalRoute implements Route
             tempHouseNum = directionChangeBlock;
             tempStreetNum = directionChangeStreet;
 
-            listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+            listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
 
             if (sameDirection){
                 if (tempStreetNum < houseLocation.getStreetNumber()){
                     tempHouseNum += 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     while (tempHouseNum % 100 != 0){
                         tempHouseNum += 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     }
                 }
                 else{
                     tempHouseNum -= 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     while (tempHouseNum % 100 != 0){
                         tempHouseNum -= 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum,false, "", ""));
                     }
                 }
             }
@@ -154,18 +152,18 @@ public class OriginalRoute implements Route
             else{
                 if (tempHouseNum < houseLocation.getHouseNumber()){
                     tempHouseNum += 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     while (tempHouseNum % 100 != 0){
                         tempHouseNum += 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false, "", ""));
                     }
                 }
                 else{
                     tempHouseNum -= 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     while (tempHouseNum % 100 != 0){
                         tempHouseNum -= 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
                     }
                 }
             }
@@ -179,11 +177,11 @@ public class OriginalRoute implements Route
 
             // move back up or back left
             tempHouseNum -= 10;
-            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
 
             while (tempHouseNum % 100 != 0){
                 tempHouseNum -= 10;
-                currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", "");
+                currentLocation = new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false, "", "");
                 listOfTruckLocations.add(currentLocation);
             }
         }
@@ -224,7 +222,6 @@ public class OriginalRoute implements Route
     // Each location truck hits is added to an ArrayList<Address>
     @Override
     public void calculateRoute(Address truckLocation, Address houseLocation) {
-        System.out.println(directionOfTravel);
 
         listOfTruckLocations.add(truckLocation);
         routeLength++;
@@ -252,7 +249,7 @@ public class OriginalRoute implements Route
                         tempHouseNum -= 10;
                         getDirectionOftravel(houseLocation.getDirection(), true);
                     }
-                    Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),"","");
+                    Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),false,"","");
                     listOfTruckLocations.add(nextLocation);
                     routeLength++;
 
@@ -275,13 +272,13 @@ public class OriginalRoute implements Route
                     if (tempHouseNum < closestBlock) {
                         tempHouseNum += 10;
                         getDirectionOftravel(truckLocation.getDirection(), false);
-                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false, "", ""));
                         routeLength++;
 
                     } else {
                         tempHouseNum -= 10;
                         getDirectionOftravel(truckLocation.getDirection(), true);
-                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
                         routeLength++;
                     }
                 }
@@ -304,13 +301,13 @@ public class OriginalRoute implements Route
                     if (tempHouseNum < locationBlock) {
                         tempHouseNum += 10;
                         getDirectionOftravel(truckLocation.getDirection(), false);
-                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, false,"", ""));
                         routeLength++;
 
                     } else {
                         tempHouseNum -= 10;
                         getDirectionOftravel(truckLocation.getDirection(), true);
-                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, directionChangeStreet, false,"", ""));
                         routeLength++;
                     }
                 }
@@ -322,13 +319,13 @@ public class OriginalRoute implements Route
                     if (tempHouseNum < houseLocation.getHouseNumber()) {
                         tempHouseNum += 10;
                         getDirectionOftravel(houseLocation.getDirection(), false);
-                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), false,"", ""));
                         routeLength++;
 
                     } else {
                         tempHouseNum -= 10;
                         getDirectionOftravel(houseLocation.getDirection(), true);
-                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(),false, "", ""));
                         routeLength++;
                     }
                 }
@@ -350,14 +347,14 @@ public class OriginalRoute implements Route
                     if (tempHouseNum < closestBlock){
                         tempHouseNum+=10;
                         getDirectionOftravel(truckLocation.getDirection(), false);
-                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(), false,"",""));
                         routeLength++;
 
                     }
                     else{
                         tempHouseNum-=10;
                         getDirectionOftravel(truckLocation.getDirection(), true);
-                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(), false,"",""));
                         routeLength++;
 
                     }
@@ -369,14 +366,14 @@ public class OriginalRoute implements Route
                     if (tempHouseNum < houseLocation.getHouseNumber()){
                         tempHouseNum+=10;
                         getDirectionOftravel(houseLocation.getDirection(), false);
-                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),false,"",""));
                         routeLength++;
 
                     }
                     else{
                         tempHouseNum-=10;
                         getDirectionOftravel(houseLocation.getDirection(), true);
-                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),"",""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), truckLocation.getStreetNumber(),false,"",""));
                         routeLength++;
 
                     }
@@ -398,13 +395,13 @@ public class OriginalRoute implements Route
                     if (tempHouseNum < locationBlock) {
                         tempHouseNum += 10;
                         getDirectionOftravel(truckLocation.getDirection(), false);
-                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false, "", ""));
                         routeLength++;
 
                     } else {
                         tempHouseNum -= 10;
                         getDirectionOftravel(truckLocation.getDirection(), true);
-                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
                         routeLength++;
 
                     }
@@ -424,7 +421,7 @@ public class OriginalRoute implements Route
                         tempHouseNum -= 10;
                         getDirectionOftravel(houseLocation.getDirection(), true);
                     }
-                    Address nextLocation = new Address(tempHouseNum, switchDirection, houseLocation.getStreetNumber(), "", "");
+                    Address nextLocation = new Address(tempHouseNum, switchDirection, houseLocation.getStreetNumber(), false, "", "");
                     listOfTruckLocations.add(nextLocation);
                     routeLength++;
                 }
