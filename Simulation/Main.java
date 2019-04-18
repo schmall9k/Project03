@@ -16,28 +16,30 @@ import java.util.ArrayList;
 
 public class Main {
 
-    //GUIDisplay guiDisplay = new GUIDisplay();
-
-
     public static void main(String[] args) throws IOException {
+        // determine what route the truck will take
         Route trucksRoute = new OriginalRoute();
 
         // create Truck
         Truck truck = new Truck(Neighborhood.DIST_CENTER, trucksRoute);
 
-
-        MonitorDisplay monitorDisplay = new MonitorDisplay();
-        //NEW CODE
-        truck.registerObserver(monitorDisplay);
-
-        // determine what route the truck will use (declare its type)
         // declare a neighborhood. give the neighborhood a number of streets and its distribution center
         Neighborhood neighborhood = new Neighborhood();
 
-        // create random addresses, write them to a file, and create the queue
+        // create random addresses, write them to a file
         neighborhood.createRandomAddresses();
         neighborhood.writeAddressesToFile();
-        //neighborhood.createQueue();
+
+        // needed for GUI display
+        NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
+
+        // gui display observer
+        GUIDisplay guiDisplay = new GUIDisplay(map);
+        truck.registerObserver(guiDisplay);
+
+        // monitor display observer
+        //MonitorDisplay monitorDisplay = new MonitorDisplay();
+        //truck.registerObserver(monitorDisplay);
 
         // access the deliveries and determine truck's starting point
         ArrayList<Address> listOfDeliveries = neighborhood.getSortedDeliveries();
@@ -55,6 +57,7 @@ public class Main {
             // print out next delivery location
             System.out.println(listOfDeliveries.get(i));
 
+            // pause before listing truck locations
             try {
                 Thread.sleep(500);
             } catch (Exception ex) {
@@ -66,11 +69,13 @@ public class Main {
             // loop that will display the truck's movement
             for (int j = 0; j < route.size(); j++) {
                 //NEW CODE
-                truck.notifyObserver(route.get(j));
                 truck.setCurrentLocation(route.get(j));
+                truck.notifyObserver(route.get(j));
             }
 
             System.out.println("Order completed! Onto the next order... ");
+
+            // pause between orders
             try {
                 Thread.sleep(500);
             } catch (Exception ex) {
@@ -85,11 +90,6 @@ public class Main {
 
             //clear list to determine route to next delivery
             truck.route.clearListOfLocations();
-
-            try {
-                Thread.sleep(500);
-            } catch (Exception ex) {
-            }
         }
     }
 }

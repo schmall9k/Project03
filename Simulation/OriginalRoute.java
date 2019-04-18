@@ -201,7 +201,7 @@ public class OriginalRoute implements Route
                     directionOfTravel.equals("up")    && start > destination ||
                     directionOfTravel.equals("right") && start < destination ||
                     directionOfTravel.equals("left")  && start > destination ) {
-                System.out.println("handling u turn");
+                //System.out.println("handling u turn");
                 return true;
             }
         }
@@ -211,7 +211,7 @@ public class OriginalRoute implements Route
                   directionOfTravel.equals("down")  && start > destination ||
                   directionOfTravel.equals("right") && start > destination ||
                   directionOfTravel.equals("left")  && start < destination) {
-            System.out.println("handling u turn");
+            //System.out.println("handling u turn");
             return true;
         }
 

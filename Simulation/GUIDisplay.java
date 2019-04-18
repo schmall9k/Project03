@@ -1,42 +1,25 @@
 package Simulation;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 // Kylie wrote this class.
 
-/*public class GUIDisplay implements Observer {
-    @Override
-    public void update(Address currentLocation) throws IOException {
+public class GUIDisplay implements Observer {
 
-        // create GUI display
-        NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
-            // loop that will display the truck's movement
-            for (int j = 0; j < route.size(); j++) {
-                truck.setCurrentLocation(route.get(j));
-                map.revalidate();
-                map.repaint();
-                try {
-                    Thread.sleep(125);
-                } catch (Exception ex) {
+    private NeighborhoodGUI map;
 
-                }
-            }
-
-            // update truck's current location
-            start = truck.getCurrentLocation();
-
-            // mark an order as completed and make truck pause at house
-            completedDeliveries.add(listOfDeliveries.get(i));
-            neighborhood.setCompletedDeliveries(completedDeliveries);
-
-            try {
-                Thread.sleep(500);
-            } catch (Exception ex) {
-            }
-
-            //clear list to determine route to next delivery
-            truck.route.clearListOfLocations();
-        }
+    // constructor takes the map in which the display will be updated to
+    public GUIDisplay(NeighborhoodGUI map){
+        this.map = map;
     }
-}*/
+
+    // update method will update the gui based on where the truck is currently located
+    @Override
+    public void update(Address currentLocation) {
+
+        map.revalidate();
+        map.repaint();
+
+        try {
+            Thread.sleep(125);
+        } catch (Exception ex) {}
+    }
+}
