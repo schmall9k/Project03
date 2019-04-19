@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 public class SecondRoute implements Route {
 
     public ArrayList<Address> listOfTruckLocations = new ArrayList<>();
-    public int                routeLength          = 0;
+    public int routeLength = 0;
 
 
     private void handleUTurn(Address truckLocation, Address houseLocation, String directionOfTravel){
@@ -19,7 +19,7 @@ public class SecondRoute implements Route {
         if (directionOfTravel.equals("up")){
             while (tempHouseNum % 100 != 0){
                 tempHouseNum -= 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false,"", ""));
+                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false));
             }
 
 
@@ -32,28 +32,28 @@ public class SecondRoute implements Route {
 
             if (streetNum < houseLocation.getStreetNumber()){
                 tempHouseNum -= 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false,"", ""));
+                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false));
                 while (tempHouseNum % 100 != 0){
                     tempHouseNum -= 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false,"", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false));
                 }
             }
 
             else{
                 tempHouseNum += 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum,false, "", ""));
+                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum,false));
                 while (tempHouseNum % 100 != 0){
                     tempHouseNum += 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false,"", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false));
                 }
             }
 
             //go back down
             tempHouseNum += 10;
-            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false, "", ""));
+            listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false));
             while (tempHouseNum % 100 != 0){
                 tempHouseNum += 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false,"", ""));
+                listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false));
             }
 
 
@@ -74,32 +74,22 @@ public class SecondRoute implements Route {
         String direction = truck.getDirection();
         int houseNumber = truck.getHouseNumber();
 
-        if (direction.equals("South") && houseLocation.getDirection().equals("South"))
-        {
-            if (houseNumber > houseLocation.getHouseNumber())
-            {
+        if (direction.equals("South") && houseLocation.getDirection().equals("South")) {
+            if (houseNumber > houseLocation.getHouseNumber()) {
                 directionTraveling = "up";
-            }
-            else {
+            } else {
                 directionTraveling = "down";
             }
-        }
-        else if (direction.equals("East") && houseLocation.getDirection().equals("East"))
-        {
-            if (houseNumber > houseLocation.getHouseNumber())
-            {
+        } else if (direction.equals("East") && houseLocation.getDirection().equals("East")) {
+            if (houseNumber > houseLocation.getHouseNumber()) {
                 directionTraveling = "left";
-            }
-            else {
+            } else {
                 directionTraveling = "right";
             }
-        }
-        else {
-            if (direction.equals("South"))
-            {
+        } else {
+            if (direction.equals("South")) {
                 directionTraveling = "up";
-            }
-            else {
+            } else {
 
                 directionTraveling = "left";
             }
@@ -110,7 +100,6 @@ public class SecondRoute implements Route {
 
 
 
-    @Override
     public void calculateRoute(Address truckLocation, Address houseLocation) {
 
         boolean sameDirection = truckLocation.getDirection().equals(houseLocation.getDirection());
@@ -119,13 +108,12 @@ public class SecondRoute implements Route {
         // If truck and delivery location going in same direction and on the same street, just different house number
         if (sameDirection && sameStreetNumber) {
             int tempHouseNum = truckLocation.getHouseNumber();
-            while (houseLocation.getHouseNumber() != tempHouseNum){
-                if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()){
-                    tempHouseNum+=10;
-                }
-                else
-                    tempHouseNum-=10;
-                Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), false,"","");
+            while (houseLocation.getHouseNumber() != tempHouseNum) {
+                if (truckLocation.getHouseNumber() < houseLocation.getHouseNumber()) {
+                    tempHouseNum += 10;
+                } else
+                    tempHouseNum -= 10;
+                Address nextLocation = new Address(tempHouseNum, houseLocation.getDirection(), houseLocation.getStreetNumber(), false);
                 listOfTruckLocations.add(nextLocation);
             }
         }
@@ -133,10 +121,11 @@ public class SecondRoute implements Route {
         // If the truck and delivery location are on different streets
         if (sameDirection && !sameStreetNumber) {
             int tempStreetNum = truckLocation.getStreetNumber();
-            int tempHouseNum  = truckLocation.getHouseNumber();
-            int closestBlock  = truckLocation.getStreetNumber() * 100;
+            int tempHouseNum = truckLocation.getHouseNumber();
+            int closestBlock = truckLocation.getStreetNumber() * 100;
             int locationBlock = houseLocation.getStreetNumber() * 100;
-            int temp2 = tempHouseNum;
+            int previousHouse;
+            int targetBlock = houseLocation.getStreetNumber() * 100;
 
             // get switch direction variable
             String switchDirection;
@@ -147,27 +136,26 @@ public class SecondRoute implements Route {
 
             while (tempHouseNum != closestBlock) {
                 if (tempHouseNum < closestBlock) {
-                    temp2 = tempHouseNum;
+                    previousHouse = tempHouseNum;
                     tempHouseNum += 10;
-
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false));
                 } else {
-                    temp2 = tempHouseNum;
+                    previousHouse = tempHouseNum;
                     tempHouseNum -= 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum,false, "", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false));
                 }
 
                 while (tempStreetNum != houseLocation.getStreetNumber()) {
                     if (tempHouseNum % 100 == 0) {
                         while (tempHouseNum != locationBlock) {
                             if (tempHouseNum < locationBlock) {
-                                temp2 = tempHouseNum;
+                                previousHouse = tempHouseNum;
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false, "", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false));
                             } else {
-                                temp2 = tempHouseNum = tempHouseNum;
+                                previousHouse = tempHouseNum;
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, tempStreetNum, false));
                             }
                         }
                         if (truckLocation.getStreetNumber() < houseLocation.getStreetNumber()) {
@@ -178,137 +166,176 @@ public class SecondRoute implements Route {
                     }
                 }
 
-                if (getDirection(new Address(temp2, switchDirection, tempStreetNum, false,"", ""), new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "")) == "up"){
+                if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "up") {
                     while (tempHouseNum != houseLocation.getHouseNumber()) {
                         if (tempHouseNum < houseLocation.getHouseNumber()) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
 
-                        }
-                        else  {
-                            for(int i = 0; i < 10; i++) {
+                        } else {
+                            int newStreet;
+                            int newHouse;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum + 1, false,"", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum,"East", tempStreetNum + 1, false, "", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum,false, "", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum + 1, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                             }
-                            tempHouseNum = closestBlock;
+                            tempHouseNum = targetBlock;
+                            newHouse = tempStreetNum * 100;
                             while (tempHouseNum != houseLocation.getHouseNumber()) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
 
                             }
                         }
                     }
 
                 }
-
-                if (getDirection(new Address(temp2, switchDirection, tempStreetNum, false,"", ""), new Address(tempHouseNum, switchDirection, tempStreetNum,false, "", "")) == "down"){
+                if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "down") {
                     while (tempHouseNum != houseLocation.getHouseNumber()) {
                         if (tempHouseNum > houseLocation.getHouseNumber()) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false, "", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
 
-                        }
-                        else  {
-                            for(int i = 0; i < 10; i++) {
+                        } else {
+                            int newStreet;
+                            int newHouse;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum - 1, false,"", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum,"East", tempStreetNum - 1, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum - 1, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                             }
-                            tempHouseNum = closestBlock;
+                            tempHouseNum = targetBlock;
+                            newHouse = tempStreetNum * 100;
                             while (tempHouseNum != houseLocation.getHouseNumber()) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false, "", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
 
                             }
                         }
                     }
 
                 }
-                if (getDirection(new Address(temp2, switchDirection, tempStreetNum, false,"", ""), new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "")) == "right"){
+                if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "right") {
                     while (tempHouseNum != houseLocation.getHouseNumber()) {
                         if (tempHouseNum > houseLocation.getHouseNumber()) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
 
-                        }
-                        else  {
-                            for(int i = 0; i < 10; i++) {
+                        } else {
+                            int newStreet;
+                            int newHouse;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false,"", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum,"South", tempStreetNum - 1, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false, "", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum + 1, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                             }
-                            tempHouseNum = closestBlock;
+                            tempHouseNum = targetBlock;
+                            newHouse = tempStreetNum * 100;
                             while (tempHouseNum != houseLocation.getHouseNumber()) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
 
                             }
                         }
                     }
 
                 }
-                if (getDirection(new Address(temp2, switchDirection, tempStreetNum, false,"", ""), new Address(tempHouseNum, switchDirection, tempStreetNum, false,"", "")) == "left"){
+                if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "left") {
                     while (tempHouseNum != houseLocation.getHouseNumber()) {
                         if (tempHouseNum < houseLocation.getHouseNumber()) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
 
-                        }
-                        else  {
-                            for(int i = 0; i < 10; i++) {
+                        } else {
+                            int newStreet;
+                            int newHouse;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false,"", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum,"South", tempStreetNum - 1, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum += 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                                listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false));
                             }
-                            for(int i = 0; i < 10; i++) {
+                            newStreet = tempHouseNum / 100;
+                            newHouse = tempStreetNum * 100;
+                            for (int i = 0; i < 10; i++) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false, "", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                             }
-                            tempHouseNum = closestBlock;
+                            tempHouseNum = targetBlock;
+                            newHouse = tempStreetNum * 100;
                             while (tempHouseNum != houseLocation.getHouseNumber()) {
                                 tempHouseNum -= 10;
-                                listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                                newHouse += 10;
+                                listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
 
                             }
                         }
@@ -320,158 +347,197 @@ public class SecondRoute implements Route {
 
 
         // directions are different, street number is the same
-        if (!sameDirection && sameStreetNumber){
+        if (!sameDirection && sameStreetNumber) {
             int tempHouseNum = truckLocation.getHouseNumber();
             int tempStreetNum = truckLocation.getHouseNumber();
-            int closestBlock = truckLocation.getStreetNumber() * 100;
-            int temp2 = tempHouseNum;
-            while (closestBlock != tempHouseNum){
+            int targetBlock = houseLocation.getStreetNumber() * 100;
+            int previousHouse = tempHouseNum;
+            while (targetBlock != tempHouseNum) {
 
-                if (tempHouseNum < closestBlock){
-                    temp2 = tempHouseNum;
-                    tempHouseNum+=10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(), false,"",""));
-                }
-                else{
-                    temp2 = tempHouseNum;
-                    tempHouseNum-=10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(),false,"",""));
+                if (tempHouseNum < targetBlock) {
+                    previousHouse = tempHouseNum;
+                    tempHouseNum += 10;
+                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(), false));
+                } else {
+                    previousHouse = tempHouseNum;
+                    tempHouseNum -= 10;
+                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), truckLocation.getStreetNumber(), false));
                 }
             }
 
             // switching direction
 
 
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false, "", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", "")) == "up"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "up") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum < houseLocation.getHouseNumber()) {
                         tempHouseNum += 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum,false, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum + 1, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"East", tempStreetNum + 1, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum,false, "", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum + 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false, "", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        tempHouseNum = closestBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
 
                         }
                     }
                 }
 
             }
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false,"", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", "")) == "down"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "down") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum > houseLocation.getHouseNumber()) {
                         tempHouseNum -= 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum - 1, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"East", tempStreetNum - 1, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum - 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        tempHouseNum = closestBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
 
                         }
                     }
                 }
 
             }
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false,"", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", "")) == "right"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "right") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum > houseLocation.getHouseNumber()) {
                         tempHouseNum -= 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"South", tempStreetNum - 1, false, "", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum + 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        tempHouseNum = closestBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
 
                         }
                     }
                 }
 
             }
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false,"", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", "")) == "left"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "left") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum < houseLocation.getHouseNumber()) {
                         tempHouseNum += 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"South", tempStreetNum - 1, false, "", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum,false, "", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        tempHouseNum = closestBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
 
                         }
                     }
@@ -484,21 +550,21 @@ public class SecondRoute implements Route {
 
         // different directions and different street numbers
         if (!sameDirection && !sameStreetNumber) {
-            int locationBlock = houseLocation.getStreetNumber() * 100;
+            int targetBlock = houseLocation.getStreetNumber() * 100;
             //int thisBlock     = truckLocation.getStreetNumber() * 100;
             int tempHouseNum = truckLocation.getHouseNumber();
             int tempStreetNum = truckLocation.getStreetNumber();
-            int temp2 = tempHouseNum;
+            int previousHouse = tempHouseNum;
 
-            while (tempHouseNum != locationBlock) {
-                if (tempHouseNum < locationBlock) {
-                    temp2 = tempHouseNum;
+            while (tempHouseNum != targetBlock) {
+                if (tempHouseNum < targetBlock) {
+                    previousHouse = tempHouseNum;
                     tempHouseNum += 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false));
                 } else {
-                    temp2 = tempHouseNum;
+                    previousHouse = tempHouseNum;
                     tempHouseNum -= 10;
-                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", ""));
+                    listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false));
                 }
             }
 
@@ -507,136 +573,176 @@ public class SecondRoute implements Route {
             String switchDirection = houseLocation.getDirection();
             tempHouseNum = truckLocation.getStreetNumber() * 100;
 
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false,"", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false, "", "")) == "up"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "up") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum < houseLocation.getHouseNumber()) {
                         tempHouseNum += 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum + 1, false, "", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"East", tempStreetNum + 1, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum + 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        tempHouseNum = locationBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
 
                         }
                     }
                 }
 
             }
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false,"", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false, "", "")) == "down"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "down") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum > houseLocation.getHouseNumber()) {
                         tempHouseNum -= 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum - 1, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"East", tempStreetNum - 1, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum - 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
                         }
-                        tempHouseNum = locationBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "East", newStreet, false));
 
                         }
                     }
                 }
 
             }
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false,"", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum,false, "", "")) == "right"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "right") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum > houseLocation.getHouseNumber()) {
                         tempHouseNum -= 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum,false, "", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false, "", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"South", tempStreetNum - 1, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"",  ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum + 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        tempHouseNum = locationBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
 
                         }
                     }
                 }
 
             }
-            if (getDirection(new Address(temp2, truckLocation.getDirection(), tempStreetNum, false,"", ""), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false,"", "")) == "left"){
+            if (getDirection(new Address(previousHouse, truckLocation.getDirection(), tempStreetNum, false), new Address(tempHouseNum, truckLocation.getDirection(), tempStreetNum, false)) == "left") {
                 while (tempHouseNum != houseLocation.getHouseNumber()) {
                     if (tempHouseNum < houseLocation.getHouseNumber()) {
                         tempHouseNum += 10;
-                        listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                        listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false));
 
-                    }
-                    else  {
-                        for(int i = 0; i < 10; i++) {
+                    } else {
+                        int newStreet;
+                        int newHouse;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum,"South", tempStreetNum - 1, false, "", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum += 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum, false,"", ""));
+                            listOfTruckLocations.add(new Address(tempHouseNum, "East", tempStreetNum - 1, false));
                         }
-                        for(int i = 0; i < 10; i++) {
+                        newStreet = tempHouseNum / 100;
+                        newHouse = tempStreetNum * 100;
+                        for (int i = 0; i < 10; i++) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, "South", tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
                         }
-                        tempHouseNum = locationBlock;
+                        tempHouseNum = targetBlock;
+                        newHouse = tempStreetNum * 100;
                         while (tempHouseNum != houseLocation.getHouseNumber()) {
                             tempHouseNum -= 10;
-                            listOfTruckLocations.add(new Address(tempHouseNum, houseLocation.getDirection(), tempStreetNum, false,"", ""));
+                            newHouse += 10;
+                            listOfTruckLocations.add(new Address(newHouse, "South", newStreet, false));
 
                         }
                     }
@@ -644,7 +750,6 @@ public class SecondRoute implements Route {
 
             }
         }
-
     }
 
     @Override
@@ -653,7 +758,7 @@ public class SecondRoute implements Route {
     }
 
     @Override
-    public void clearListOfLocations(){
+    public void clearListOfLocations() {
         listOfTruckLocations.clear();
     }
 
@@ -784,9 +889,9 @@ public class SecondRoute implements Route {
         return cost;
     }
 
+
     @Override
     public int getRouteLength() {
         return routeLength;
     }
 }
-

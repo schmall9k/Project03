@@ -9,7 +9,12 @@ Address class to represent locations of houses, deliveries, and the truck.
 
 package Simulation;
 
-// Kiersten wrote this class. Kylie helped with calculateDistanceFrom(locaton) method.
+// Kiersten wrote this class. Kylie helped with calculateDistanceFrom(location) method.
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class Address implements Comparable<Address> {
 
@@ -24,14 +29,15 @@ public class Address implements Comparable<Address> {
 
 
 
-    public Address(int houseNumber, String direction, int streetNumber, Boolean isDeliveryLocation, String deliveryTime, String deliveryAMorPM) {
+    public Address(int houseNumber, String direction, int streetNumber, Boolean isDeliveryLocation) {
         this.houseNumber        = houseNumber;
         this.direction          = direction;
         this.streetNumber       = streetNumber;
-        this.deliveryTime       = deliveryTime;
-        this.deliveryAMorPM     = deliveryAMorPM;
         this.foodOrder          = new Order();
         this.isDeliveryLocation = isDeliveryLocation;
+
+        if (isDeliveryLocation)
+            createDeliveryTime();
     }
 
     // Method that will calculate how many units away a house is from a given location.
@@ -112,6 +118,45 @@ public class Address implements Comparable<Address> {
         return distance;
     }
 
+    public void createDeliveryTime(){
+        // generate random delivery time
+        List<Integer> givenListHours = Arrays.asList(1, 2, 3, 4, 5, 6, 10, 11, 12);
+        String time;
+        String AMorPM; // true = AM, false = PM
+
+        ArrayList<String> deliveryTimes = new ArrayList<>();
+
+        Random rand = new Random();
+        int randHour = givenListHours.get(rand.nextInt(givenListHours.size()));
+        int randMinute = rand.nextInt(60);
+
+
+        if (randHour == 10 || randHour == 11) {
+            AMorPM = "AM";
+            time = "" + randHour + ":" + String.format("%02d", randMinute);
+        } else {
+            AMorPM = "PM";
+            time = "" + randHour + ":" + String.format("%02d", randMinute);
+        }
+
+        while (deliveryTimes.contains(time)) {
+            int randHourAgain = givenListHours.get(rand.nextInt(givenListHours.size()));
+            int randMinuteAgain = rand.nextInt(60);
+
+            if (randHour == 10 || randHour == 11) {
+                AMorPM = "AM";
+                time = "" + randHourAgain + ":" + String.format("%02d", randMinuteAgain);
+            } else {
+                AMorPM = "PM";
+                time = "" + randHourAgain + ":" + String.format("%02d", randMinuteAgain);
+            }
+        }
+
+        deliveryTime = time;
+        deliveryAMorPM = AMorPM;
+
+        deliveryTimes.add(time);
+    }
 
     @Override
     public String toString() {

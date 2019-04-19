@@ -40,11 +40,11 @@ public class OrderEvents {
             int houseNumber = Integer.parseInt(addressArray[0]);
             String direction = addressArray[1];
             int streetNumber = Integer.parseInt(addressArray[2]);
-            String streetLabel = addressArray[3]; // don't need
+            /*String streetLabel = addressArray[3]; // don't need
             String deliveryTime = addressArray[4];
-            String deliveryAMorPM = addressArray[5];
+            String deliveryAMorPM = addressArray[5];*/
 
-            Address address = new Address(houseNumber, direction, streetNumber, true, deliveryTime, deliveryAMorPM);
+            Address address = new Address(houseNumber, direction, streetNumber, true);
 
             queueOfAddresses.add(address);
         }

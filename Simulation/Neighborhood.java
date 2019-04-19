@@ -11,7 +11,6 @@ package Simulation;
 
 import java.io.*;
 import java.util.*;
-import java.util.List;
 
 // Kylie completed methods for random addresses, Kiersten modified in Sprint 2.
 // Elijah completed the truck's route distance method. Kylie and Kiersten made a few adjustments.
@@ -21,7 +20,7 @@ public class Neighborhood {
     public static final String  FILENAME          = "RandomAddresses.txt";
     public static final int     NUMBER_OF_ORDERS  = 100;
     public static final int     NUMBER_OR_STREETS = 10;
-    public static final Address DIST_CENTER       = new Address(510, "East", 5, false,"", "");
+    public static final Address DIST_CENTER       = new Address(510, "East", 5, false);
 
 
     public ArrayList<Address>     addresses;         // random deliveries, before prioritized into queue
@@ -83,43 +82,8 @@ public class Neighborhood {
             // random street number
             int thirdRand = new Random().nextInt(NUMBER_OR_STREETS);
 
-            // generate random delivery time
-            List<Integer> givenListHours = Arrays.asList(1, 2, 3, 4, 5, 6, 10, 11, 12);
-            String time;
-            String AMorPM; // true = AM, false = PM
-
-
-            Random rand = new Random();
-            int randHour = givenListHours.get(rand.nextInt(givenListHours.size()));
-            int randMinute = rand.nextInt(60);
-
-
-            if (randHour == 10 || randHour == 11) {
-                AMorPM = "AM";
-                time = "" + randHour + ":" + String.format("%02d", randMinute);
-            } else {
-                AMorPM = "PM";
-                time = "" + randHour + ":" + String.format("%02d", randMinute);
-            }
-
-            while (deliveryTimes.contains(time)) {
-                int randHourAgain = givenListHours.get(rand.nextInt(givenListHours.size()));
-                int randMinuteAgain = rand.nextInt(60);
-
-                if (randHour == 10 || randHour == 11) {
-                    AMorPM = "AM";
-                    time = "" + randHourAgain + ":" + String.format("%02d", randMinuteAgain);
-                } else {
-                    AMorPM = "PM";
-                    time = "" + randHourAgain + ":" + String.format("%02d", randMinuteAgain);
-                }
-            }
-
-            deliveryTimes.add(time);
-
-            Address address = new Address(firstRand, direction, thirdRand, true,time, AMorPM);
+            Address address = new Address(firstRand, direction, thirdRand, true);
             addresses.add(address);
-
         }
 
         return addresses;
