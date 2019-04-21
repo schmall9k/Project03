@@ -26,8 +26,10 @@ public interface Route
     void clearListOfLocations();
 
     // computes the cost of the truck's route
-    int costEffectivenessOfRoute(ArrayList<Address> route, PriorityQueue<Address> queueOfAddresses);
+    double costEffectivenessOfRoute(ArrayList<Address> route, PriorityQueue<Address> queueOfAddresses);
 
     // determines the length of the truck's route in units
-    int getRouteLength();
+    double getRouteLength();
+
+    String convertTime(double time);
 }

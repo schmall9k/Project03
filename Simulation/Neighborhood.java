@@ -112,8 +112,8 @@ public class Neighborhood {
 
     // method that will calculate the distance of the route, in units
     // Elijah wrote bulk of logic, had some help from Kylie and Kiersten determining which structure to use.
-    public int calculateTrucksRouteDistance(Truck truck){
-        int totalDistance = 0;
+    public double calculateTrucksRouteDistance(Truck truck){
+        double totalDistance = 0;
 
         Address truckLocation = truck.getCurrentLocation();
 

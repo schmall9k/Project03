@@ -46,7 +46,9 @@ public class Main {
         ArrayList<Address> completedDeliveries = neighborhood.getCompletedDeliveries();
         Address start = truck.getCurrentLocation();
 
-        System.out.println("The truck's route distance is: " + neighborhood.calculateTrucksRouteDistance(truck) + " units.");
+        System.out.print("The truck's route distance is: ");
+        System.out.format("%.2f", neighborhood.calculateTrucksRouteDistance(truck));
+        System.out.println(" miles.");
 
         // runs through list of deliveries, calculates each route, and displays the simulation
         for (int i = 0; i < listOfDeliveries.size(); i++) {

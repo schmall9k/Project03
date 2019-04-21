@@ -18,14 +18,15 @@ import java.util.Random;
 
 public class Address implements Comparable<Address> {
 
-    public int     houseNumber;
-    public String  direction;
-    public int     streetNumber;
-    public int     distance;
-    public String  deliveryTime;
-    public String  deliveryAMorPM;
-    public Order   foodOrder;
-    public Boolean isDeliveryLocation;
+    public int          houseNumber;
+    public String       direction;
+    public int          streetNumber;
+    public double       distance;
+    public String       deliveryTime;
+    public String       deliveryAMorPM;
+    public Order        foodOrder;
+    public Boolean      isDeliveryLocation;
+    public double       distanceBtwnHouses = .03;
 
 
 
@@ -41,8 +42,7 @@ public class Address implements Comparable<Address> {
     }
 
     // Method that will calculate how many units away a house is from a given location.
-    public int calculateDistanceFromLocation(Address location)
-    {
+    public double calculateDistanceFromLocation(Address location) {
         int houseDistance;
 
         //same direction
@@ -72,7 +72,7 @@ public class Address implements Comparable<Address> {
                     houseDistance = houseNumber1 + houseNumber2;
                 }
 
-                distance = streetDistance + houseDistance + numberOfBlocks;
+                distance = (streetDistance*distanceBtwnHouses) + (houseDistance*distanceBtwnHouses) + (numberOfBlocks*distanceBtwnHouses);
             }
 
             //same street number
@@ -82,7 +82,7 @@ public class Address implements Comparable<Address> {
 
                 houseDistance = Math.abs(houseNumber1 - houseNumber2);
 
-                distance = houseDistance;
+                distance = (houseDistance*distanceBtwnHouses);
             }
 
         }
@@ -99,7 +99,7 @@ public class Address implements Comparable<Address> {
 
                 int distance2 = Math.abs(thisBlock - location.houseNumber) / 10;
 
-                distance = distance1 + distance2;
+                distance = (distance1*distanceBtwnHouses) + (distance2*distanceBtwnHouses);
 
             }
 
@@ -112,7 +112,7 @@ public class Address implements Comparable<Address> {
                 int distance1 = Math.abs(this.houseNumber - locationBlock) / 10;
                 int distance2 = Math.abs(location.houseNumber - thisBlock) / 10;
 
-                distance = distance1 + distance2;
+                distance = (distance1*distanceBtwnHouses) + (distance2*distanceBtwnHouses);
             }
         }
         return distance;

@@ -10,14 +10,16 @@ public class SecondRoute implements Route {
 
     public ArrayList<Address> listOfTruckLocations = new ArrayList<>();
     public int routeLength = 0;
+    public int speedOfTruck = 30;
+    public double distanceBtwnHouses = .03;
 
 
-    private void handleUTurn(Address truckLocation, Address houseLocation, String directionOfTravel){
+    private void handleUTurn(Address truckLocation, Address houseLocation, String directionOfTravel) {
         int streetNum = truckLocation.getStreetNumber();
         int tempHouseNum = truckLocation.getHouseNumber();
 
-        if (directionOfTravel.equals("up")){
-            while (tempHouseNum % 100 != 0){
+        if (directionOfTravel.equals("up")) {
+            while (tempHouseNum % 100 != 0) {
                 tempHouseNum -= 10;
                 listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false));
             }
@@ -30,19 +32,17 @@ public class SecondRoute implements Route {
             else
                 switchDirection = "South";
 
-            if (streetNum < houseLocation.getStreetNumber()){
+            if (streetNum < houseLocation.getStreetNumber()) {
                 tempHouseNum -= 10;
                 listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false));
-                while (tempHouseNum % 100 != 0){
+                while (tempHouseNum % 100 != 0) {
                     tempHouseNum -= 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false));
                 }
-            }
-
-            else{
+            } else {
                 tempHouseNum += 10;
-                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum,false));
-                while (tempHouseNum % 100 != 0){
+                listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false));
+                while (tempHouseNum % 100 != 0) {
                     tempHouseNum += 10;
                     listOfTruckLocations.add(new Address(tempHouseNum, switchDirection, streetNum, false));
                 }
@@ -51,21 +51,16 @@ public class SecondRoute implements Route {
             //go back down
             tempHouseNum += 10;
             listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false));
-            while (tempHouseNum % 100 != 0){
+            while (tempHouseNum % 100 != 0) {
                 tempHouseNum += 10;
                 listOfTruckLocations.add(new Address(tempHouseNum, truckLocation.getDirection(), streetNum, false));
             }
 
 
-
+        } else if (directionOfTravel.equals("down")) {
+        } else if (directionOfTravel.equals("right")) {
+        } else {
         }
-
-        else if (directionOfTravel.equals("down")){
-        }
-
-        else if (directionOfTravel.equals("right")){}
-
-        else{}
     }
 
 
@@ -97,7 +92,6 @@ public class SecondRoute implements Route {
 
         return directionTraveling;
     }
-
 
 
     public void calculateRoute(Address truckLocation, Address houseLocation) {
@@ -763,9 +757,14 @@ public class SecondRoute implements Route {
     }
 
     @Override
-    public int costEffectivenessOfRoute(ArrayList<Address> route, PriorityQueue<Address> queueOfAddresses)
-    {
-        int cost = 0;
+    public double costEffectivenessOfRoute(ArrayList<Address> route, PriorityQueue<Address> queueOfAddresses) {
+        double cost = 0;
+
+        // must solve for amount of time taken to travel between each house.
+        // Distance between houses = .03, speed of truck = 30mph. Can be modified up top easily
+        // The answer will be in hours, will change to second for easy conversion. (3600 seconds in 1 hour) so = 3.6 seconds
+        double timeInHours = distanceBtwnHouses / speedOfTruck;
+        double timeUnitInSeconds = timeInHours * 3600;
 
         // get initial info of truck
         String direction = route.get(0).direction;
@@ -774,32 +773,22 @@ public class SecondRoute implements Route {
 
         String directionTraveling = "";
         // get initial direction of truck.. not South/East, but traveling up, down, left, right.
-        if (direction.equals("South") && route.get(1).direction.equals("South"))
-        {
-            if (houseNumber > route.get(1).houseNumber)
-            {
+        if (direction.equals("South") && route.get(1).direction.equals("South")) {
+            if (houseNumber > route.get(1).houseNumber) {
                 directionTraveling = "up";
-            }
-            else {
+            } else {
                 directionTraveling = "down";
             }
-        }
-        else if (direction.equals("East") && route.get(1).direction.equals("East"))
-        {
-            if (houseNumber > route.get(1).houseNumber)
-            {
+        } else if (direction.equals("East") && route.get(1).direction.equals("East")) {
+            if (houseNumber > route.get(1).houseNumber) {
                 directionTraveling = "left";
-            }
-            else {
+            } else {
                 directionTraveling = "right";
             }
-        }
-        else {
-            if (direction.equals("South"))
-            {
+        } else {
+            if (direction.equals("South")) {
                 directionTraveling = "up";
-            }
-            else {
+            } else {
 
                 directionTraveling = "left";
             }
@@ -809,7 +798,7 @@ public class SecondRoute implements Route {
         for (int i = 1; i < route.size(); i++) {
 
             // adding 1 for moving from one address to another, right now includes intersections.
-            cost += 1;
+            cost += timeUnitInSeconds;
 
             /* adding 5 for each stop at a delivery location
             if (queueOfAddresses.contains(route.get(i))) {
@@ -824,22 +813,22 @@ public class SecondRoute implements Route {
                 if (route.get(i).houseNumber > streetNumber) {
                     if (directionTraveling.equals("up")) {
                         // traveling up, turn right
-                        cost += 2;
+                        cost += (timeUnitInSeconds * 2);
                         directionTraveling = "right";
                     }
                     if (directionTraveling.equals("down")) {
                         // traveling down, turn left
-                        cost += 4;
+                        cost += (timeUnitInSeconds * 4);
                         directionTraveling = "right";
                     }
                     if (directionTraveling.equals("left")) {
                         // traveling left, turn left
-                        cost += 4;
+                        cost += (timeUnitInSeconds * 4);
                         directionTraveling = "down";
                     }
                     if (directionTraveling.equals("right")) {
                         //traveling right, turning right
-                        cost += 2;
+                        cost += (timeUnitInSeconds * 2);
                         directionTraveling = "down";
                     }
                 }
@@ -847,22 +836,22 @@ public class SecondRoute implements Route {
                 else {
                     if (directionTraveling.equals("up")) {
                         // traveling up, turn right
-                        cost += 4;
+                        cost += (timeUnitInSeconds * 4);
                         directionTraveling = "left";
                     }
                     if (directionTraveling.equals("down")) {
                         // traveling down, turn left
-                        cost += 2;
+                        cost += (timeUnitInSeconds * 2);
                         directionTraveling = "left";
                     }
                     if (directionTraveling.equals("left")) {
                         // traveling left, turn left
-                        cost += 2;
+                        cost += (timeUnitInSeconds * 2);
                         directionTraveling = "up";
                     }
                     if (directionTraveling.equals("right")) {
                         //traveling right, turning right
-                        cost += 4;
+                        cost += (timeUnitInSeconds * 4);
                         directionTraveling = "up";
                     }
                 }
@@ -874,16 +863,14 @@ public class SecondRoute implements Route {
 
         // when you reach the last location for delivery on the route.
         // will NOT need if using priority queue
-        cost = cost + 5;
+        cost = cost + (timeUnitInSeconds * 5);
 
         // if time < 5, need enough time to make order. Order takes 5 units of time to make.
         // Can make food while truck is moving. Must not include the 5 units of time it takes to stop at each
         // delivery
-        if ((cost-5) < 5)
-        {
-            while ((cost-5) < 5)
-            {
-                cost++;
+        if ((cost - (timeUnitInSeconds * 5)) < (timeUnitInSeconds * 5)) {
+            while ((cost - (timeUnitInSeconds * 5)) < (timeUnitInSeconds * 5)) {
+                cost += timeUnitInSeconds;
             }
         }
         return cost;
@@ -891,7 +878,28 @@ public class SecondRoute implements Route {
 
 
     @Override
-    public int getRouteLength() {
-        return routeLength;
+    public double getRouteLength() {
+        return routeLength * distanceBtwnHouses;
+    }
+
+    @Override
+    public String convertTime(double time) {
+        String timeString = "";
+
+        // finding the hours
+        int hour = (int) time / 3600;
+
+        // getting remainder to calculate both minutes and seconds
+        double hourRemainder = time % 3600;
+
+        // finding the minutes
+        int minutes = (int) hourRemainder / 60;
+
+        // getting remainder to calculate seconds
+        int seconds = (int) hourRemainder % 60;
+
+        timeString = Integer.toString(hour) + ":" + Integer.toString(minutes) + ":" + Integer.toString(seconds);
+
+        return timeString;
     }
 }
