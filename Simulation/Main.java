@@ -37,7 +37,6 @@ public class Main {
             trucksRoute = new OriginalRoute();
         }
         System.out.println();
-        reader.close();
 
         // create Truck
         Truck truck = new Truck(Neighborhood.DIST_CENTER, trucksRoute);
@@ -49,16 +48,35 @@ public class Main {
         neighborhood.createRandomAddresses();
         neighborhood.writeAddressesToFile();
 
-        // needed for GUI display
-        NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
+        System.out.println("Which display type would you like? (g for GUI, m for Monitor, b for both): ");
+        answer = reader.nextLine();
 
-        // gui display observer
-        GUIDisplay guiDisplay = new GUIDisplay(map);
-        truck.registerObserver(guiDisplay);
 
-        // monitor display observer
-        //MonitorDisplay monitorDisplay = new MonitorDisplay();
-        //truck.registerObserver(monitorDisplay);
+        if (answer.equals("g")) {
+            // needed for GUI display
+            NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
+
+            // gui display observer
+            GUIDisplay guiDisplay = new GUIDisplay(map);
+            truck.registerObserver(guiDisplay);
+            System.out.println("GUI display chosen.");
+        }
+        else if (answer.equals("m")) {
+            // monitor display observer
+            MonitorDisplay monitorDisplay = new MonitorDisplay();
+            truck.registerObserver(monitorDisplay);
+            System.out.println("Right turn only route chosen.");
+        }
+        else {
+            System.out.println("That's not a valid input... we'll just go with the GUI display!");
+            // needed for GUI display
+            NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
+
+            // gui display observer
+            GUIDisplay guiDisplay = new GUIDisplay(map);
+            truck.registerObserver(guiDisplay);
+        }
+        reader.close();
 
         // access the deliveries and determine truck's starting point
         ArrayList<Address> listOfDeliveries = neighborhood.getSortedDeliveries();
