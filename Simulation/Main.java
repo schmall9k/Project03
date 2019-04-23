@@ -67,6 +67,18 @@ public class Main {
             truck.registerObserver(monitorDisplay);
             System.out.println("Right turn only route chosen.");
         }
+        else if (answer.equals("b")){
+            // needed for GUI display
+            NeighborhoodGUI map = new NeighborhoodGUI(truck, neighborhood);
+
+            // gui display observer
+            GUIDisplay guiDisplay = new GUIDisplay(map);
+            truck.registerObserver(guiDisplay);
+            // monitor display observer
+            MonitorDisplay monitorDisplay = new MonitorDisplay();
+            truck.registerObserver(monitorDisplay);
+            System.out.println("Both chosen.");
+        }
         else {
             System.out.println("That's not a valid input... we'll just go with the GUI display!");
             // needed for GUI display
