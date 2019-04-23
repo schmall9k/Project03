@@ -11,14 +11,33 @@ package Simulation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 // Kylie wrote this class.
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        // determine what route the truck will take
-        Route trucksRoute = new OriginalRoute();
+        // determine what route the truck will take (ask the user which they'd like to use)
+        Route trucksRoute;
+        Scanner reader = new Scanner(System.in);  // Reading from System.in
+        System.out.println("Which route do you want the truck to take? (n for normal, r for right turns only): ");
+        String answer = reader.nextLine();
+
+        if (answer.equals("n")) {
+            trucksRoute = new OriginalRoute();
+            System.out.println("Normal route chosen.");
+        }
+        else if (answer.equals("r")) {
+            trucksRoute = new SecondRoute();
+            System.out.println("Right turn only route chosen.");
+        }
+        else {
+            System.out.println("That's not a valid input... we'll just go with the normal route!");
+            trucksRoute = new OriginalRoute();
+        }
+        System.out.println();
+        reader.close();
 
         // create Truck
         Truck truck = new Truck(Neighborhood.DIST_CENTER, trucksRoute);
@@ -49,6 +68,7 @@ public class Main {
         System.out.print("The truck's route distance is: ");
         System.out.format("%.2f", neighborhood.calculateTrucksRouteDistance(truck));
         System.out.println(" miles.");
+        
 
         // runs through list of deliveries, calculates each route, and displays the simulation
         for (int i = 0; i < listOfDeliveries.size(); i++) {
