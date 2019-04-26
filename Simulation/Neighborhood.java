@@ -18,7 +18,7 @@ import java.util.*;
 public class Neighborhood {
 
     public static final String  FILENAME          = "RandomAddresses.txt";
-    public static final int     NUMBER_OF_ORDERS  = 100;
+    public static final int     NUMBER_OF_ORDERS  = 3;
     public static final int     NUMBER_OR_STREETS = 10;
     public static final Address DIST_CENTER       = new Address(510, "East", 5, false);
 

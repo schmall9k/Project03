@@ -11,7 +11,7 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-// Kylie wrote bulk of this class. Kiersten wrote cost effectiveness method.
+// Kylie wrote bulk of this class. Kiersten wrote cost effectiveness method and convert time.
 // Kylie received advice and some help with logic from Elijah and Kiersten.
 
 public class OriginalRoute implements Route
@@ -609,19 +609,50 @@ public class OriginalRoute implements Route
     {
         String timeString = "";
 
-        // finding the hours
+// finding the hours
         int hour =  (int) time / 3600;
 
-        // getting remainder to calculate both minutes and seconds
+// getting remainder to calculate both minutes and seconds
         double hourRemainder = time % 3600;
 
-        // finding the minutes
+// finding the minutes
         int minutes =  (int) hourRemainder / 60;
 
-        // getting remainder to calculate seconds
+// getting remainder to calculate seconds
         int seconds = (int) hourRemainder % 60;
 
-        timeString = Integer.toString(hour) + ":" + Integer.toString(minutes) + ":" + Integer.toString(seconds);
+        String hourString;
+        String minutesString;
+        String secondsString;
+
+        if (hour < 10)
+        {
+            hourString = "0" + Integer.toString(hour);
+        }
+        else
+        {
+            hourString = Integer.toString(hour);
+        }
+
+        if (minutes < 10)
+        {
+            minutesString = "0" + Integer.toString(minutes);
+        }
+        else
+        {
+            minutesString = Integer.toString(minutes);
+        }
+
+        if (seconds < 10)
+        {
+            secondsString = "0" + Integer.toString(seconds);
+        }
+        else {
+            secondsString = Integer.toString(seconds);
+        }
+
+
+        timeString = hourString + ":" + minutesString + ":" + secondsString;
 
         return timeString;
     }

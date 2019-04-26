@@ -98,7 +98,8 @@ public class Main {
         System.out.print("The truck's route distance is: ");
         System.out.format("%.2f", neighborhood.calculateTrucksRouteDistance(truck));
         System.out.println(" miles.");
-        
+
+        double cost = 0;
 
         // runs through list of deliveries, calculates each route, and displays the simulation
         for (int i = 0; i < listOfDeliveries.size(); i++) {
@@ -106,8 +107,11 @@ public class Main {
             // calculate the route the truck will take
             truck.getRoute().calculateRoute(start, listOfDeliveries.get(i));
 
+            cost += truck.getRoute().costEffectivenessOfRoute(trucksRoute.getListOfTruckLocations(),neighborhood.queueOfAddresses);
+
             // print out next delivery location
             System.out.println(listOfDeliveries.get(i));
+
 
             // pause before listing truck locations
             try {
@@ -143,6 +147,12 @@ public class Main {
             //clear list to determine route to next delivery
             truck.route.clearListOfLocations();
         }
+
+        System.out.print("Cost efficiency in seconds = ");
+        System.out.format("%.2f",cost);
+        System.out.print("\n");
+        System.out.println("Converted time cost (in hours:minutes:seconds) = " + truck.route.convertTime(cost));
+
     }
 }
 
