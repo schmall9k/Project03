@@ -37,7 +37,7 @@ public class SandwichOrder {
                 double cost = sandwich.cost() + 1.25;
                 System.out.print(sandwich.getDescription() + " | Price: $");
                 System.out.format("%.2f",cost + (cost * .1));
-                System.out.println(", Time: " + sandwich.seconds() + 95 + "sec");
+                System.out.println(", Time: " + (sandwich.seconds() + 95) / 60 + "min");
             }
             else {
                 Sandwich sandwich = new Wrap();
@@ -64,7 +64,7 @@ public class SandwichOrder {
                 double cost = sandwich.cost() + 1.25;
                 System.out.print(sandwich.getDescription() + " | Price: $");
                 System.out.format("%.2f",cost + (cost * .1));
-                System.out.println(", Time: " + sandwich.seconds() + 95 + "sec");
+                System.out.println(", Time: " + (sandwich.seconds() + 95) / 60 + "min");
             }
 
         }
