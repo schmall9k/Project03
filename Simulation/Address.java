@@ -34,11 +34,13 @@ public class Address implements Comparable<Address> {
         this.houseNumber        = houseNumber;
         this.direction          = direction;
         this.streetNumber       = streetNumber;
-        this.foodOrder          = new Order();
         this.isDeliveryLocation = isDeliveryLocation;
 
-        if (isDeliveryLocation)
+        if (isDeliveryLocation) {
             createDeliveryTime();
+            this.foodOrder = new Order();
+        }
+
     }
 
     // Method that will calculate how many units away a house is from a given location.
