@@ -17,26 +17,73 @@ import java.util.Random;
 
 public class Order {
 
-    public String sandwich;
-    public String chips;
-    public String drink;
+    public String order;
 
-    List<String> sandwichOptions = Arrays.asList("Sandwich 1", "Sandwich 2", "Sandwich 3");
-    List<String> chipOptions     = Arrays.asList("Chips 1", "Chips 2");
-    List<String> drinkOptions    = Arrays.asList("Drink 1", "Drink 2", "Drink 3");
+    public Order() {
+        this.order = generateOrder();
 
-    public Order()
-    {
+    }
+
+    public String generateOrder() {
+        String order = "";
         Random rand = new Random();
-        this.sandwich = sandwichOptions.get(rand.nextInt(sandwichOptions.size()));
-        this.chips    = chipOptions.get(rand.nextInt(chipOptions.size()));
-        this.drink    = drinkOptions.get(rand.nextInt(drinkOptions.size()));
+        int typeIndex = rand.nextInt(2) ;
+        if (typeIndex == 0) {
+            Sandwich sandwich = new Roll();
+            int numOfItemsSandwiches = rand.nextInt(5) + 1;
+            for(int j = 0; j < numOfItemsSandwiches; j++) {
+                int contentIndex = rand.nextInt(5);
+                if(contentIndex == 0) {
+                    sandwich = new Ham(sandwich);
+                }
+                if(contentIndex == 1) {
+                    sandwich = new Turkey(sandwich);
+                }
+                if(contentIndex == 2) {
+                    sandwich = new Mayonnaise(sandwich);
+                }
+                if(contentIndex == 3) {
+                    sandwich = new Mustard(sandwich);
+                }
+                if(contentIndex == 4) {
+                    sandwich = new Cheese(sandwich);
+                }
+            }
+            double cost = sandwich.cost() + 1.25;
+            order = sandwich.getDescription() + " | Price: $" + Math.round((cost + (cost * .1)) * 100.) / 100. + ", Time: " + (sandwich.seconds() + 95)/60 + "min";
+        }
+        else {
+            Sandwich sandwich = new Wrap();
+            int numOfItemsSandwiches = rand.nextInt(5) + 1;
+            for(int j = 0; j < numOfItemsSandwiches; j++) {
+                int contentIndex = rand.nextInt(5);
+                if(contentIndex == 0) {
+                    sandwich = new Ham(sandwich);
+                }
+                if(contentIndex == 1) {
+                    sandwich = new Turkey(sandwich);
+                }
+                if(contentIndex == 2) {
+                    sandwich = new Mayonnaise(sandwich);
+                }
+                if(contentIndex == 3) {
+                    sandwich = new Mustard(sandwich);
+                }
+                if(contentIndex == 4) {
+                    sandwich = new Cheese(sandwich);
+                }
+
+            }
+            double cost = sandwich.cost() + 1.25;
+            order = sandwich.getDescription() + " | Price: $" + Math.round((cost + (cost * .1)) * 100.) / 100. + ", Time: " + (sandwich.seconds() + 95)/60 + "min";
+        }
+        return order;
     }
 
     @Override
     public String toString()
     {
-        return "Order: " + sandwich + "," + chips + "," + drink;
+        return order;
     }
 
     // Following code was written but not needed
