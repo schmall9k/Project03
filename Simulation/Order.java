@@ -22,6 +22,90 @@ public class Order {
 
     }
 
+    public Order(int orderNumber)
+    {
+        if (orderNumber == 1)
+        {
+            // multiple sandwiches. Lets do 3.
+            // First sandwich: roll, ham, ham, cheese, lettuce.
+            // Second : wrap, turkey, cheese, tomato, mayonnaise
+            // Third: roll, mustard, ham, turkey, cheese, cheese
+            Sandwich sandwich1 = new Roll();
+            sandwich1 = new Ham(sandwich1);
+            sandwich1 = new Ham(sandwich1);
+            sandwich1 = new Cheese(sandwich1);
+            sandwich1 = new Lettuce(sandwich1);
+
+            Sandwich sandwich2 = new Wrap();
+            sandwich2 = new Turkey(sandwich2);
+            sandwich2 = new Cheese(sandwich2);
+            sandwich2 = new Tomato(sandwich2);
+            sandwich2 = new Mayonnaise(sandwich2);
+
+            Sandwich sandwich3 = new Roll();
+            sandwich3 = new Mustard(sandwich3);
+            sandwich3 = new Ham(sandwich3);
+            sandwich3 = new Turkey(sandwich3);
+            sandwich3 = new Cheese(sandwich3);
+            sandwich3 = new Cheese(sandwich3);
+
+            double costS1 = sandwich1.cost() + 1.25;
+            double costS2 = sandwich2.cost() + 1.25;
+            double costS3 = sandwich3.cost() + 1.25;
+
+            double cost = costS1 + costS2 + costS3;
+
+            int time = sandwich1.seconds() + sandwich2.seconds() + sandwich3.seconds();
+
+            order = "Sandwich 1: " + sandwich1.getDescription() +
+                    "| Sandwich 2: " + sandwich2.getDescription() +
+                    "| Sandwich 3: " + sandwich3.getDescription() +
+                    " | Price: $" + Math.round((cost + (cost * .1)) * 100.) / 100. +
+                    ", Time: " + (time + 95)/60 + "min";
+
+        }
+        else if (orderNumber == 2)
+        {
+            // second order will be only veges
+            // tomato, tomato, lettuce, lettuce, mustard, mayo
+            Sandwich sandwich = new Wrap();
+            sandwich = new Tomato(sandwich);
+            sandwich = new Tomato(sandwich);
+            sandwich = new Lettuce(sandwich);
+            sandwich = new Lettuce(sandwich);
+            sandwich = new Mustard(sandwich);
+            sandwich = new Mayonnaise(sandwich);
+
+            double cost = sandwich.cost() + 1.25;
+            order = sandwich.getDescription() +
+                    " | Price: $" + Math.round((cost + (cost * .1)) * 100.) / 100. +
+                    ", Time: " + (sandwich.seconds() + 95)/60 + "min";
+        }
+        else if (orderNumber == 3)
+        {
+            // something totally ridiculous.
+            Sandwich sandwich = new Roll();
+            sandwich = new Turkey(sandwich);
+            sandwich = new Ham(sandwich);
+            sandwich = new Turkey(sandwich);
+            sandwich = new Ham(sandwich);
+            sandwich = new Turkey(sandwich);
+            sandwich = new Ham(sandwich);
+            sandwich = new Lettuce(sandwich);
+            sandwich = new Lettuce(sandwich);
+            sandwich = new Tomato(sandwich);
+            sandwich = new Cheese(sandwich);
+            sandwich = new Cheese(sandwich);
+            sandwich = new Cheese(sandwich);
+            sandwich = new Mayonnaise(sandwich);
+            sandwich = new Mustard(sandwich);
+            double cost = sandwich.cost() + 1.25;
+            order = sandwich.getDescription() +
+                    " | Price: $" + Math.round((cost + (cost * .1)) * 100.) / 100. +
+                    ", Time: " + (sandwich.seconds() + 95)/60 + "min";
+        }
+    }
+
     public String generateOrder() {
         String order = "";
         Random rand = new Random();

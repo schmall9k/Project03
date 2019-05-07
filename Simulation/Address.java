@@ -18,6 +18,8 @@ import java.util.Random;
 
 public class Address implements Comparable<Address> {
 
+    public static int   numberOrder = 1;
+
     public int          houseNumber;
     public String       direction;
     public int          streetNumber;
@@ -27,8 +29,6 @@ public class Address implements Comparable<Address> {
     public Order        foodOrder;
     public Boolean      isDeliveryLocation;
     public double       distanceBtwnHouses = .03;
-
-
 
     // Kylie wrote the constructor.
     public Address(int houseNumber, String direction, int streetNumber, Boolean isDeliveryLocation) {
@@ -41,6 +41,12 @@ public class Address implements Comparable<Address> {
             createDeliveryTime();
             this.foodOrder = new Order();
         }
+        
+        /*if (isDeliveryLocation) {
+            createDeliveryTime();
+            this.foodOrder = new Order(numberOrder);
+            numberOrder++;
+        }*/
 
     }
 
