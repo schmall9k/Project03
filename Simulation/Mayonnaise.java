@@ -1,4 +1,14 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+A concrete decorator in the decorator pattern.
+ */
+
 package Simulation;
+
+// Elijah wrote this class.
 
 public class Mayonnaise extends ContentDecorator{
 

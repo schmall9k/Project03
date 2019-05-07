@@ -86,6 +86,8 @@ public class Neighborhood {
             addresses.add(address);
         }
 
+
+
         return addresses;
     }
 
@@ -107,6 +109,8 @@ public class Neighborhood {
         while (!queueOfAddresses.isEmpty()){
             sortedDeliveries.add(queueOfAddresses.poll());
         }
+
+        sortedDeliveries.add(DIST_CENTER);
         return sortedDeliveries;
     }
 

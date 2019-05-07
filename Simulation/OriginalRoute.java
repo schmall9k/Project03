@@ -465,6 +465,7 @@ public class OriginalRoute implements Route
     //  - time to prepare a food order is 5 units of time
     //  - compute the total length of each route in distance and time
 
+    // Kiersten wrote this method.
     @Override
     public double costEffectivenessOfRoute(ArrayList<Address> route, PriorityQueue<Address> queueOfAddresses)
     {
@@ -604,6 +605,7 @@ public class OriginalRoute implements Route
         return routeLength * distanceBtwnHouses;
     }
 
+    // Kiersten wrote this method.
     @Override
     public String convertTime(double time)
     {

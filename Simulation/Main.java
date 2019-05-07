@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Kylie wrote this class.
+// Kylie wrote this main class simulator.
 
 public class Main {
 

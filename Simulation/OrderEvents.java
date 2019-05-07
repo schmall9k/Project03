@@ -1,3 +1,12 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+OrderEvents class that utilizes the Singleton Design Pattern. Creates the priority queue of addresses/events.
+
+*/
+
 package Simulation;
 
 import java.io.BufferedReader;

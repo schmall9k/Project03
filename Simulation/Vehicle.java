@@ -1,3 +1,12 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+Concrete subject in the Observer Design Pattern.
+
+*/
+
 package Simulation;
 
 // Kylie wrote this class.

@@ -8,9 +8,7 @@ Order class that takes input from customers.
  */
 
 package Simulation;
-
-import java.util.Arrays;
-import java.util.List;
+;
 import java.util.Random;
 
 // Kiersten wrote uncommented code section. Elijah wrote the unused commented out section of code that may be needed later.

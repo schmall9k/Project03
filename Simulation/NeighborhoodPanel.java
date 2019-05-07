@@ -40,11 +40,11 @@ public class NeighborhoodPanel extends JPanel{
     @Override
     public void paint(Graphics g) {
 
-        drawDistCenter(g);
         drawHouses(g);
         drawHousesWithOrders(g, deliveryLocations);
         drawCompletedOrders(g);
         drawTruckLocation(g);
+        drawDistCenter(g);
 
     }
 

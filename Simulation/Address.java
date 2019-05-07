@@ -30,6 +30,7 @@ public class Address implements Comparable<Address> {
 
 
 
+    // Kylie wrote the constructor.
     public Address(int houseNumber, String direction, int streetNumber, Boolean isDeliveryLocation) {
         this.houseNumber        = houseNumber;
         this.direction          = direction;
@@ -44,6 +45,7 @@ public class Address implements Comparable<Address> {
     }
 
     // Method that will calculate how many units away a house is from a given location.
+    // Kiersten wrote this method. Asked Kylie a few questions.
     public double calculateDistanceFromLocation(Address location) {
         int houseDistance;
 
@@ -120,6 +122,7 @@ public class Address implements Comparable<Address> {
         return distance;
     }
 
+    // Kiersten wrote this method.
     public void createDeliveryTime(){
         // generate random delivery time
         List<Integer> givenListHours = Arrays.asList(1, 2, 3, 4, 5, 6, 10, 11, 12);
@@ -160,6 +163,7 @@ public class Address implements Comparable<Address> {
         deliveryTimes.add(time);
     }
 
+    // Kiersten wrote this method.
     @Override
     public String toString() {
         if (isDeliveryLocation)
@@ -169,6 +173,7 @@ public class Address implements Comparable<Address> {
     }
 
     // Currently ordered based on order time of the delivery
+    // Kiersten wrote this method.
     @Override
     public int compareTo(Address address) {
 

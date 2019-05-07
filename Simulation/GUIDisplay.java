@@ -1,3 +1,12 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+GUIDisplay: an observer in the observer pattern.
+
+ */
+
 package Simulation;
 
 // Kylie wrote this class.

@@ -1,3 +1,14 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+Concrete decorator used in the Decorator Design Pattern.
+
+*/
+
+// Elijah wrote this class.
+
 package Simulation;
 
 public class Tomato extends ContentDecorator {

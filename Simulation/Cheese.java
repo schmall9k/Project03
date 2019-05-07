@@ -1,3 +1,14 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+A concrete decorator in the decorator pattern.
+
+ */
+
+// Elijah wrote this class.
+
 package Simulation;
 
 public class Cheese extends ContentDecorator {

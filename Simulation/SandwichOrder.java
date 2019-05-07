@@ -1,7 +1,16 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+SandwichOrder class that gets random orders.
+
+*/
+
+// Elijah wrote this class.
+
 package Simulation;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class SandwichOrder {

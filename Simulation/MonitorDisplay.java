@@ -1,3 +1,11 @@
+/*
+Project03 - Sandwich Truck Simulation
+
+Kylie Norwood, Kiersten Schmall, & Elijah Ives
+
+A concrete observer in the observer pattern: a monitor display.
+ */
+
 package Simulation;
 
 // Kylie wrote this class.
