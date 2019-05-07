@@ -148,6 +148,35 @@ public class Main {
             truck.route.clearListOfLocations();
         }
 
+        trucksRoute.calculateRoute(truck.getCurrentLocation(),Neighborhood.DIST_CENTER);
+
+        // pause before listing truck locations
+        try {
+            Thread.sleep(500);
+        } catch (Exception ex) {
+        }
+
+        // get the route (the locations that the truck will follow)
+        ArrayList<Address> route = truck.getRoute().getListOfTruckLocations();
+
+        // loop that will display the truck's movement
+        for (int j = 0; j < route.size(); j++) {
+            //NEW CODE
+            truck.setCurrentLocation(route.get(j));
+            truck.notifyObserver(route.get(j));
+        }
+
+        // pause between orders
+        try {
+            Thread.sleep(500);
+        } catch (Exception ex) {
+        }
+
+        // update truck's current location
+        start = truck.getCurrentLocation();
+
+        trucksRoute.clearListOfLocations();
+
         System.out.print("Cost efficiency in seconds = ");
         System.out.format("%.2f",cost);
         System.out.print("\n");

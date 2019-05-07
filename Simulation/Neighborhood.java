@@ -110,7 +110,6 @@ public class Neighborhood {
             sortedDeliveries.add(queueOfAddresses.poll());
         }
 
-        sortedDeliveries.add(DIST_CENTER);
         return sortedDeliveries;
     }
 
