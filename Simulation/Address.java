@@ -37,16 +37,16 @@ public class Address implements Comparable<Address> {
         this.streetNumber       = streetNumber;
         this.isDeliveryLocation = isDeliveryLocation;
 
-        if (isDeliveryLocation) {
+        /*if (isDeliveryLocation) {
             createDeliveryTime();
             this.foodOrder = new Order();
-        }
-        
-        /*if (isDeliveryLocation) {
+        }*/
+
+        if (isDeliveryLocation) {
             createDeliveryTime();
             this.foodOrder = new Order(numberOrder);
             numberOrder++;
-        }*/
+        }
 
     }
 

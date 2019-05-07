@@ -49,11 +49,11 @@ public class Order {
             sandwich3 = new Cheese(sandwich3);
             sandwich3 = new Cheese(sandwich3);
 
-            double costS1 = sandwich1.cost() + 1.25;
-            double costS2 = sandwich2.cost() + 1.25;
-            double costS3 = sandwich3.cost() + 1.25;
+            double costS1 = sandwich1.cost() + .50;
+            double costS2 = sandwich2.cost() + .50;
+            double costS3 = sandwich3.cost() + .50;
 
-            double cost = costS1 + costS2 + costS3;
+            double cost = costS1 + costS2 + costS3 + .75;
 
             int time = sandwich1.seconds() + sandwich2.seconds() + sandwich3.seconds();
 
@@ -61,7 +61,7 @@ public class Order {
                     "| Sandwich 2: " + sandwich2.getDescription() +
                     "| Sandwich 3: " + sandwich3.getDescription() +
                     " | Price: $" + Math.round((cost + (cost * .1)) * 100.) / 100. +
-                    ", Time: " + (time + 95)/60 + "min";
+                    ", Time: " + (time + (75*3) + 20)/60 + "min";
 
         }
         else if (orderNumber == 2)
